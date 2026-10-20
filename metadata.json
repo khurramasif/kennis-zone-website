@@ -1,0 +1,8 @@
+{
+  "name": "Remix Kennis Zone | HR Services \u0026 Kennis HCM",
+  "description": "The One-Stop of HR Services \u0026 Kennis HCM - Recruitment, RPO, Cloud HCM software, and AI Enterprise Automation in Pakistan.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

@@ -1,0 +1,3119 @@
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kennis Zone | HR Services & Kennis HCM</title>
+  <meta name="description" content="The One-Stop of HR Services & Kennis HCM - Recruitment, RPO, Cloud HCM software, and AI Enterprise Automation in Pakistan." />
+  <meta property="og:title" content="Kennis Zone | HR Services & Kennis HCM" />
+  <meta property="og:description" content="The One-Stop of HR Services & Kennis HCM - Recruitment, RPO, Cloud HCM software, and AI Enterprise Automation in Pakistan." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/assets/aistudio/kennis-zone-logo-square-dark_6bd4cf1b.jpg" />
+  <link rel="icon" type="image/jpeg" href="/assets/aistudio/kennis-zone-logo-square-dark_6bd4cf1b.jpg" />
+  <link rel="apple-touch-icon" href="/assets/aistudio/kennis-zone-logo-square-dark_6bd4cf1b.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Plus Jakarta Sans', 'sans-serif'],
+          },
+          colors: {
+            kennis: {
+              950: '#061226',
+              900: '#0B1E3B',
+              800: '#12315E',
+              700: '#1B498A',
+              600: '#2563EB',
+              amber: '#F59E0B',
+              orange: '#EA580C',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .logo-gradient {
+      background: radial-gradient(circle at 30% 25%, #265999 0%, #0E294B 60%, #07162C 100%);
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #CBD5E1;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans antialiased selection:bg-amber-500 selection:text-white">
+
+  <!-- Toast Notification for In-App Feedback (Prevents iFrame alert blockers) -->
+  <div id="toastNotification" class="fixed bottom-5 right-5 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none max-w-sm sm:max-w-md w-[calc(100vw-2.5rem)] sm:w-auto bg-kennis-950 text-white p-4 rounded-2xl shadow-2xl border border-amber-400/30 flex items-start gap-3">
+    <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
+      <i data-lucide="check-circle" class="w-5 h-5"></i>
+    </div>
+    <div class="flex-1 min-w-0">
+      <h4 id="toastTitle" class="text-sm font-bold text-white font-display">Success</h4>
+      <p id="toastMessage" class="text-xs text-slate-300 mt-0.5 leading-relaxed break-words"></p>
+    </div>
+  </div>
+
+  <!-- Floating WhatsApp Quick Button (Compact on mobile to prevent overlapping, full pill on desktop) -->
+  <a href="https://wa.me/923111771771?text=Assalam%20o%20Alaikum%20Kennis%20Zone%20Team%2C%20I%20would%20like%20to%20inquire%20about%20your%20HR%20Services%20%2F%20Kennis%20HCM." target="_blank" rel="noopener noreferrer" aria-label="WhatsApp us" class="fixed bottom-5 left-5 z-40 bg-emerald-600 hover:bg-emerald-500 text-white px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-full shadow-2xl flex items-center gap-2 transition transform hover:scale-105 border border-emerald-400/40 font-semibold text-xs group cursor-pointer backdrop-blur-xs">
+    <i data-lucide="message-circle" class="w-4 h-4 sm:w-5 sm:h-5 text-white shrink-0"></i>
+    <span>WhatsApp us</span>
+  </a>
+
+  <!-- STICKY NAVIGATION -->
+  <header class="sticky top-0 z-50 bg-kennis-950/95 backdrop-blur-md border-b border-white/10 text-white transition-all h-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between gap-3 lg:gap-4 xl:gap-6">
+      <!-- Brand Logo (Horizontal Platinum Emblem + KENNIS ZONE Wordmark on Deep Navy) -->
+      <a href="#home" onclick="navigatePage('home'); return false;" class="flex items-center shrink-0 cursor-pointer py-1 pr-1 sm:pr-2 lg:pr-3" aria-label="KENNIS ZONE • Minds Of Knowledge">
+        <img 
+          src="/assets/aistudio/kennis-zone-logo-header-horizontal_de473cc5.jpg" 
+          alt="KENNIS ZONE • Minds Of Knowledge" 
+          class="h-10 sm:h-11 md:h-12 w-auto max-w-[160px] sm:max-w-[190px] md:max-w-[210px] object-contain rounded-md transition duration-200 group-hover:brightness-110 shrink-0"
+        />
+      </a>
+
+      <!-- Desktop Links: 5 Distinct Pages -->
+      <nav class="hidden lg:flex items-center gap-4 xl:gap-6 text-sm font-medium whitespace-nowrap min-w-0">
+        <a href="#home" data-nav-page="home" onclick="navigatePage('home'); return false;" class="text-amber-400 font-bold hover:text-amber-300 transition flex items-center gap-1.5 whitespace-nowrap cursor-pointer">
+          <span class="px-1.5 py-0.5 text-[10px] font-extrabold bg-amber-500 text-slate-950 rounded shrink-0">NEW</span> Kennis HCM
+        </a>
+        <a href="#services" data-nav-page="services" onclick="navigatePage('services'); return false;" class="text-slate-200 hover:text-amber-400 transition whitespace-nowrap cursor-pointer">
+          HR Services
+        </a>
+        <a href="#about" data-nav-page="about" onclick="navigatePage('about'); return false;" class="text-slate-200 hover:text-amber-400 transition whitespace-nowrap cursor-pointer">
+          About
+        </a>
+        <a href="#jobs" data-nav-page="jobs" onclick="navigatePage('jobs'); return false;" class="text-slate-200 hover:text-amber-400 transition whitespace-nowrap flex items-center gap-1.5 cursor-pointer">
+          Jobs <span class="text-[11px] text-emerald-400 font-normal">(Free Portal)</span>
+        </a>
+        <a href="#contact" data-nav-page="contact" onclick="navigatePage('contact'); return false;" class="text-slate-200 hover:text-amber-400 transition whitespace-nowrap cursor-pointer">
+          Contact
+        </a>
+      </nav>
+
+      <!-- Desktop CTAs: neatly seated at right with clear gaps -->
+      <div class="hidden lg:flex items-center gap-2 xl:gap-2.5 shrink-0 ml-auto pl-2">
+        <a href="https://wa.me/923111771771" target="_blank" rel="noopener noreferrer" class="px-3 py-2 rounded-lg text-xs font-semibold bg-emerald-500/15 border border-emerald-400/40 text-emerald-300 hover:bg-emerald-500/25 transition flex items-center gap-1.5 cursor-pointer whitespace-nowrap">
+          <i data-lucide="message-circle" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i> WhatsApp us
+        </a>
+        <button onclick="openPostJobModal()" class="px-3.5 py-2 rounded-lg text-xs font-semibold border border-amber-400/50 text-amber-300 hover:bg-amber-400/10 transition flex items-center gap-1.5 cursor-pointer whitespace-nowrap">
+          <i data-lucide="plus-circle" class="w-3.5 h-3.5 shrink-0"></i> Post a Job
+        </button>
+        <button onclick="bookHcmDemo()" class="px-4 py-2 rounded-lg text-xs font-bold bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white shadow-md shadow-orange-600/20 transition cursor-pointer whitespace-nowrap flex items-center gap-1.5">
+          <i data-lucide="calendar-check" class="w-3.5 h-3.5 text-amber-200 shrink-0"></i> Book HCM Demo
+        </button>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button id="mobileMenuBtn" aria-label="Toggle Navigation" class="lg:hidden p-2 rounded-lg text-slate-200 hover:bg-white/10 cursor-pointer shrink-0">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Menu Drawer -->
+    <div id="mobileMenu" class="hidden lg:hidden bg-kennis-900 border-b border-white/10 px-5 pt-4 pb-6 space-y-3.5 shadow-2xl">
+      <a href="#home" onclick="navigatePage('home'); return false;" class="flex items-center justify-between py-2 text-amber-400 font-bold mobile-link">
+        <span>Kennis HCM (Launch Page)</span>
+        <span class="px-1.5 py-0.5 text-[10px] font-bold bg-amber-500 text-slate-950 rounded">2026</span>
+      </a>
+      <a href="#services" onclick="navigatePage('services'); return false;" class="block py-2 text-slate-200 hover:text-amber-400 font-medium mobile-link">HR Services</a>
+      <a href="#about" onclick="navigatePage('about'); return false;" class="block py-2 text-slate-200 hover:text-amber-400 font-medium mobile-link">About Us</a>
+      <a href="#jobs" onclick="navigatePage('jobs'); return false;" class="flex items-center justify-between py-2 text-slate-200 hover:text-amber-400 font-medium mobile-link">
+        <span>Jobs (Mini Job Portal)</span>
+        <span class="text-xs text-emerald-400 font-semibold">Free Postings</span>
+      </a>
+      <a href="#contact" onclick="navigatePage('contact'); return false;" class="block py-2 text-slate-200 hover:text-amber-400 font-medium mobile-link">Contact Us</a>
+      <a href="https://wa.me/923111771771" target="_blank" rel="noopener noreferrer" class="py-2.5 px-3 rounded-lg bg-emerald-500/15 border border-emerald-400/30 text-emerald-300 font-medium mobile-link flex items-center gap-2">
+        <i data-lucide="message-circle" class="w-4 h-4 text-emerald-400"></i> WhatsApp us
+      </a>
+      <div class="pt-3 flex flex-col gap-2.5">
+        <button onclick="bookHcmDemo(); document.getElementById('mobileMenu').classList.add('hidden');" class="w-full py-2.5 rounded-lg font-semibold bg-amber-500 text-slate-950 text-center cursor-pointer flex items-center justify-center gap-2">
+          <i data-lucide="calendar-check" class="w-4 h-4"></i> Book Kennis HCM Demo
+        </button>
+        <button onclick="openPostJobModal(); document.getElementById('mobileMenu').classList.add('hidden');" class="w-full py-2.5 rounded-lg font-semibold border border-amber-400 text-amber-300 text-center cursor-pointer flex items-center justify-center gap-2">
+          <i data-lucide="plus-circle" class="w-4 h-4"></i> Post a Job Opening
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================================ -->
+  <!-- PAGE 1: HOME PAGE (LAUNCH PAGE FOR STARTUP PRODUCT: KENNIS HCM) -->
+  <!-- ============================================================ -->
+  <main id="homePageView">
+    <!-- HERO: KENNIS HCM 2026 LAUNCH -->
+    <section class="relative logo-gradient text-white overflow-hidden pt-12 sm:pt-20 pb-20 sm:pb-28 lg:py-32 border-b border-white/10">
+      <!-- Subtle Geometric Grid Background -->
+      <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px]"></div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          
+          <div class="lg:col-span-7 space-y-6 sm:space-y-7">
+            <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/10 border border-amber-400/30 text-xs font-semibold tracking-wide text-amber-300">
+              <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+              LAUNCHED 2026 BY KENNIS ZONE • CLOUD HR STARTUP PLATFORM
+            </div>
+
+            <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.12]">
+              Kennis HCM — <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-300 to-sky-200">launched 2026</span> by Kennis Zone
+            </h1>
+
+            <p class="text-lg sm:text-xl text-slate-200/95 max-w-2xl leading-relaxed">
+              A complete cloud HR platform for businesses: employee records, attendance & leave, Pakistan payroll, performance management, onboarding.
+            </p>
+
+            <div class="flex flex-col sm:flex-row sm:items-center gap-3.5 sm:gap-4 pt-2">
+              <button onclick="bookHcmDemo()" class="px-7 py-4 rounded-xl font-display font-bold bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white shadow-xl shadow-orange-600/25 flex items-center justify-center gap-2.5 transition transform hover:-translate-y-0.5 cursor-pointer">
+                <i data-lucide="calendar-check" class="w-5 h-5 text-amber-200"></i> Book 40-Min Live Demo
+              </button>
+              <a href="#kennis-hcm" onclick="showHomePage('kennis-hcm'); return false;" class="px-6 py-4 rounded-xl font-display font-bold bg-white text-kennis-950 hover:bg-slate-100 shadow-xl flex items-center justify-center gap-2.5 transition transform hover:-translate-y-0.5 cursor-pointer">
+                <i data-lucide="calculator" class="w-5 h-5 text-kennis-700"></i> Modules & Pricing Calculator
+              </a>
+              <a href="https://wa.me/923111771771?text=Assalam%20o%20Alaikum%20Kennis%20Zone%2C%20I%20would%20like%20to%20learn%20more%20about%20Kennis%20HCM%20software." target="_blank" rel="noopener noreferrer" class="px-4 py-4 rounded-xl font-semibold glass-card hover:bg-white/10 text-emerald-300 flex items-center justify-center gap-2 transition cursor-pointer">
+                <i data-lucide="message-circle" class="w-5 h-5 text-emerald-400"></i> WhatsApp Us
+              </a>
+            </div>
+
+            <!-- Quick Trust Bar -->
+            <div class="pt-6 sm:pt-8 border-t border-white/10 grid grid-cols-3 gap-2.5 sm:gap-6 max-w-lg text-sm">
+              <div>
+                <p class="text-xl sm:text-2xl font-display font-extrabold text-amber-400">1 Record</p>
+                <p class="text-slate-300 text-[11px] sm:text-xs">Zero Data Silos</p>
+              </div>
+              <div>
+                <p class="text-xl sm:text-2xl font-display font-extrabold text-white">100% Tax</p>
+                <p class="text-slate-300 text-[11px] sm:text-xs">FBR & EOBI Compliant</p>
+              </div>
+              <div>
+                <p class="text-xl sm:text-2xl font-display font-extrabold text-sky-300">Fast Setup</p>
+                <p class="text-slate-300 text-[11px] sm:text-xs">Go-Live in Days</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hero Right Visual Card: Live Kennis HCM Software Snapshot -->
+          <div class="lg:col-span-5">
+            <div class="glass-card rounded-2xl p-6 sm:p-8 shadow-2xl border border-white/15 relative">
+              <div class="flex flex-wrap items-center justify-between gap-3 pb-5 mb-5 border-b border-white/10">
+                <div class="flex items-center gap-3 min-w-0">
+                  <img 
+                    src="/assets/aistudio/kennis-zone-logo-square-dark-metallic_0a87951d.jpg" 
+                    alt="Kennis HCM" 
+                    class="w-11 h-11 rounded-xl object-cover border border-amber-400/40 shadow-lg shadow-blue-950/40 shrink-0" 
+                  />
+                  <div>
+                    <h3 class="font-display font-bold text-white text-base">Kennis HCM Cloud Suite</h3>
+                    <p class="text-xs text-amber-300 font-medium">Flagship Software • Launched 2026</p>
+                  </div>
+                </div>
+                <span class="px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-300 rounded-full border border-emerald-400/30 shrink-0">Pakistan Localized</span>
+              </div>
+
+              <div class="space-y-3">
+                <div class="p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <i data-lucide="users" class="w-5 h-5 text-sky-300"></i>
+                    <div>
+                      <p class="text-sm font-semibold text-white">Employee Records & Org Chart</p>
+                      <p class="text-xs text-slate-300">Central digital dossiers, asset recovery</p>
+                    </div>
+                  </div>
+                  <span class="text-xs font-semibold text-emerald-400">Included</span>
+                </div>
+
+                <div class="p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <i data-lucide="clock" class="w-5 h-5 text-amber-400"></i>
+                    <div>
+                      <p class="text-sm font-semibold text-white">Attendance & Biometrics</p>
+                      <p class="text-xs text-slate-300">Shift rosters, late marks & leave deductions</p>
+                    </div>
+                  </div>
+                  <span class="text-xs font-semibold text-amber-400">Auto-Sync</span>
+                </div>
+
+                <div class="p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <i data-lucide="calculator" class="w-5 h-5 text-emerald-400"></i>
+                    <div>
+                      <p class="text-sm font-semibold text-white">Pakistan Payroll & Tax Slabs</p>
+                      <p class="text-xs text-slate-300">FBR income tax, EOBI, PF, direct bank file</p>
+                    </div>
+                  </div>
+                  <span class="text-xs font-semibold text-sky-300">1-Click</span>
+                </div>
+
+                <div class="p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <i data-lucide="award" class="w-5 h-5 text-purple-300"></i>
+                    <div>
+                      <p class="text-sm font-semibold text-white">Performance & Onboarding</p>
+                      <p class="text-xs text-slate-300">KPI reviews, OKRs & automated welcome</p>
+                    </div>
+                  </div>
+                  <span class="text-xs font-semibold text-purple-300">360°</span>
+                </div>
+              </div>
+
+              <div class="mt-6 pt-5 border-t border-white/10 flex items-center justify-between text-xs text-slate-300">
+                <span>Tailored for 15 to 5,000+ staff</span>
+                <button onclick="bookHcmDemo()" class="text-amber-400 font-semibold hover:underline flex items-center gap-1 cursor-pointer">Request Demo <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- KEY FEATURES SECTION -->
+    <section class="py-20 lg:py-28 bg-white border-b border-slate-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-3xl mx-auto mb-14 sm:mb-16">
+          <span class="text-xs font-bold uppercase tracking-widest text-amber-600 bg-amber-50 border border-amber-200/80 px-3.5 py-1.5 rounded-full">
+            Kennis HCM Core Capabilities
+          </span>
+          <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-kennis-950 mt-4 leading-tight">
+            Key Features of Kennis HCM
+          </h2>
+          <p class="text-slate-600 mt-4 text-base sm:text-lg leading-relaxed">
+            Everything your HR department, managers, and employees need to run operations efficiently — from first day of onboarding to annual performance appraisals.
+          </p>
+        </div>
+
+        <!-- 6 Key Features Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          
+          <!-- Feature 1: Employee Records -->
+          <div class="p-7 sm:p-8 rounded-2xl sm:rounded-3xl bg-slate-50 border border-slate-200/90 hover:border-amber-400/50 hover:shadow-lg transition flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-amber-500/15 border border-amber-400/30 text-amber-600 flex items-center justify-center mb-5">
+                <i data-lucide="users" class="w-6 h-6"></i>
+              </div>
+              <h3 class="font-display text-xl font-bold text-kennis-950 mb-2">1. Employee Records & Org Chart</h3>
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+                Maintain one single, verified digital record per employee. Digital CNIC/passport storage, emergency contacts, job descriptions, promotion timelines, and visual company org hierarchy.
+              </p>
+              <ul class="space-y-2 text-xs text-slate-700">
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-600 shrink-0"></i> Dynamic reporting lines & team views</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-600 shrink-0"></i> Centralized document & contract storage</li>
+              </ul>
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-200 text-xs font-semibold text-kennis-800">
+              Zero duplicate entries
+            </div>
+          </div>
+
+          <!-- Feature 2: Attendance & Leave -->
+          <div class="p-7 sm:p-8 rounded-2xl sm:rounded-3xl bg-slate-50 border border-slate-200/90 hover:border-amber-400/50 hover:shadow-lg transition flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-sky-500/15 border border-sky-400/30 text-sky-600 flex items-center justify-center mb-5">
+                <i data-lucide="calendar" class="w-6 h-6"></i>
+              </div>
+              <h3 class="font-display text-xl font-bold text-kennis-950 mb-2">2. Attendance & Leave Management</h3>
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+                Real-time sync with biometric fingerprint and facial devices, browser clock-ins, or GPS-enabled mobile punches. Multi-tier leave workflows for casual, annual, sick, and maternity leaves.
+              </p>
+              <ul class="space-y-2 text-xs text-slate-700">
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-600 shrink-0"></i> Shift rosters, rotational schedules & overtime</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-600 shrink-0"></i> Auto grace periods & late-mark deductions</li>
+              </ul>
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-200 text-xs font-semibold text-kennis-800">
+              The timesheet writes itself
+            </div>
+          </div>
+
+          <!-- Feature 3: Pakistan Payroll -->
+          <div class="p-7 sm:p-8 rounded-2xl sm:rounded-3xl bg-slate-50 border border-slate-200/90 hover:border-amber-400/50 hover:shadow-lg transition flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-emerald-500/15 border border-emerald-400/30 text-emerald-600 flex items-center justify-center mb-5">
+                <i data-lucide="calculator" class="w-6 h-6"></i>
+              </div>
+              <h3 class="font-display text-xl font-bold text-kennis-950 mb-2">3. Pakistan Statutory Payroll</h3>
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+                Built specifically for Pakistan's corporate requirements. Pre-applied attendance, auto FBR Income Tax slabs calculation, EOBI contributions, Provident Fund, and 1-click bank transfer export files.
+              </p>
+              <ul class="space-y-2 text-xs text-slate-700">
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-600 shrink-0"></i> Automated FBR tax slabs & yearly reconciliation</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-600 shrink-0"></i> Password-protected digital payslips for employees</li>
+              </ul>
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-200 text-xs font-semibold text-kennis-800">
+              Payroll signed off before dinner
+            </div>
+          </div>
+
+          <!-- Feature 4: Performance Management -->
+          <div class="p-7 sm:p-8 rounded-2xl sm:rounded-3xl bg-slate-50 border border-slate-200/90 hover:border-amber-400/50 hover:shadow-lg transition flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-purple-500/15 border border-purple-400/30 text-purple-600 flex items-center justify-center mb-5">
+                <i data-lucide="target" class="w-6 h-6"></i>
+              </div>
+              <h3 class="font-display text-xl font-bold text-kennis-950 mb-2">4. Performance Management & OKRs</h3>
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+                Align employee day-to-day work with company goals. Establish quarterly OKRs, KPI metrics, transparent 360-degree review cycles, and annual appraisals with clear merit-increase tracking.
+              </p>
+              <ul class="space-y-2 text-xs text-slate-700">
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-600 shrink-0"></i> Continuous manager-employee feedback notes</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-600 shrink-0"></i> 9-box talent matrix & promotion succession</li>
+              </ul>
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-200 text-xs font-semibold text-kennis-800">
+              Clear merit-based growth
+            </div>
+          </div>
+
+          <!-- Feature 5: Onboarding & Offboarding -->
+          <div class="p-7 sm:p-8 rounded-2xl sm:rounded-3xl bg-slate-50 border border-slate-200/90 hover:border-amber-400/50 hover:shadow-lg transition flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-amber-500/15 border border-amber-400/30 text-amber-600 flex items-center justify-center mb-5">
+                <i data-lucide="user-plus" class="w-6 h-6"></i>
+              </div>
+              <h3 class="font-display text-xl font-bold text-kennis-950 mb-2">5. Automated Onboarding & Exit</h3>
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+                Coordinate IT, HR, Finance, and Administration in one click. Send welcome kits, collect digital employee documents, allocate company laptops, and guarantee 100% asset recovery during offboarding.
+              </p>
+              <ul class="space-y-2 text-xs text-slate-700">
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-600 shrink-0"></i> Auto asset tagging (laptops, SIMs, fuel cards)</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-600 shrink-0"></i> Clear final settlement & experience letters</li>
+              </ul>
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-200 text-xs font-semibold text-kennis-800">
+              No lost equipment or unreturned assets
+            </div>
+          </div>
+
+          <!-- Feature 6: Employee Self-Service (ESS) -->
+          <div class="p-7 sm:p-8 rounded-2xl sm:rounded-3xl bg-slate-50 border border-slate-200/90 hover:border-amber-400/50 hover:shadow-lg transition flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-blue-500/15 border border-blue-400/30 text-blue-600 flex items-center justify-center mb-5">
+                <i data-lucide="smartphone" class="w-6 h-6"></i>
+              </div>
+              <h3 class="font-display text-xl font-bold text-kennis-950 mb-2">6. Employee Self-Service (ESS) Portal</h3>
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+                Empower your workforce with a mobile-ready self-service portal. Staff can review remaining leave balances, view confidential payslips, submit reimbursement claims, and request official certificates.
+              </p>
+              <ul class="space-y-2 text-xs text-slate-700">
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-600 shrink-0"></i> Web & Mobile responsive access</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-600 shrink-0"></i> Reduces 80% of routine HR desk queries</li>
+              </ul>
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-200 text-xs font-semibold text-kennis-800">
+              Modern employee experience
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- WHO IT IS FOR SECTION -->
+    <section class="py-20 lg:py-28 bg-slate-50 border-b border-slate-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-3xl mx-auto mb-14 sm:mb-16">
+          <span class="text-xs font-bold uppercase tracking-widest text-kennis-700 bg-blue-50 border border-blue-200/80 px-3.5 py-1.5 rounded-full">
+            Tailored For Modern Businesses
+          </span>
+          <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-kennis-950 mt-4 leading-tight">
+            Who is Kennis HCM For?
+          </h2>
+          <p class="text-slate-600 mt-4 text-base sm:text-lg leading-relaxed">
+            Whether you manage 20 software engineers or 2,500 factory workers across multiple shifts, Kennis HCM flexes to fit your organization.
+          </p>
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-8">
+          
+          <!-- Segment 1: Startups -->
+          <div class="p-8 rounded-3xl bg-white border border-slate-200 shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-600 flex items-center justify-center mb-6">
+                <i data-lucide="rocket" class="w-6 h-6"></i>
+              </div>
+              <span class="text-xs font-bold uppercase tracking-wider text-amber-600">Startups & Scaleups</span>
+              <h3 class="font-display text-2xl font-bold text-kennis-950 mt-1 mb-3">15 to 50 Employees</h3>
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6">
+                Replace chaotic WhatsApp leave requests, fragmented Google Sheets, and manual bank transfers with one unified system from day one.
+              </p>
+              <div class="space-y-3 border-t border-slate-100 pt-5 text-xs text-slate-700">
+                <div class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-600 shrink-0"></i> Instant onboarding for new hires</div>
+                <div class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-600 shrink-0"></i> Accurate salary slips in seconds</div>
+                <div class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-600 shrink-0"></i> Pay only for the active modules you use</div>
+              </div>
+            </div>
+            <button onclick="bookHcmDemo()" class="mt-8 w-full py-3 rounded-xl font-semibold bg-slate-100 hover:bg-amber-50 text-kennis-950 hover:text-amber-900 border border-slate-200 transition text-xs flex items-center justify-center gap-1.5 cursor-pointer">
+              Demo for Startups <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+
+          <!-- Segment 2: SMEs -->
+          <div class="p-8 rounded-3xl bg-kennis-950 text-white border-2 border-amber-400 shadow-xl flex flex-col justify-between relative">
+            <span class="absolute -top-3 right-6 px-3 py-1 bg-amber-500 text-slate-950 text-[10px] font-extrabold uppercase rounded-full shadow-md">Most Popular</span>
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center mb-6">
+                <i data-lucide="building-2" class="w-6 h-6"></i>
+              </div>
+              <span class="text-xs font-bold uppercase tracking-wider text-amber-300">Growing Mid-Market</span>
+              <h3 class="font-display text-2xl font-bold text-white mt-1 mb-3">50 to 250 Employees</h3>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed mb-6">
+                Empower your line managers with automated approval hierarchies, connect biometric machines directly to payroll, and guarantee FBR compliance.
+              </p>
+              <div class="space-y-3 border-t border-white/10 pt-5 text-xs text-slate-200">
+                <div class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-amber-400 shrink-0"></i> Biometric device integration across offices</div>
+                <div class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-amber-400 shrink-0"></i> Automated late mark grace periods & leave rules</div>
+                <div class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-amber-400 shrink-0"></i> Complete monthly salary variance checks</div>
+              </div>
+            </div>
+            <button onclick="bookHcmDemo()" class="mt-8 w-full py-3 rounded-xl font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 shadow-md transition text-xs flex items-center justify-center gap-1.5 cursor-pointer">
+              Schedule Mid-Market Demo <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+
+          <!-- Segment 3: Large Enterprises -->
+          <div class="p-8 rounded-3xl bg-white border border-slate-200 shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-sky-500/10 text-sky-600 flex items-center justify-center mb-6">
+                <i data-lucide="network" class="w-6 h-6"></i>
+              </div>
+              <span class="text-xs font-bold uppercase tracking-wider text-sky-600">Enterprises & Manufacturing</span>
+              <h3 class="font-display text-2xl font-bold text-kennis-950 mt-1 mb-3">250 to 5,000+ Employees</h3>
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6">
+                Multi-branch operations, complex rotational shift schedules, departmental cost centers, and full statutory audit trails for compliance.
+              </p>
+              <div class="space-y-3 border-t border-slate-100 pt-5 text-xs text-slate-700">
+                <div class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-600 shrink-0"></i> Multi-entity, multi-location payroll runs</div>
+                <div class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-600 shrink-0"></i> Custom role-based security & audit logs</div>
+                <div class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-600 shrink-0"></i> Dedicated customer success engineer in Lahore</div>
+              </div>
+            </div>
+            <button onclick="bookHcmDemo()" class="mt-8 w-full py-3 rounded-xl font-semibold bg-slate-100 hover:bg-sky-50 text-kennis-950 hover:text-sky-900 border border-slate-200 transition text-xs flex items-center justify-center gap-1.5 cursor-pointer">
+              Enterprise Consultation <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+  <!-- NEW FLAGSHIP PRODUCT SECTION: KENNIS HCM (Extracted from PDF Story Deck) -->
+  <section id="kennis-hcm" class="scroll-mt-24 py-20 lg:py-28 bg-gradient-to-b from-slate-50 to-white border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Top Product Header -->
+      <div class="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-kennis-900 text-amber-300 text-xs font-bold uppercase tracking-wider mb-3">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Flagship Cloud Software Available for Sale
+        </div>
+        <h2 class="font-display text-3xl sm:text-5xl font-extrabold text-kennis-950 tracking-tight">
+          Kennis HCM: One Record. Every HR Need.
+        </h2>
+        <p class="text-slate-600 mt-4 text-base sm:text-lg">
+          What the 28th of the month looks like when your entire company runs on <strong class="text-kennis-900">one connected employee record</strong> — built specifically for Pakistan's compliance, tax slabs, and multi-branch teams.
+        </p>
+      </div>
+
+      <!-- The Hidden Cost vs Connected Record (From Chapters 1-5 of PDF) -->
+      <div class="grid lg:grid-cols-12 gap-8 lg:gap-10 items-stretch mb-12 sm:mb-16">
+        <!-- Disconnected Pain Card -->
+        <div class="lg:col-span-5 rounded-2xl sm:rounded-3xl bg-rose-950 text-white p-7 sm:p-9 flex flex-col justify-between border border-rose-800/50">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-widest text-rose-300">The Hidden Cost of Disconnected HR</span>
+            <h3 class="font-display text-2xl font-bold mt-2">Five tools. Five versions of every employee.</h3>
+            <p class="text-rose-200/90 text-sm mt-2">Biometric exports in Excel, leave requests on email threads, un-updated asset registers, and CEOs signing off PKR 18M payroll runs at 11 PM from a static PDF with zero variance visibility.</p>
+            
+            <div class="grid grid-cols-2 gap-4 mt-6 pt-6 border-t border-rose-800/60">
+              <div>
+                <p class="font-display text-2xl font-extrabold text-amber-400">PKR 3M / yr</p>
+                <p class="text-xs text-rose-200 mt-0.5">Quietly lost by a 100-person firm on disconnected tools</p>
+              </div>
+              <div>
+                <p class="font-display text-2xl font-extrabold text-white">350 Hours</p>
+                <p class="text-xs text-rose-200 mt-0.5">Lost annually to manual reconciliation & chasing approvals</p>
+              </div>
+              <div>
+                <p class="font-display text-2xl font-extrabold text-white">96 Fixes</p>
+                <p class="text-xs text-rose-200 mt-0.5">Payroll corrections per year from re-entered data</p>
+              </div>
+              <div>
+                <p class="font-display text-2xl font-extrabold text-white">5% Assets</p>
+                <p class="text-xs text-rose-200 mt-0.5">Equipment never recovered during un-tracked offboarding</p>
+              </div>
+            </div>
+          </div>
+          <p class="text-[11px] text-rose-300/80 mt-6 italic">Switch to Kennis HCM and eliminate reconciliation delays permanently.</p>
+        </div>
+
+        <!-- Kennis HCM Solution Showcase (Chapters 5, 6, 7, 10) -->
+        <div class="lg:col-span-7 rounded-2xl sm:rounded-3xl bg-kennis-950 text-white p-7 sm:p-9 border border-kennis-800 shadow-2xl flex flex-col justify-between">
+          <div>
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <span class="text-xs font-bold uppercase tracking-widest text-amber-400">The Turning Point • Kennis HCM Architecture</span>
+              <span class="px-3 py-1 rounded-full text-xs font-semibold bg-sky-500/20 text-sky-300 border border-sky-400/30">Web & Mobile Ready</span>
+            </div>
+            <h3 class="font-display text-2xl sm:text-3xl font-bold mt-2">The Timesheet Writes Itself. Payroll Signed Off Before Dinner.</h3>
+            
+            <div class="grid sm:grid-cols-2 gap-4 mt-6">
+              <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                <div class="flex items-center gap-2 text-amber-400 font-semibold text-sm">
+                  <i data-lucide="fingerprint" class="w-4 h-4"></i> Biometric & Geo-App Punches
+                </div>
+                <p class="text-xs text-slate-300 mt-1.5">Shifts assigned once by branch or roster. Biometric device, browser, or mobile clock-ins land directly on the live employee record.</p>
+              </div>
+
+              <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                <div class="flex items-center gap-2 text-emerald-400 font-semibold text-sm">
+                  <i data-lucide="calculator" class="w-4 h-4"></i> Pre-Applied Payroll & Variance
+                </div>
+                <p class="text-xs text-slate-300 mt-1.5">Payroll opens with attendance, unpaid days, late marks, and overtime already applied. Line-by-line variance against last month before sign-off.</p>
+              </div>
+
+              <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                <div class="flex items-center gap-2 text-sky-300 font-semibold text-sm">
+                  <i data-lucide="landmark" class="w-4 h-4"></i> Built for Pakistan Statutory Law
+                </div>
+                <p class="text-xs text-slate-300 mt-1.5">Automated FBR Income Tax slabs, EOBI, Provident Fund, and Provincial Social Security returns generated from the exact same numbers.</p>
+              </div>
+
+              <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                <div class="flex items-center gap-2 text-purple-300 font-semibold text-sm">
+                  <i data-lucide="laptop" class="w-4 h-4"></i> 1-Click Onboarding & Assets
+                </div>
+                <p class="text-xs text-slate-300 mt-1.5">Coordinate IT, Admin, Finance, and HR in one click. Track allocated laptops, vehicles, and recover 100% of assets on final settlement.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Comparison Strip (Chapter 8) -->
+          <div class="mt-6 pt-6 border-t border-white/10 grid grid-cols-1 sm:grid-cols-3 gap-3 text-center">
+            <div class="p-3 rounded-lg bg-white/5">
+              <p class="text-[11px] text-slate-400 uppercase">Traditional Spreadsheets</p>
+              <p class="text-xs font-semibold text-rose-300 mt-1">Low Power • High Manual Hrs</p>
+            </div>
+            <div class="p-3 rounded-lg bg-amber-500/20 border border-amber-400/40">
+              <p class="text-[11px] text-amber-300 font-bold uppercase">Kennis HCM</p>
+              <p class="text-xs font-bold text-white mt-1">High Power • Fast Go-Live • $ Cost</p>
+            </div>
+            <div class="p-3 rounded-lg bg-white/5">
+              <p class="text-[11px] text-slate-400 uppercase">Legacy Enterprise Suites</p>
+              <p class="text-xs font-semibold text-slate-300 mt-1">1-Yr Consulting • $$$ Cost</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INTERACTIVE MODULE SELECTOR (Chapter 9: Per employee, per module you choose) -->
+      <div class="rounded-2xl sm:rounded-3xl bg-white border-2 border-kennis-900/15 shadow-xl p-6 sm:p-10 lg:p-12">
+        <div class="grid lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+          <div class="lg:col-span-7">
+            <span class="text-xs font-bold uppercase tracking-wider text-kennis-700">Modular Architecture • No Forced Bundles</span>
+            <h3 class="font-display text-2xl font-extrabold text-kennis-950 mt-1">Select Your Kennis HCM Modules</h3>
+            <p class="text-sm text-slate-600 mt-1">Start with what you need on Day One and switch the rest on when you're ready; the single employee record is already there. Click modules below to customize your stack:</p>
+
+            <div id="hcmModuleGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-3.5 mt-5">
+              <!-- Populated / Interactive via JS -->
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 bg-slate-50 rounded-2xl p-6 sm:p-7 border border-slate-200">
+            <div class="flex items-center justify-between border-b border-slate-200 pb-4">
+              <div>
+                <p class="text-xs font-bold uppercase text-slate-500">Your Custom HCM Stack</p>
+                <h4 class="font-display text-lg font-bold text-kennis-950"><span id="selectedModuleCount">4</span> Active Modules Selected</h4>
+              </div>
+              <span class="px-2.5 py-1 rounded bg-emerald-100 text-emerald-800 text-xs font-bold">Fast Go-Live</span>
+            </div>
+
+            <div class="my-4">
+              <label class="text-xs font-semibold text-slate-700 flex justify-between">
+                <span>Estimated Company Headcount:</span>
+                <span id="headcountLabel" class="font-bold text-kennis-900">100 Employees</span>
+              </label>
+              <input id="headcountSlider" type="range" min="15" max="1000" step="5" value="100" class="w-full mt-2 accent-amber-500 cursor-pointer" />
+            </div>
+
+            <p class="text-xs text-slate-600 leading-relaxed bg-white p-3.5 rounded-xl border border-slate-200">
+              <strong>Formula:</strong> Headcount (<span id="formulaHc">100</span>) × Selected Modules (<span id="formulaMod">4</span>) = <strong>One transparent monthly invoice line per module.</strong>
+            </p>
+
+            <button onclick="bookHcmDemo()" class="w-full mt-5 py-3.5 px-5 rounded-xl font-display font-bold bg-kennis-950 hover:bg-kennis-800 text-white shadow-lg flex items-center justify-center gap-2 transition cursor-pointer">
+              <i data-lucide="calendar-check" class="w-4 h-4 text-amber-400"></i> Book a 40-Min Live Demo (Starts With Your Org Chart)
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+    <!-- Explore Other Kennis Zone Divisions Strip -->
+    <section class="py-16 sm:py-20 bg-slate-900 text-white border-t border-white/10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
+          <span class="text-xs font-bold uppercase tracking-wider text-amber-400">Beyond Software</span>
+          <h2 class="font-display text-2xl sm:text-3xl font-extrabold text-white mt-1">Explore Kennis Zone Services & Portal</h2>
+          <p class="text-slate-400 text-sm mt-2">Looking for executive recruitment, HR department outsourcing, or active job openings in Pakistan?</p>
+        </div>
+        <div class="grid sm:grid-cols-3 gap-6">
+          <div class="p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-amber-400/50 transition flex flex-col justify-between">
+            <div>
+              <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center mb-4">
+                <i data-lucide="briefcase" class="w-5 h-5"></i>
+              </div>
+              <h3 class="font-display text-lg font-bold text-white mb-2">Corporate HR Services</h3>
+              <p class="text-xs text-slate-300 leading-relaxed">Executive search, RPO, HR audit, statutory payroll outsourcing, and AI automation.</p>
+            </div>
+            <a href="#services" onclick="navigatePage('services'); return false;" class="mt-5 inline-flex items-center gap-1.5 text-xs font-bold text-amber-400 hover:text-amber-300 cursor-pointer">
+              Explore HR Services <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </a>
+          </div>
+          <div class="p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-emerald-400/50 transition flex flex-col justify-between">
+            <div>
+              <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center mb-4">
+                <i data-lucide="search" class="w-5 h-5"></i>
+              </div>
+              <h3 class="font-display text-lg font-bold text-white mb-2">Mini Job Portal</h3>
+              <p class="text-xs text-slate-300 leading-relaxed">Search verified jobs with clear PKR salaries or post openings completely free.</p>
+            </div>
+            <a href="#jobs" onclick="navigatePage('jobs'); return false;" class="mt-5 inline-flex items-center gap-1.5 text-xs font-bold text-emerald-400 hover:text-emerald-300 cursor-pointer">
+              Browse Job Portal <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </a>
+          </div>
+          <div class="p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-sky-400/50 transition flex flex-col justify-between">
+            <div>
+              <div class="w-10 h-10 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center mb-4">
+                <i data-lucide="building-2" class="w-5 h-5"></i>
+              </div>
+              <h3 class="font-display text-lg font-bold text-white mb-2">About Kennis Zone</h3>
+              <p class="text-xs text-slate-300 leading-relaxed">Founded in 2017 in Lahore, Pakistan. Nearly a decade of trusted HR excellence.</p>
+            </div>
+            <a href="#about" onclick="navigatePage('about'); return false;" class="mt-5 inline-flex items-center gap-1.5 text-xs font-bold text-sky-400 hover:text-sky-300 cursor-pointer">
+              Our Story & Leadership <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+
+  <!-- ============================================================ -->
+  <!-- PAGE 2: HR SERVICES & AI AUTOMATION -->
+  <!-- ============================================================ -->
+  <main id="servicesPageView" class="page-view hidden">
+    <!-- Services Header Banner -->
+    <section class="relative logo-gradient text-white py-12 sm:py-16 border-b border-white/10">
+      <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px]"></div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+          <a href="#home" onclick="navigatePage('home'); return false;" class="inline-flex items-center gap-2 text-xs font-semibold text-amber-300 hover:text-amber-200 bg-white/10 hover:bg-white/15 px-3.5 py-1.5 rounded-full border border-white/15 transition cursor-pointer group">
+            <i data-lucide="arrow-left" class="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5"></i> Back to Home
+          </a>
+          <span class="text-xs font-semibold text-slate-300 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+            The One-Stop of HR Services • Lahore, Pakistan
+          </span>
+        </div>
+        <div class="max-w-3xl">
+          <span class="text-xs font-bold uppercase tracking-widest text-amber-400">End-to-End People Solutions</span>
+          <h1 class="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mt-2 leading-tight">
+            Corporate HR Services & <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-300 to-sky-200">AI Automation</span>
+          </h1>
+          <p class="text-sm sm:text-base text-slate-200/90 mt-2.5 leading-relaxed">
+            From recruitment process outsourcing (RPO) and executive head-hunting to comprehensive HR department operations, statutory payroll, and AI workflows across Pakistan.
+          </p>
+        </div>
+      </div>
+    </section>
+
+  <!-- SECTION 1: CORE HR SERVICES -->
+  <section id="services" class="scroll-mt-24 py-20 lg:py-28 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+        <span class="text-xs font-bold uppercase tracking-widest text-amber-600 bg-amber-50 px-3 py-1 rounded-full border border-amber-200">End-to-End People Solutions</span>
+        <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-kennis-950 mt-3">Corporate HR Services Built for Scale</h2>
+        <p class="text-slate-600 mt-3">Whether you are launching a startup in Lahore or scaling an MNC across Pakistan, Kennis Zone delivers structured, compliant, and measurable HR execution.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <!-- Card 1 -->
+        <div class="p-7 sm:p-8 rounded-2xl sm:rounded-3xl bg-slate-50 border border-slate-200/80 hover:border-kennis-700 hover:shadow-xl transition group">
+          <div class="w-12 h-12 rounded-xl bg-kennis-900 text-amber-400 flex items-center justify-center mb-5 group-hover:scale-110 transition">
+            <i data-lucide="user-check" class="w-6 h-6"></i>
+          </div>
+          <h3 class="font-display text-xl font-bold text-kennis-950">Recruitment Process Outsourcing (RPO)</h3>
+          <p class="text-slate-600 text-sm mt-2.5 leading-relaxed">Full-cycle hiring managed by our dedicated recruiters. From job profiling and mass screening to offer management at a fraction of internal cost.</p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="p-7 sm:p-8 rounded-2xl sm:rounded-3xl bg-slate-50 border border-slate-200/80 hover:border-kennis-700 hover:shadow-xl transition group">
+          <div class="w-12 h-12 rounded-xl bg-kennis-900 text-amber-400 flex items-center justify-center mb-5 group-hover:scale-110 transition">
+            <i data-lucide="crosshair" class="w-6 h-6"></i>
+          </div>
+          <h3 class="font-display text-xl font-bold text-kennis-950">Head-Hunting & Talent Acquisition</h3>
+          <p class="text-slate-600 text-sm mt-2.5 leading-relaxed">Discreet executive search and specialist head-hunting for C-suite, VP, and niche technical leadership across Telecom, FMCG, Tech, and Real Estate.</p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="p-7 sm:p-8 rounded-2xl sm:rounded-3xl bg-slate-50 border border-slate-200/80 hover:border-kennis-700 hover:shadow-xl transition group">
+          <div class="w-12 h-12 rounded-xl bg-kennis-900 text-amber-400 flex items-center justify-center mb-5 group-hover:scale-110 transition">
+            <i data-lucide="building" class="w-6 h-6"></i>
+          </div>
+          <h3 class="font-display text-xl font-bold text-kennis-950">Complete HR Outsourcing</h3>
+          <p class="text-slate-600 text-sm mt-2.5 leading-relaxed">We act as your dedicated HR department—handling employee contracts, onboarding, policy handbooks, payroll processing, EOBI/social security, and compliance.</p>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="p-7 sm:p-8 rounded-2xl sm:rounded-3xl bg-slate-50 border border-slate-200/80 hover:border-kennis-700 hover:shadow-xl transition group">
+          <div class="w-12 h-12 rounded-xl bg-kennis-900 text-amber-400 flex items-center justify-center mb-5 group-hover:scale-110 transition">
+            <i data-lucide="laptop-2" class="w-6 h-6"></i>
+          </div>
+          <h3 class="font-display text-xl font-bold text-kennis-950">Online Test Management</h3>
+          <p class="text-slate-600 text-sm mt-2.5 leading-relaxed">Proctored technical, psychometric, and aptitude assessment portals for graduate trainee programs, bulk call-center hiring, and banking/telecom intakes.</p>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="p-7 sm:p-8 rounded-2xl sm:rounded-3xl bg-slate-50 border border-slate-200/80 hover:border-kennis-700 hover:shadow-xl transition group">
+          <div class="w-12 h-12 rounded-xl bg-kennis-900 text-amber-400 flex items-center justify-center mb-5 group-hover:scale-110 transition">
+            <i data-lucide="award" class="w-6 h-6"></i>
+          </div>
+          <h3 class="font-display text-xl font-bold text-kennis-950">Training & Development</h3>
+          <p class="text-slate-600 text-sm mt-2.5 leading-relaxed">Customized corporate workshops, leadership bootcamps, soft-skills mastery, and KPI-driven upskilling programs led by seasoned industry practitioners.</p>
+        </div>
+
+        <!-- Card 6: AI & Digital Transformation Highlight -->
+        <div class="p-7 sm:p-8 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-kennis-900 to-kennis-950 text-white border border-amber-400/30 shadow-xl relative overflow-hidden group">
+          <div class="w-12 h-12 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center mb-5 font-bold">
+            <i data-lucide="cpu" class="w-6 h-6"></i>
+          </div>
+          <h3 class="font-display text-xl font-bold text-white">HR Tech & AI Automation</h3>
+          <p class="text-slate-300 text-sm mt-2.5 leading-relaxed">Deploy our flagship <strong class="text-amber-300">Kennis HCM</strong> cloud platform or let our engineers automate your repetitive business workflows with custom AI agents.</p>
+          <a href="#kennis-hcm" class="inline-flex items-center gap-1.5 text-xs font-bold text-amber-400 mt-4 hover:underline">Explore Software & AI <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEW SECTION: AI AUTOMATION FOR COMPANIES -->
+
+  <section id="ai-automation" class="scroll-mt-24 py-20 lg:py-28 bg-slate-900 text-white relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        <div class="lg:col-span-6 space-y-5">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-400/30 text-amber-300 text-xs font-bold uppercase tracking-wider">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Enterprise AI Division
+          </div>
+          <h2 class="font-display text-3xl sm:text-4xl font-extrabold leading-tight">
+            Intelligent AI Automation for Any Company Workflow.
+          </h2>
+          <p class="text-slate-300 leading-relaxed">
+            Beyond traditional HR, Kennis Zone engineers custom <strong class="text-white">AI Automation Pipelines</strong> for businesses across Pakistan and globally. Stop losing hundreds of hours to manual spreadsheets, follow-ups, and fragmented tools.
+          </p>
+          <ul class="space-y-3 pt-2 text-sm text-slate-200">
+            <li class="flex items-start gap-3">
+              <i data-lucide="check-circle-2" class="w-5 h-5 text-amber-400 shrink-0 mt-0.5"></i>
+              <span><strong>AI CV Parsing & Auto-Shortlisting:</strong> Instant ranking of 1,000+ applicants against job rubrics with automated WhatsApp/Email interview scheduling.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <i data-lucide="check-circle-2" class="w-5 h-5 text-amber-400 shrink-0 mt-0.5"></i>
+              <span><strong>Document & Offer Letter Automation:</strong> 1-click generation of contracts, appointment letters, NDAs, and onboarding clearances synced with your database.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <i data-lucide="check-circle-2" class="w-5 h-5 text-amber-400 shrink-0 mt-0.5"></i>
+              <span><strong>Cross-Department Business Bots:</strong> Custom AI agents for Finance reconciliation, Customer Support triage, Lead qualification, and ERP/SAP data syncing.</span>
+            </li>
+          </ul>
+          <div class="pt-3">
+            <a href="#contact" onclick="showContactPage(); return false;" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-display font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 transition shadow-lg cursor-pointer">
+              Automate Your Company Workflows <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="lg:col-span-6 grid sm:grid-cols-2 gap-4 sm:gap-5">
+          <div class="p-6 sm:p-7 rounded-2xl bg-white/5 border border-white/10">
+            <i data-lucide="zap" class="w-8 h-8 text-amber-400 mb-3"></i>
+            <h4 class="font-display font-bold text-lg">85% Faster Screening</h4>
+            <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">AI voice & text pre-screening interviews candidates 24/7 and delivers scored shortlists to hiring managers.</p>
+          </div>
+          <div class="p-6 sm:p-7 rounded-2xl bg-white/5 border border-white/10">
+            <i data-lucide="file-spreadsheet" class="w-8 h-8 text-sky-400 mb-3"></i>
+            <h4 class="font-display font-bold text-lg">Zero Manual Data Entry</h4>
+            <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">Connect biometric devices, Excel sheets, WhatsApp approvals, and accounting tools into a single automated pipeline.</p>
+          </div>
+          <div class="p-6 sm:p-7 rounded-2xl bg-white/5 border border-white/10">
+            <i data-lucide="message-square-code" class="w-8 h-8 text-emerald-400 mb-3"></i>
+            <h4 class="font-display font-bold text-lg">24/7 Employee Helpdesk</h4>
+            <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">Internal AI policy assistant that answers leave balances, medical claims, and tax slab queries on WhatsApp or Slack.</p>
+          </div>
+          <div class="p-6 sm:p-7 rounded-2xl bg-white/5 border border-white/10">
+            <i data-lucide="workflow" class="w-8 h-8 text-purple-400 mb-3"></i>
+            <h4 class="font-display font-bold text-lg">Bespoke API Integrations</h4>
+            <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">Tailored Python, Power Automate, and LLM workflows designed around your exact SOPs without bloated enterprise licensing.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- SECTION 3: FOR EMPLOYERS & HR LEADERS (SEPARATE DEDICATED SECTION) -->
+  <section id="employers" class="scroll-mt-24 py-16 sm:py-20 bg-slate-900 border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="logo-gradient text-white rounded-3xl p-8 sm:p-10 lg:p-12 shadow-2xl border border-sky-400/20 relative overflow-hidden">
+        <div class="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          
+          <div class="lg:col-span-8">
+            <div class="flex items-center gap-3 mb-4">
+              <img 
+                src="/assets/aistudio/kennis-zone-logo-square-dark-metallic_0a87951d.jpg" 
+                alt="Kennis Zone" 
+                class="w-10 h-10 rounded-xl object-cover border border-amber-400/40 shadow-md shrink-0" 
+              />
+              <span class="px-3 py-1 rounded-full bg-amber-500 text-slate-950 text-xs font-extrabold uppercase tracking-wider">For Employers & HR Leaders</span>
+            </div>
+            <h3 class="font-display text-2xl sm:text-3xl font-extrabold text-white leading-tight">
+              Post your opening, get screened candidates.
+            </h3>
+            <p class="text-slate-200 text-sm mt-3 leading-relaxed max-w-2xl">
+              Publish your role directly on Kennis <strong>Post Job <span class="text-xs text-amber-300 font-normal">(for free)</span></strong> or let our RPO & Executive Search team handle end-to-end technical assessments, background checks, and shortlisting.
+            </p>
+
+            <div class="grid sm:grid-cols-3 gap-3 my-6 text-xs sm:text-sm">
+              <div class="flex items-center gap-2 text-sky-200">
+                <i data-lucide="check-circle" class="w-4 h-4 text-amber-400 shrink-0"></i>
+                <span>Instant live job publishing</span>
+              </div>
+              <div class="flex items-center gap-2 text-sky-200">
+                <i data-lucide="check-circle" class="w-4 h-4 text-amber-400 shrink-0"></i>
+                <span>Dedicated account managers</span>
+              </div>
+              <div class="flex items-center gap-2 text-sky-200">
+                <i data-lucide="check-circle" class="w-4 h-4 text-amber-400 shrink-0"></i>
+                <span>Kennis HCM & AI integration</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3">
+            <button onclick="openPostJobModal()" class="w-full py-3.5 px-6 rounded-xl font-display font-bold bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white shadow-lg text-center flex items-center justify-center gap-2 transition cursor-pointer">
+              <i data-lucide="plus-circle" class="w-5 h-5"></i> Post a Job Opening
+            </button>
+            <a href="#contact" onclick="showContactPage(); return false;" class="w-full py-3.5 px-5 rounded-xl font-semibold bg-white/10 hover:bg-white/20 text-white text-center text-sm transition cursor-pointer flex items-center justify-center">
+              Request RPO Proposal
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- SECTION 5: WHY KENNIS ZONE STATS STRIP -->
+  <section id="why-us" class="scroll-mt-24 py-16 sm:py-20 logo-gradient text-white border-y border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 text-center">
+        <div class="p-6 sm:p-7 rounded-2xl glass-card">
+          <p class="font-display text-4xl font-extrabold text-amber-400">Since 2017</p>
+          <p class="text-sm font-semibold text-white mt-1">Proven Track Record</p>
+          <p class="text-xs text-slate-300 mt-1">Nearly a decade of trusted HR excellence across Pakistan</p>
+        </div>
+        <div class="p-6 sm:p-7 rounded-2xl glass-card">
+          <p class="font-display text-4xl font-extrabold text-white">Lahore HQ</p>
+          <p class="text-sm font-semibold text-amber-300 mt-1">Nationwide Reach</p>
+          <p class="text-xs text-slate-300 mt-1">Active placements in Lahore, Karachi, Multan & Islamabad</p>
+        </div>
+        <div class="p-6 sm:p-7 rounded-2xl glass-card">
+          <p class="font-display text-4xl font-extrabold text-sky-300">7,600+</p>
+          <p class="text-sm font-semibold text-white mt-1">LinkedIn Community</p>
+          <p class="text-xs text-slate-300 mt-1">Engaged network of HR leaders, specialists & active talent</p>
+        </div>
+        <div class="p-6 sm:p-7 rounded-2xl glass-card">
+          <p class="font-display text-4xl font-extrabold text-emerald-400">Startups → MNCs</p>
+          <p class="text-sm font-semibold text-white mt-1">Full Enterprise Scale</p>
+          <p class="text-xs text-slate-300 mt-1">Tailored RPO, Kennis HCM & AI solutions for every stage</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- SECTION 6: TESTIMONIALS (CAROUSEL SLIDER) -->
+  <section class="py-20 lg:py-28 bg-slate-50 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10 sm:mb-14">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-amber-600">Client & Candidate Success</span>
+          <h2 class="font-display text-3xl font-extrabold text-kennis-950 mt-2">Trusted by Enterprises & Professionals</h2>
+        </div>
+        <!-- Carousel Arrow Controls -->
+        <div class="flex items-center gap-2.5 self-start sm:self-auto shrink-0">
+          <button id="testimonialPrevBtn" onclick="slideTestimonials(-1)" aria-label="Previous Testimonials" class="w-11 h-11 rounded-full bg-white border border-slate-300 hover:border-amber-500 hover:bg-amber-50 text-slate-700 hover:text-amber-900 shadow-sm transition flex items-center justify-center cursor-pointer group">
+            <i data-lucide="chevron-left" class="w-5 h-5 transition-transform group-hover:-translate-x-0.5"></i>
+          </button>
+          <button id="testimonialNextBtn" onclick="slideTestimonials(1)" aria-label="Next Testimonials" class="w-11 h-11 rounded-full bg-white border border-slate-300 hover:border-amber-500 hover:bg-amber-50 text-slate-700 hover:text-amber-900 shadow-sm transition flex items-center justify-center cursor-pointer group">
+            <i data-lucide="chevron-right" class="w-5 h-5 transition-transform group-hover:translate-x-0.5"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Carousel Viewport -->
+      <div class="overflow-hidden relative w-full pb-2">
+        <div id="testimonialsTrack" class="flex transition-transform duration-500 ease-out gap-6 items-stretch">
+          
+          <!-- Card 1: Tariq Mahmood -->
+          <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] shrink-0 flex flex-col">
+            <div class="p-7 sm:p-8 rounded-2xl sm:rounded-3xl bg-white border border-slate-200 shadow-sm flex flex-col justify-between h-full">
+              <div>
+                <div class="flex text-amber-400 mb-4">
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                </div>
+                <p class="text-slate-700 text-sm italic leading-relaxed">
+                  "Kennis Zone transformed our regional hiring across Lahore and Multan. Their RPO team filled 18 commercial and technical roles in under a month, and migrating our attendance and payroll to Kennis HCM saved our finance team days of reconciliation."
+                </p>
+              </div>
+              <div class="mt-6 pt-4 border-t border-slate-100 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-kennis-900 text-amber-400 font-bold flex items-center justify-center text-sm shrink-0">TA</div>
+                <div>
+                  <p class="text-sm font-bold text-kennis-950">Tariq Mahmood</p>
+                  <p class="text-xs text-slate-500">VP People & Operations • Leading Real Estate Group</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Sana Zafar -->
+          <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] shrink-0 flex flex-col">
+            <div class="p-7 sm:p-8 rounded-2xl sm:rounded-3xl bg-white border border-slate-200 shadow-sm flex flex-col justify-between h-full">
+              <div>
+                <div class="flex text-amber-400 mb-4">
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                </div>
+                <p class="text-slate-700 text-sm italic leading-relaxed">
+                  "Unlike messy social media job posts, applying through Kennis Zone was structured and transparent. The salary band was clear from day one, the team prepped me for my final panel, and I joined a top MNC in Lahore within three weeks."
+                </p>
+              </div>
+              <div class="mt-6 pt-4 border-t border-slate-100 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-amber-500 text-slate-950 font-bold flex items-center justify-center text-sm shrink-0">SZ</div>
+                <div>
+                  <p class="text-sm font-bold text-kennis-950">Sana Zafar</p>
+                  <p class="text-xs text-slate-500">Placed as Admin & HR Assistant Manager • Lahore</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: Usman Khalid -->
+          <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] shrink-0 flex flex-col">
+            <div class="p-7 sm:p-8 rounded-2xl sm:rounded-3xl bg-white border border-slate-200 shadow-sm flex flex-col justify-between h-full">
+              <div>
+                <div class="flex text-amber-400 mb-4">
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                </div>
+                <p class="text-slate-700 text-sm italic leading-relaxed">
+                  "Their custom AI automation workflow completely eliminated manual CV sorting and offer-letter drafting for our HR department. Kennis Zone truly understands both human capital and modern engineering."
+                </p>
+              </div>
+              <div class="mt-6 pt-4 border-t border-slate-100 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-kennis-800 text-sky-300 font-bold flex items-center justify-center text-sm shrink-0">UK</div>
+                <div>
+                  <p class="text-sm font-bold text-kennis-950">Usman Khalid</p>
+                  <p class="text-xs text-slate-500">COO • FinTech & Telecom Solutions Karachi</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4: Zafar Shahbaz -->
+          <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] shrink-0 flex flex-col">
+            <div class="p-7 sm:p-8 rounded-2xl sm:rounded-3xl bg-white border border-slate-200 shadow-sm flex flex-col justify-between h-full">
+              <div>
+                <div class="flex text-amber-400 mb-4">
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                </div>
+                <p class="text-slate-700 text-sm italic leading-relaxed">
+                  "Kennis Zone understands healthcare hiring like few others. Their recruitment and HR outsourcing support helped us staff critical roles quickly, without compromising on quality or compliance."
+                </p>
+              </div>
+              <div class="mt-6 pt-4 border-t border-slate-100 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-kennis-950 text-amber-400 font-bold flex items-center justify-center text-sm shrink-0">ZS</div>
+                <div>
+                  <p class="text-sm font-bold text-kennis-950">Zafar Shahbaz</p>
+                  <p class="text-xs text-slate-500">Head of Medical Association NHS & CEO of Healthcare Provider Services</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 5: Burhan -->
+          <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] shrink-0 flex flex-col">
+            <div class="p-7 sm:p-8 rounded-2xl sm:rounded-3xl bg-white border border-slate-200 shadow-sm flex flex-col justify-between h-full">
+              <div>
+                <div class="flex text-amber-400 mb-4">
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                </div>
+                <p class="text-slate-700 text-sm italic leading-relaxed">
+                  "From head-hunting our leadership team to running our HR operations, Kennis Zone has been a dependable partner — professional, fast, and genuinely invested in our success."
+                </p>
+              </div>
+              <div class="mt-6 pt-4 border-t border-slate-100 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-emerald-900 text-emerald-300 font-bold flex items-center justify-center text-sm shrink-0">B</div>
+                <div>
+                  <p class="text-sm font-bold text-kennis-950">Burhan</p>
+                  <p class="text-xs text-slate-500">CEO of Healthcare Facility</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Pagination Dots -->
+      <div id="testimonialDots" class="flex items-center justify-center gap-2 mt-8"></div>
+    </div>
+  </section>
+
+  </main>
+
+
+  <!-- ============================================================ -->
+  <!-- PAGE 3: ABOUT KENNIS ZONE (FOUNDED 2017) -->
+  <!-- ============================================================ -->
+  <main id="aboutPageView" class="page-view hidden">
+    <!-- About Header Banner -->
+    <section class="relative logo-gradient text-white py-12 sm:py-16 border-b border-white/10">
+      <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px]"></div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+          <a href="#home" onclick="navigatePage('home'); return false;" class="inline-flex items-center gap-2 text-xs font-semibold text-amber-300 hover:text-amber-200 bg-white/10 hover:bg-white/15 px-3.5 py-1.5 rounded-full border border-white/15 transition cursor-pointer group">
+            <i data-lucide="arrow-left" class="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5"></i> Back to Home
+          </a>
+          <span class="text-xs font-semibold text-slate-300 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></span>
+            Established 2017 • Lahore, Pakistan
+          </span>
+        </div>
+        <div class="max-w-3xl">
+          <span class="text-xs font-bold uppercase tracking-widest text-amber-400">Company Story & Leadership</span>
+          <h1 class="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mt-2 leading-tight">
+            About <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-300 to-sky-200">Kennis Zone.</span>
+          </h1>
+          <p class="text-sm sm:text-base text-slate-200/90 mt-2.5 leading-relaxed">
+            Founded in 2017 as an HR services partnership in Lahore. Living our tagline "The One-Stop of HR Services", combining hands-on recruitment expertise with modern cloud HR software and AI technology.
+          </p>
+        </div>
+      </div>
+    </section>
+
+  <!-- ABOUT US SECTION -->
+  <section id="about" class="scroll-mt-24 py-20 lg:py-28 bg-kennis-950 text-white relative overflow-hidden border-t border-b border-white/10">
+    <!-- Subtle Ambient Glows -->
+    <div class="absolute -top-32 -right-32 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-32 -left-32 w-80 h-80 bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-3xl mx-auto mb-14 sm:mb-16">
+        <span class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-amber-400 bg-amber-400/10 px-3.5 py-1.5 rounded-full border border-amber-400/30">
+          <i data-lucide="building-2" class="w-3.5 h-3.5 text-amber-400"></i> About Us
+        </span>
+        <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mt-4">
+          The One-Stop of <span class="bg-gradient-to-r from-amber-300 via-amber-400 to-amber-500 bg-clip-text text-transparent">HR Services</span>
+        </h2>
+        <p class="text-slate-300 text-sm sm:text-base mt-4 leading-relaxed">
+          Kennis Zone is an HR services company based in Lahore, Pakistan, founded in 2017 as a partnership with a focused team. Living by our tagline — <strong class="text-amber-300 font-semibold">"The One-Stop of HR Services"</strong> — we combine comprehensive human resource outsourcing with our own product, Kennis HCM, and an AI Automation division.
+        </p>
+      </div>
+
+      <!-- Facts & Highlights Strip -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 sm:mb-16">
+        <div class="p-5 rounded-2xl bg-white/5 border border-white/10 text-center hover:border-amber-400/40 transition">
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Founded</p>
+          <p class="text-2xl sm:text-3xl font-display font-extrabold text-amber-400 mt-1">2017</p>
+          <p class="text-[11px] text-slate-300 mt-0.5">Partnership in Lahore, Pakistan</p>
+        </div>
+        <div class="p-5 rounded-2xl bg-white/5 border border-white/10 text-center hover:border-amber-400/40 transition">
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Team</p>
+          <p class="text-2xl sm:text-3xl font-display font-extrabold text-white mt-1">Focused Team</p>
+          <p class="text-[11px] text-slate-300 mt-0.5">HR Services Partnership</p>
+        </div>
+        <div class="p-5 rounded-2xl bg-white/5 border border-white/10 text-center hover:border-amber-400/40 transition">
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Community</p>
+          <p class="text-2xl sm:text-3xl font-display font-extrabold text-amber-400 mt-1">7,600+</p>
+          <p class="text-[11px] text-slate-300 mt-0.5">LinkedIn Followers</p>
+        </div>
+        <div class="p-5 rounded-2xl bg-white/5 border border-white/10 text-center hover:border-amber-400/40 transition">
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Tagline</p>
+          <p class="text-xl sm:text-2xl font-display font-extrabold text-sky-400 mt-1">One-Stop</p>
+          <p class="text-[11px] text-slate-300 mt-0.5">The One-Stop of HR Services</p>
+        </div>
+      </div>
+
+      <!-- Core Information Cards -->
+      <div class="grid lg:grid-cols-3 gap-6 sm:gap-8">
+        
+        <!-- Pillar 1: HR Services -->
+        <div class="p-7 sm:p-8 rounded-2xl sm:rounded-3xl bg-slate-900/80 border border-white/10 hover:border-amber-400/40 transition flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-amber-500/15 border border-amber-400/30 text-amber-400 flex items-center justify-center mb-5">
+              <i data-lucide="briefcase" class="w-6 h-6"></i>
+            </div>
+            <h3 class="font-display text-xl font-bold text-white mb-2">Our HR Services</h3>
+            <p class="text-xs text-slate-300 leading-relaxed mb-4">
+              Delivered by our focused team for organizations across technical and non-technical requirements:
+            </p>
+            <ul class="space-y-3 text-xs text-slate-200">
+              <li class="flex items-center gap-2.5">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-400 shrink-0"></i>
+                <span>Training & Development</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-400 shrink-0"></i>
+                <span>Recruitment Process Outsourcing (RPO)</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-400 shrink-0"></i>
+                <span>Online Test Management</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-400 shrink-0"></i>
+                <span>Complete HR Outsourcing</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-400 shrink-0"></i>
+                <span>Head-Hunting / Talent Acquisition</span>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-6 pt-5 border-t border-white/10">
+            <span class="text-[11px] text-amber-300 font-semibold uppercase tracking-wider">The One-Stop of HR Services</span>
+          </div>
+        </div>
+
+        <!-- Pillar 2: Product & AI Automation -->
+        <div class="p-7 sm:p-8 rounded-2xl sm:rounded-3xl bg-slate-900/80 border border-white/10 hover:border-sky-400/40 transition flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-sky-500/15 border border-sky-400/30 text-sky-400 flex items-center justify-center mb-5">
+              <i data-lucide="cpu" class="w-6 h-6"></i>
+            </div>
+            <h3 class="font-display text-xl font-bold text-white mb-2">Product & AI Automation</h3>
+            <p class="text-xs text-slate-300 leading-relaxed mb-5">
+              In addition to HR services, Kennis Zone offers its own product and dedicated technology division:
+            </p>
+            <div class="space-y-4">
+              <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="px-1.5 py-0.5 text-[10px] font-bold bg-amber-500 text-slate-950 rounded">PRODUCT</span>
+                  <h4 class="text-sm font-bold text-white">Kennis HCM</h4>
+                </div>
+                <p class="text-xs text-slate-300">
+                  Our own proprietary product for comprehensive Human Capital Management.
+                </p>
+              </div>
+              <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="px-1.5 py-0.5 text-[10px] font-bold bg-purple-500 text-white rounded">DIVISION</span>
+                  <h4 class="text-sm font-bold text-white">AI Automation Division</h4>
+                </div>
+                <p class="text-xs text-slate-300">
+                  Our specialized division delivering automated workflows and modern AI integration.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="mt-6 pt-5 border-t border-white/10">
+            <span class="text-[11px] text-sky-300 font-semibold uppercase tracking-wider">HR Tech & Automation</span>
+          </div>
+        </div>
+
+        <!-- Pillar 3: Industries & Roles Served -->
+        <div class="p-7 sm:p-8 rounded-2xl sm:rounded-3xl bg-slate-900/80 border border-white/10 hover:border-amber-400/40 transition flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-amber-500/15 border border-amber-400/30 text-amber-400 flex items-center justify-center mb-5">
+              <i data-lucide="layers" class="w-6 h-6"></i>
+            </div>
+            <h3 class="font-display text-xl font-bold text-white mb-2">Industries & Roles Served</h3>
+            <p class="text-xs text-slate-300 leading-relaxed mb-5">
+              Serving diverse organizations and job functions across Pakistan:
+            </p>
+            
+            <div class="mb-5">
+              <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2.5">Industries Served</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-xs text-slate-200">Telecom</span>
+                <span class="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-xs text-slate-200">Real Estate</span>
+                <span class="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-xs text-slate-200">FMCG</span>
+                <span class="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-xs text-slate-200">MNCs</span>
+                <span class="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-xs text-slate-200">Startups</span>
+              </div>
+            </div>
+
+            <div>
+              <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2.5">Roles Handled</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="px-2.5 py-1 rounded-lg bg-amber-400/10 border border-amber-400/30 text-xs text-amber-300 font-medium">Technical Roles</span>
+                <span class="px-2.5 py-1 rounded-lg bg-amber-400/10 border border-amber-400/30 text-xs text-amber-300 font-medium">Non-Technical Roles</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mt-6 pt-5 border-t border-white/10 flex items-center justify-between">
+            <span class="text-xs text-slate-400">Lahore, Pakistan</span>
+            <span class="text-xs text-amber-400 font-bold">7,600+ LinkedIn Followers</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+    <!-- Leadership Section on About Page -->
+    <section class="py-16 sm:py-20 bg-slate-900 text-white border-t border-white/10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+          <span class="text-xs font-bold uppercase tracking-wider text-amber-400">Leadership Team</span>
+          <h2 class="font-display text-3xl font-extrabold text-white mt-1">Guided by Hands-On HR Leadership</h2>
+          <p class="text-slate-400 text-sm mt-2">Executive guidance from industry veterans committed to your talent and technology success.</p>
+        </div>
+        <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          <!-- CEO Card -->
+          <div class="p-6 rounded-2xl glass-card flex items-center gap-5 border border-white/15">
+            <div class="w-16 h-16 rounded-full p-0.5 bg-gradient-to-tr from-kennis-950 via-amber-500 to-amber-300 shrink-0 shadow-lg">
+              <img 
+                src="/assets/aistudio/kennis-zone-ceo-photo-studio-square_fed12de6.png" 
+                alt="Khurram Asif, CEO Kennis Zone" 
+                class="w-full h-full rounded-full object-cover object-top"
+              />
+            </div>
+            <div>
+              <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400 block">Executive Leadership</span>
+              <h3 class="font-display text-lg font-bold text-white">Khurram Asif</h3>
+              <p class="text-xs text-amber-300 font-medium">Chief Executive Officer</p>
+              <a href="mailto:khurram@kenniszone.online" class="text-xs text-slate-300 hover:text-white mt-1.5 inline-flex items-center gap-1.5 transition">
+                <i data-lucide="mail" class="w-3.5 h-3.5 text-amber-400"></i> khurram@kenniszone.online
+              </a>
+            </div>
+          </div>
+          <!-- Head of BD Card -->
+          <div class="p-6 rounded-2xl glass-card flex items-center gap-5 border border-white/15">
+            <div class="w-16 h-16 rounded-full p-0.5 bg-gradient-to-tr from-kennis-950 via-amber-500 to-amber-300 shrink-0 shadow-lg">
+              <img 
+                src="/assets/aistudio/kanwal-portrait-headshot_012e8738.jpg" 
+                alt="Asia, Head of Business Development" 
+                class="w-full h-full rounded-full object-cover object-top"
+              />
+            </div>
+            <div>
+              <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400 block">Client Growth & Partnerships</span>
+              <h3 class="font-display text-lg font-bold text-white">Asia Asif</h3>
+              <p class="text-xs text-amber-300 font-medium">Head of Business Development</p>
+              <a href="mailto:asiaasif@kenniszone.online" class="text-xs text-slate-300 hover:text-white mt-1.5 inline-flex items-center gap-1.5 transition">
+                <i data-lucide="mail" class="w-3.5 h-3.5 text-amber-400"></i> asiaasif@kenniszone.online
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+
+  <!-- ============================================================ -->
+  <!-- PAGE 4: JOBS (FULL MINI JOB PORTAL) -->
+  <!-- ============================================================ -->
+  <main id="jobsPageView" class="page-view hidden">
+    <!-- Jobs Portal Header Banner -->
+    <section class="relative logo-gradient text-white py-12 sm:py-16 border-b border-white/10">
+      <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px]"></div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+          <a href="#home" onclick="navigatePage('home'); return false;" class="inline-flex items-center gap-2 text-xs font-semibold text-amber-300 hover:text-amber-200 bg-white/10 hover:bg-white/15 px-3.5 py-1.5 rounded-full border border-white/15 transition cursor-pointer group">
+            <i data-lucide="arrow-left" class="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5"></i> Back to Home
+          </a>
+          <span class="text-xs font-semibold text-slate-300 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            Verified PKR Salaries • 100% Free Job Postings
+          </span>
+        </div>
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div class="max-w-2xl">
+            <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">Mini Job Portal</span>
+            <h1 class="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mt-2 leading-tight">
+              Verified Job Openings & <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-amber-300 to-sky-200">Free Postings</span>
+            </h1>
+            <p class="text-sm sm:text-base text-slate-200/90 mt-2.5 leading-relaxed">
+              Discover verified corporate openings across Lahore, Karachi, Multan, and nationwide with transparent salary packages. Post openings free with direct application routing.
+            </p>
+          </div>
+          <div class="flex items-center gap-3 shrink-0">
+            <button onclick="openPostJobModal()" class="px-5 py-3 rounded-xl font-bold bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white shadow-lg text-sm flex items-center gap-2 cursor-pointer transition">
+              <i data-lucide="plus-circle" class="w-4 h-4"></i> Post a Job (Free)
+            </button>
+            <button onclick="openTalentBankModal()" class="px-5 py-3 rounded-xl font-bold bg-white text-kennis-950 hover:bg-slate-100 shadow-lg text-sm flex items-center gap-2 cursor-pointer transition">
+              <i data-lucide="upload" class="w-4 h-4 text-kennis-700"></i> Submit CV
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  <!-- SECTION 4: SUPERIOR JOB OPENINGS EXCHANGE (SUPERIOR TO LINKEDIN & WHATSAPP) -->
+  <section id="jobs" class="scroll-mt-24 py-20 lg:py-28 bg-slate-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-8 sm:mb-12 gap-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold uppercase tracking-wider">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span> Post Job <span class="text-[11px] font-semibold normal-case text-emerald-700">(for free)</span> • Verified PKR Salaries
+          </div>
+          <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-kennis-950 mt-2">
+            Post Job <span class="text-xl sm:text-2xl font-bold text-amber-600">(for free)</span> • Executive & Professional Portal
+          </h2>
+          <p class="text-slate-600 mt-2 max-w-2xl text-sm sm:text-base leading-relaxed">
+            Search jobs and post jobs here completely free. Whether you are a job seeker discovering verified openings or an employer looking to hire across Pakistan, access transparent job search and free job posting with mandatory PKR salary bands and 1-click direct applications.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+          <button onclick="openPostJobModal()" class="px-5 py-3 rounded-xl font-display font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 shadow-md flex items-center gap-2 transition cursor-pointer">
+            <i data-lucide="plus-circle" class="w-5 h-5"></i> Post a Job Opening (Instant Publish)
+          </button>
+        </div>
+      </div>
+
+      <!-- Search & Multi-Facet Filter Bar -->
+      <div class="bg-white p-4 sm:p-5 rounded-2xl sm:rounded-3xl shadow-sm border border-slate-200/90 mb-8 sm:mb-10 grid sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-3.5">
+        <div class="relative">
+          <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5"></i>
+          <input id="jobSearchInput" type="text" placeholder="Search title, skill, or company..." class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-kennis-700" />
+        </div>
+
+        <select id="jobCityFilter" class="px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm font-medium text-slate-700 focus:outline-none focus:border-kennis-700">
+          <option value="ALL">All Locations (Lahore / Karachi / Multan)</option>
+          <option value="Lahore">Lahore</option>
+          <option value="Karachi">Karachi</option>
+          <option value="Multan">Multan</option>
+        </select>
+
+        <select id="jobIndustryFilter" class="px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm font-medium text-slate-700 focus:outline-none focus:border-kennis-700">
+          <option value="ALL">All Industries & Sectors</option>
+          <option value="Corporate HR & People">Corporate HR & People</option>
+          <option value="Real Estate & Investment">Real Estate & Investment</option>
+          <option value="Telecom, AI & IT">Telecom, AI & IT</option>
+          <option value="FMCG & Operations">FMCG & Operations</option>
+          <option value="Banking & Finance">Banking & Finance</option>
+          <option value="Healthcare">Healthcare</option>
+          <option value="Education">Education</option>
+          <option value="Logistics">Logistics</option>
+          <option value="Manufacturing">Manufacturing</option>
+        </select>
+
+        <select id="jobExpFilter" class="px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm font-medium text-slate-700 focus:outline-none focus:border-kennis-700">
+          <option value="ALL">All Experience Levels (Freshers & Exp)</option>
+          <option value="Fresher / Entry">Fresher / Graduate Trainee</option>
+          <option value="Mid-Senior">Mid-Level / Specialist</option>
+          <option value="Management">Management</option>
+        </select>
+
+        <select id="jobExpiryFilter" class="px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm font-semibold text-slate-700 focus:outline-none focus:border-kennis-700">
+          <option value="ACTIVE">Active (1-Month Expiry)</option>
+          <option value="ALL">All (Include Expired)</option>
+        </select>
+      </div>
+
+      <!-- Job Listings Grid -->
+      <div id="jobsContainer" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <!-- Populated dynamically by JavaScript -->
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- SECTION 2: DEDICATED CANDIDATE PORTAL (FOR CANDIDATES & JOB SEEKERS) -->
+  <section id="candidates" class="scroll-mt-24 py-20 lg:py-28 bg-white relative border-b border-slate-100">
+    <div id="job-seekers" class="absolute -top-24"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Candidate Section Header -->
+      <div class="max-w-3xl mb-12 sm:mb-16">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200/60 text-kennis-800 text-xs font-bold uppercase tracking-wider mb-3">
+          <i data-lucide="user-check" class="w-3.5 h-3.5 text-kennis-600"></i>
+          <span>For Candidates & Job Seekers • Freshers & Experienced Professionals</span>
+        </div>
+        <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-kennis-950 leading-tight">
+          Accelerate Your Career with Pakistan’s Leading Employers
+        </h2>
+        <p class="text-slate-600 text-sm sm:text-base leading-relaxed mt-3">
+          Whether you are a university graduate looking for your first opportunity or a seasoned executive aiming for an MNC leadership position, Kennis Zone matches your talent directly with corporate decision-makers. No middleman deductions, mandatory transparent PKR salary bands, and 100% free for applicants.
+        </p>
+      </div>
+
+      <!-- Candidate Core Benefits Grid -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 mb-12 sm:mb-16">
+        <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200/80 shadow-xs hover:border-amber-400/50 transition">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center mb-4">
+            <i data-lucide="banknote" class="w-5 h-5"></i>
+          </div>
+          <h4 class="font-display font-bold text-base text-kennis-950">100% Free Placement</h4>
+          <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+            Zero registration fees, zero agent commissions, and zero deductions from your salary. Candidates are never charged.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200/80 shadow-xs hover:border-amber-400/50 transition">
+          <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center mb-4">
+            <i data-lucide="check-circle" class="w-5 h-5"></i>
+          </div>
+          <h4 class="font-display font-bold text-base text-kennis-950">PKR Salary Transparency</h4>
+          <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+            Every verified role includes mandatory PKR compensation bands from day one. No bait-and-switch or hidden expectations.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200/80 shadow-xs hover:border-amber-400/50 transition">
+          <div class="w-10 h-10 rounded-xl bg-sky-500/10 text-sky-600 flex items-center justify-center mb-4">
+            <i data-lucide="users" class="w-5 h-5"></i>
+          </div>
+          <h4 class="font-display font-bold text-base text-kennis-950">Direct Panel Interviews</h4>
+          <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+            Skip the application black hole. Get dedicated interview preparation and direct scheduling with hiring managers.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200/80 shadow-xs hover:border-amber-400/50 transition">
+          <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-600 flex items-center justify-center mb-4">
+            <i data-lucide="shield-check" class="w-5 h-5"></i>
+          </div>
+          <h4 class="font-display font-bold text-base text-kennis-950">Confidential Career Matching</h4>
+          <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+            Your career transition remains strictly confidential. We protect your privacy while presenting verified opportunities.
+          </p>
+        </div>
+      </div>
+
+      <!-- How Kennis Zone Helps Candidates (4-Step Fast Track) -->
+      <div class="rounded-3xl bg-slate-50 border border-slate-200/90 p-8 sm:p-10 lg:p-12 mb-12 sm:mb-16">
+        <div class="max-w-2xl mb-8">
+          <span class="text-xs font-bold uppercase tracking-widest text-amber-700 block mb-1">Proven Methodology</span>
+          <h3 class="font-display text-2xl sm:text-3xl font-extrabold text-kennis-950">
+            How Kennis Zone Fast-Tracks Your Job Search
+          </h3>
+          <p class="text-slate-600 text-xs sm:text-sm mt-2 leading-relaxed">
+            Our specialized recruitment consultants and AI shortlisting engines bridge the gap between your qualifications and verified hiring needs.
+          </p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs relative">
+            <div class="w-9 h-9 rounded-lg bg-kennis-900 text-amber-400 font-display font-bold flex items-center justify-center mb-3">1</div>
+            <h4 class="font-display font-bold text-kennis-950 text-base">Submit Your CV</h4>
+            <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+              Upload your CV to our Central Talent Bank or apply directly to any active verified opening in 60 seconds.
+            </p>
+          </div>
+
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs relative">
+            <div class="w-9 h-9 rounded-lg bg-kennis-900 text-amber-400 font-display font-bold flex items-center justify-center mb-3">2</div>
+            <h4 class="font-display font-bold text-kennis-950 text-base">Profile Matching</h4>
+            <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+              Our Senior Recruiters and AI CV parsing match your domain skills, years of experience, and salary targets.
+            </p>
+          </div>
+
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs relative">
+            <div class="w-9 h-9 rounded-lg bg-kennis-900 text-amber-400 font-display font-bold flex items-center justify-center mb-3">3</div>
+            <h4 class="font-display font-bold text-kennis-950 text-base">Panel Interview</h4>
+            <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+              Receive structured briefing notes, company expectations, and direct interviews with corporate decision-makers.
+            </p>
+          </div>
+
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs relative">
+            <div class="w-9 h-9 rounded-lg bg-amber-500 text-slate-950 font-display font-bold flex items-center justify-center mb-3">4</div>
+            <h4 class="font-display font-bold text-kennis-950 text-base">Transparent Offer</h4>
+            <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+              Secure a transparent PKR contract, clear notice period coordination, and seamless onboarding support.
+            </p>
+          </div>
+        </div>
+
+        <!-- Industries Served -->
+        <div class="mt-8 pt-6 border-t border-slate-200">
+          <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">Key Hiring Sectors Across Pakistan</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-800 text-xs font-semibold">Telecom</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-800 text-xs font-semibold">Real Estate & Construction</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-800 text-xs font-semibold">FMCG & Supply Chain</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-800 text-xs font-semibold">Multinational Corporations (MNCs)</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-800 text-xs font-semibold">High-Growth Tech Startups</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-800 text-xs font-semibold">Banking & Fintech</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-800 text-xs font-semibold">Healthcare & Pharma</span>
+            <span class="px-3 py-1.5 rounded-lg bg-amber-100 text-amber-900 border border-amber-300 text-xs font-semibold">Technical & Commercial Roles</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Candidate Call-To-Action Banner (Upload CV / Talent Bank / Browse Jobs) -->
+      <div class="rounded-3xl logo-gradient text-white p-8 sm:p-10 lg:p-12 shadow-xl border border-sky-400/20 flex flex-col lg:flex-row items-center justify-between gap-8">
+        <div class="max-w-2xl">
+          <span class="px-3 py-1 rounded-full bg-amber-500 text-slate-950 text-xs font-extrabold uppercase tracking-wider inline-block mb-3">
+            Ready to Take the Next Step?
+          </span>
+          <h3 class="font-display text-2xl sm:text-3xl font-extrabold text-white leading-tight">
+            Upload Your CV or Browse Live Verified Openings
+          </h3>
+          <p class="text-slate-200 text-sm mt-2 leading-relaxed">
+            Submit your resume to our Central Talent Bank so our talent specialists can match you to verified openings, or explore active postings on our job portal right now.
+          </p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-3 w-full lg:w-auto shrink-0">
+          <button onclick="openTalentBankModal()" class="px-6 py-3.5 rounded-xl font-display font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 shadow-lg text-center flex items-center justify-center gap-2 transition cursor-pointer whitespace-nowrap">
+            <i data-lucide="upload-cloud" class="w-5 h-5"></i> Upload CV / Join Talent Bank
+          </button>
+          <a href="#jobs" onclick="showHomePage('jobs');" class="px-5 py-3.5 rounded-xl font-semibold bg-white/10 hover:bg-white/20 text-white text-center text-sm transition cursor-pointer flex items-center justify-center gap-2 whitespace-nowrap">
+            <i data-lucide="search" class="w-4 h-4 text-amber-300"></i> Browse Live Jobs
+          </a>
+          <a href="https://wa.me/923111771771?text=Assalam%20o%20Alaikum%20Kennis%20Zone%2C%20I%20am%20a%20job%20seeker%20inquiring%20about%20career%20openings." target="_blank" rel="noopener noreferrer" class="px-4 py-3.5 rounded-xl font-semibold bg-emerald-600 hover:bg-emerald-500 text-white text-center text-xs transition cursor-pointer flex items-center justify-center gap-1.5 whitespace-nowrap">
+            <i data-lucide="message-circle" class="w-4 h-4"></i> Candidate WhatsApp
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  </main>
+
+
+  <!-- ============================================================ -->
+  <!-- PAGE 5: CONTACT (DEDICATED CONTACT PAGE VIEW) -->
+  <!-- ============================================================ -->
+  <main id="contactPageView" class="hidden">
+    <!-- Contact Page Top Header Banner -->
+    <section class="relative logo-gradient text-white py-12 sm:py-16 border-b border-white/10">
+      <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px]"></div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+          <!-- Clear Breadcrumb / Return to Home -->
+          <a href="#" onclick="showHomePage(); return false;" class="inline-flex items-center gap-2 text-xs font-semibold text-amber-300 hover:text-amber-200 bg-white/10 hover:bg-white/15 px-3.5 py-1.5 rounded-full border border-white/15 transition cursor-pointer group">
+            <i data-lucide="arrow-left" class="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5"></i> Back to Home
+          </a>
+          <span class="text-xs font-semibold text-slate-300 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            Lahore HQ • Official Contact & Helpline
+          </span>
+        </div>
+        <div class="max-w-3xl">
+          <span class="text-xs font-bold uppercase tracking-widest text-amber-400">Headquarters & Leadership</span>
+          <h1 class="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mt-2 leading-tight">
+            Contact <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-300 to-sky-200">Kennis Zone.</span>
+          </h1>
+          <p class="text-sm sm:text-base text-slate-200/90 mt-2.5 leading-relaxed">
+            Reach out to our Lahore headquarters for recruitment partnerships, executive head-hunting, Kennis HCM software demos, or custom AI automation.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dedicated Contact Body Content -->
+    <section class="py-16 lg:py-24 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-12 gap-10 lg:gap-14">
+          
+          <!-- Left Contact Details -->
+          <div class="lg:col-span-5 space-y-6 sm:space-y-7">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-widest text-amber-600">Get In Touch</span>
+              <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-kennis-950 mt-2">Let's Build Your Team or Automate Your HR.</h2>
+              <p class="text-slate-600 text-sm leading-relaxed mt-3">
+                Reach out to our Lahore headquarters for RPO recruitment, executive head-hunting, a live <strong>Kennis HCM</strong> demo, or custom AI workflow automation.
+              </p>
+            </div>
+
+            <div class="space-y-4 pt-1">
+              <!-- Email Us (Main Email Address) -->
+              <div class="flex items-start gap-3.5">
+                <div class="w-10 h-10 rounded-lg bg-sky-500/10 text-sky-700 flex items-center justify-center shrink-0">
+                  <i data-lucide="mail" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-kennis-950">Email Us</h4>
+                  <a href="mailto:info@kenniszone.online" class="text-xs text-sky-800 hover:text-sky-950 font-semibold mt-0.5 block hover:underline">info@kenniszone.online</a>
+                </div>
+              </div>
+
+              <!-- WhatsApp Helpline -->
+              <div class="flex items-start gap-3.5">
+                <div class="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-600 flex items-center justify-center shrink-0">
+                  <i data-lucide="phone-call" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-kennis-950">WhatsApp & Direct Helpline</h4>
+                  <a href="https://wa.me/923111771771" target="_blank" rel="noopener noreferrer" class="text-xs text-emerald-700 hover:text-emerald-800 font-semibold mt-0.5 block hover:underline">WhatsApp us</a>
+                </div>
+              </div>
+
+              <!-- CEO Contact Listing with Portrait Photo -->
+              <div class="flex items-start sm:items-center gap-3.5 sm:gap-4 p-4 rounded-2xl bg-gradient-to-r from-amber-500/10 via-slate-50/80 to-blue-50/30 border border-amber-300/70 shadow-xs">
+                <div class="relative shrink-0">
+                  <div class="w-14 h-14 rounded-full p-0.5 bg-gradient-to-tr from-kennis-950 via-amber-500 to-amber-300 shadow-md shadow-blue-950/20">
+                    <img 
+                      src="/assets/aistudio/kennis-zone-ceo-photo-studio-square_fed12de6.png" 
+                      alt="Khurram Asif, CEO Kennis Zone" 
+                      class="w-full h-full rounded-full object-cover object-top"
+                    />
+                  </div>
+                </div>
+                <div class="min-w-0 flex-1">
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-amber-700 block leading-tight">Leadership Contact</span>
+                  <h4 class="text-sm font-bold text-kennis-950 leading-snug">Khurram Asif <span class="text-xs text-slate-500 font-medium">• Chief Executive Officer</span></h4>
+                  <p class="text-xs text-slate-700 font-medium mt-0.5 break-words">
+                    CEO: Khurram Asif — <a href="mailto:khurram@kenniszone.online" class="text-kennis-700 hover:text-kennis-900 font-bold hover:underline">khurram@kenniszone.online</a>
+                  </p>
+                </div>
+              </div>
+
+              <!-- Business Development Contact Listing with Portrait Photo -->
+              <div class="flex items-start sm:items-center gap-3.5 sm:gap-4 p-4 rounded-2xl bg-gradient-to-r from-amber-500/10 via-slate-50/80 to-blue-50/30 border border-amber-300/70 shadow-xs">
+                <div class="relative shrink-0">
+                  <div class="w-14 h-14 rounded-full p-0.5 bg-gradient-to-tr from-kennis-950 via-amber-500 to-amber-300 shadow-md shadow-blue-950/20">
+                    <img 
+                      src="/assets/aistudio/kennis-zone-kanwal-photo-square_fdf76ad8.png" 
+                      alt="Asia, Head of Business Development" 
+                      class="w-full h-full rounded-full object-cover object-top"
+                    />
+                  </div>
+                </div>
+                <div class="min-w-0 flex-1">
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-amber-700 block leading-tight">Business Development</span>
+                  <h4 class="text-sm font-bold text-kennis-950 leading-snug">Asia <span class="text-xs text-slate-500 font-medium">• Head of Business Development</span></h4>
+                  <p class="text-xs text-slate-700 font-medium mt-0.5 break-words">
+                    <a href="mailto:asiaasif@kenniszone.online" class="text-kennis-700 hover:text-kennis-900 font-bold hover:underline">asiaasif@kenniszone.online</a>
+                  </p>
+                </div>
+              </div>
+
+              <!-- Business Solutions Contact Listing with Portrait Photo -->
+              <div class="flex items-start sm:items-center gap-3.5 sm:gap-4 p-4 rounded-2xl bg-gradient-to-r from-amber-500/10 via-slate-50/80 to-blue-50/30 border border-amber-300/70 shadow-xs">
+                <div class="relative shrink-0">
+                  <div class="w-14 h-14 rounded-full p-0.5 bg-gradient-to-tr from-kennis-950 via-amber-500 to-amber-300 shadow-md shadow-blue-950/20">
+                    <img 
+                      src="/assets/aistudio/kennis-zone-fajar-photo-square_c8905a27.png" 
+                      alt="Fajar, Head of Business Solutions" 
+                      class="w-full h-full rounded-full object-cover object-top"
+                    />
+                  </div>
+                </div>
+                <div class="min-w-0 flex-1">
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-amber-700 block leading-tight">Business Solutions</span>
+                  <h4 class="text-sm font-bold text-kennis-950 leading-snug">Fajar <span class="text-xs text-slate-500 font-medium">• Head of Business Solutions</span></h4>
+                  <p class="text-xs text-slate-700 font-medium mt-0.5 break-words">
+                    <a href="mailto:fajar@kenniszone.online" class="text-kennis-700 hover:text-kennis-900 font-bold hover:underline">fajar@kenniszone.online</a>
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3.5">
+                <div class="w-10 h-10 rounded-lg bg-slate-100 text-kennis-900 flex items-center justify-center shrink-0">
+                  <i data-lucide="map-pin" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-kennis-950">Headquarters</h4>
+                  <p class="text-xs text-slate-600 mt-0.5">Lahore, Punjab, Pakistan (Serving Lahore, Karachi, Multan & Nationwide)</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3.5">
+                <div class="w-10 h-10 rounded-lg bg-slate-100 text-kennis-900 flex items-center justify-center shrink-0">
+                  <i data-lucide="clock" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-kennis-950">Working Hours</h4>
+                  <p class="text-xs text-slate-600 mt-0.5">Monday – Saturday: 9:00 AM – 6:00 PM PKT</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Direct WhatsApp Chat CTA -->
+            <div class="pt-3">
+              <a href="https://wa.me/923111771771?text=Assalam%20o%20Alaikum%20Kennis%20Zone%20Team%2C%20I%20would%20like%20to%20inquire%20about%20your%20HR%20Services%20%2F%20Kennis%20HCM." target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-6 py-4 rounded-xl font-display font-bold bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/20 transition cursor-pointer">
+                <i data-lucide="message-circle" class="w-5 h-5"></i> WhatsApp us
+              </a>
+            </div>
+          </div>
+
+          <!-- Right Contact Form -->
+          <div class="lg:col-span-7">
+            <form id="contactForm" class="p-6 sm:p-8 lg:p-10 rounded-2xl sm:rounded-3xl bg-slate-50 border border-slate-200/90 shadow-sm space-y-5 sm:space-y-6">
+              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-slate-200/80">
+                <div class="flex items-center gap-3">
+                  <img 
+                    src="/assets/aistudio/kennis-zone-logo-square-light_656cbecf.jpg" 
+                    alt="Kennis Zone" 
+                    class="w-10 h-10 rounded-xl object-contain border border-slate-200 shadow-xs shrink-0" 
+                  />
+                  <div>
+                    <h3 class="font-display text-xl sm:text-2xl font-bold text-kennis-950">Send Us a Direct Inquiry</h3>
+                    <p class="text-xs text-slate-500">Official Inquiries & Partnerships</p>
+                  </div>
+                </div>
+                <span class="text-xs text-slate-500">Main: <a href="mailto:info@kenniszone.online" class="font-bold text-kennis-700 hover:underline">info@kenniszone.online</a></span>
+              </div>
+
+              <p class="text-xs text-slate-600">
+                You can also write to us directly at <a href="mailto:info@kenniszone.online" class="font-bold text-kennis-800 hover:underline">info@kenniszone.online</a> or fill out the form below.
+              </p>
+              
+              <div class="grid sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold uppercase text-slate-700 mb-1.5">Full Name *</label>
+                  <input type="text" id="contactName" required placeholder="e.g., Ahmed Raza" class="w-full px-4 py-3 rounded-xl bg-white border border-slate-300 text-sm focus:outline-none focus:border-kennis-800" />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold uppercase text-slate-700 mb-1.5">Email Address *</label>
+                  <input type="email" id="contactEmail" required placeholder="name@company.com" class="w-full px-4 py-3 rounded-xl bg-white border border-slate-300 text-sm focus:outline-none focus:border-kennis-800" />
+                </div>
+              </div>
+
+              <div class="grid sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold uppercase text-slate-700 mb-1.5">Phone / WhatsApp (PK) *</label>
+                  <input type="tel" id="contactPhone" required placeholder="+92 3XX XXXXXXX" class="w-full px-4 py-3 rounded-xl bg-white border border-slate-300 text-sm focus:outline-none focus:border-kennis-800" />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold uppercase text-slate-700 mb-1.5">I Am A: *</label>
+                  <select id="contactRole" class="w-full px-4 py-3 rounded-xl bg-white border border-slate-300 text-sm font-medium focus:outline-none focus:border-kennis-800">
+                    <option value="Employer - Hiring / RPO">Employer (Hiring / RPO / Head-Hunting)</option>
+                    <option value="Employer - Kennis HCM Demo">Company (Book Kennis HCM Software Demo)</option>
+                    <option value="Employer - AI Automation">Company (AI Workflow Automation)</option>
+                    <option value="Job Seeker">Job Seeker (Fresher / Experienced)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold uppercase text-slate-700 mb-1.5">Your Message / Requirement *</label>
+                <textarea id="contactMessage" rows="4" required placeholder="Tell us about your hiring needs, Kennis HCM headcount, AI automation goals, or career profile..." class="w-full px-4 py-3 rounded-xl bg-white border border-slate-300 text-sm focus:outline-none focus:border-kennis-800"></textarea>
+              </div>
+
+              <button type="submit" class="w-full py-4 rounded-xl font-display font-bold bg-kennis-950 hover:bg-kennis-800 text-white shadow-lg transition flex items-center justify-center gap-2 cursor-pointer">
+                <i data-lucide="send" class="w-4 h-4 text-amber-400"></i> Submit Inquiry
+              </button>
+
+              <div id="contactSuccess" class="hidden p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-sm font-medium">
+                Thank you! Your inquiry has been routed to <strong>info@kenniszone.online</strong> and logged with Kennis Zone Lahore HQ. Our team will respond shortly.
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+
+  <!-- FOOTER -->
+  <footer class="bg-kennis-950 text-slate-400 py-14 sm:py-16 border-t border-white/10 text-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-8 sm:gap-6">
+      <a href="#" onclick="showHomePage(); return false;" class="flex items-center gap-3.5 group cursor-pointer text-left">
+        <img 
+          src="/assets/aistudio/kennis-zone-logo-square-dark_6bd4cf1b.jpg" 
+          alt="KENNIS ZONE Emblem" 
+          class="w-10 h-10 rounded-xl object-cover border border-amber-400/30 shadow-md shadow-blue-950/40 shrink-0 group-hover:brightness-110 transition" 
+        />
+        <div>
+          <p class="text-white font-display font-bold group-hover:text-amber-300 transition">KENNIS ZONE • Minds Of Knowledge</p>
+          <p class="text-xs text-slate-400">The One-Stop of HR Services • Founded 2017 • Lahore, Pakistan</p>
+        </div>
+      </a>
+      <div class="flex flex-wrap items-center justify-center md:justify-start gap-4 sm:gap-6 text-xs">
+        <a href="#home" onclick="navigatePage('home'); return false;" class="text-amber-400 font-bold hover:text-white transition">Kennis HCM (2026)</a>
+        <a href="#services" onclick="navigatePage('services'); return false;" class="hover:text-white transition">HR Services</a>
+        <a href="#about" onclick="navigatePage('about'); return false;" class="hover:text-white transition">About Us</a>
+        <a href="#jobs" onclick="navigatePage('jobs'); return false;" class="hover:text-white transition">Jobs Portal</a>
+        <a href="#contact" onclick="navigatePage('contact'); return false;" class="text-amber-300 hover:text-white font-semibold transition cursor-pointer">Contact Us</a>
+        <a href="https://wa.me/923111771771" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:text-emerald-300 font-medium flex items-center gap-1.5 transition">
+          <i data-lucide="message-circle" class="w-4 h-4 text-emerald-400"></i> WhatsApp us
+        </a>
+        <a href="mailto:info@kenniszone.online" class="text-sky-400 hover:text-sky-300 font-medium flex items-center gap-1.5 transition">
+          <i data-lucide="mail" class="w-4 h-4 text-sky-400"></i> info@kenniszone.online
+        </a>
+      </div>
+      <p class="text-xs text-slate-500 text-center md:text-right">© 2026 Kennis Zone. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- MODAL 1: POST A JOB (ANYONE CAN PUBLISH STRUCTURED PREMIUM LISTINGS) -->
+  <div id="postJobModal" class="fixed inset-0 z-50 hidden bg-slate-950/75 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl max-h-[90vh] overflow-y-auto custom-scrollbar">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-200">
+        <div class="flex items-center gap-3.5">
+          <img 
+            src="/assets/aistudio/kennis-zone-logo-square-light_656cbecf.jpg" 
+            alt="Kennis Zone" 
+            class="w-11 h-11 rounded-xl object-contain border border-slate-200/90 shadow-xs shrink-0" 
+          />
+          <div>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-amber-600">Instant Post Job <span class="text-[10px] font-semibold normal-case text-amber-700">(for free)</span> Publisher</span>
+            <h3 class="font-display text-2xl font-extrabold text-kennis-950">Publish a Structured Job Opening</h3>
+          </div>
+        </div>
+        <button onclick="closePostJobModal()" class="p-2 rounded-lg text-slate-400 hover:bg-slate-100 cursor-pointer"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <form id="postJobForm" class="space-y-4 mt-5">
+        <!-- Destination Email (Where should candidates apply?) -->
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+          <label class="block text-xs font-bold uppercase text-slate-700">Where should candidates apply? *</label>
+          <div class="relative">
+            <i data-lucide="mail" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3"></i>
+            <input type="email" id="newJobRecipientEmail" required placeholder="e.g., hr@company.com or hiring@enterprise.pk" class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:border-kennis-700 bg-white" />
+          </div>
+          <p class="text-xs text-slate-600 flex items-center gap-1.5 pt-0.5">
+            <i data-lucide="send" class="w-3.5 h-3.5 text-amber-600 shrink-0"></i>
+            <span>Applications for this job will be emailed to: <strong id="deliveryEmailDisplay" class="text-kennis-900 font-bold break-all">your entered address</strong></span>
+          </p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Job Title *</label>
+            <input type="text" id="newJobTitle" required placeholder="e.g., Senior HR Business Partner" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Company Name *</label>
+            <input type="text" id="newJobCompany" required placeholder="e.g., Crescent Enterprise / Startup" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm" />
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-700 mb-1">City *</label>
+            <select id="newJobCity" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm">
+              <option value="Lahore">Lahore</option>
+              <option value="Karachi">Karachi</option>
+              <option value="Multan">Multan</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Monthly Salary (PKR) *</label>
+            <input type="text" id="newJobSalary" required placeholder="e.g., PKR 180,000 - 240,000" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Experience Level *</label>
+            <select id="newJobExp" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm">
+              <option value="Fresher / Entry">Fresher / Entry</option>
+              <option value="Mid-Senior">Mid-Senior</option>
+              <option value="Management">Management</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Industry Sector *</label>
+            <select id="newJobIndustry" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:border-kennis-700">
+              <option value="" disabled selected>Select Industry Sector *</option>
+              <option value="Corporate HR & People">Corporate HR & People</option>
+              <option value="Real Estate & Investment">Real Estate & Investment</option>
+              <option value="Telecom, AI & IT">Telecom, AI & IT</option>
+              <option value="FMCG & Operations">FMCG & Operations</option>
+              <option value="Banking & Finance">Banking & Finance</option>
+              <option value="Healthcare">Healthcare</option>
+              <option value="Education">Education</option>
+              <option value="Logistics">Logistics</option>
+              <option value="Manufacturing">Manufacturing</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Last Date to Apply *</label>
+            <input type="date" id="newJobDeadline" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:border-kennis-700" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Core Skills (Comma Separated) *</label>
+          <input type="text" id="newJobSkills" required placeholder="e.g., Talent Acquisition, SAP, Labor Law" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Structured Role Summary & Key Deliverables *</label>
+          <textarea id="newJobSummary" rows="3" required placeholder="Outline key accountabilities, reporting line, and benefits..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm"></textarea>
+        </div>
+
+        <div class="pt-3 flex flex-col-reverse sm:flex-row justify-end gap-2.5 sm:gap-3">
+          <button type="button" onclick="closePostJobModal()" class="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-slate-300 text-sm font-semibold cursor-pointer">Cancel</button>
+          <button type="submit" class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-display font-bold text-sm shadow-md cursor-pointer">Publish Verified Listing Now</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 2: STRUCTURED JOB APPLICATION DRAWER -->
+  <div id="applyModal" class="fixed inset-0 z-50 hidden bg-slate-950/75 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-xl w-full p-6 sm:p-8 shadow-2xl max-h-[90vh] overflow-y-auto custom-scrollbar">
+      <div class="flex items-start justify-between pb-4 border-b border-slate-200">
+        <div class="flex items-center gap-3.5">
+          <img 
+            src="/assets/aistudio/kennis-zone-logo-square-light_656cbecf.jpg" 
+            alt="Kennis Zone" 
+            class="w-11 h-11 rounded-xl object-contain border border-slate-200/90 shadow-xs shrink-0" 
+          />
+          <div>
+            <span id="applyModalBadge" class="text-[11px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded">Direct Fast-Track Application</span>
+            <h3 id="applyModalTitle" class="font-display text-2xl font-extrabold text-kennis-950 mt-1">Job Title</h3>
+            <p id="applyModalMeta" class="text-xs text-slate-500 mt-0.5">Company • Location • Salary</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+          <button type="button" onclick="openShareJobModal(currentActiveApplyJob ? currentActiveApplyJob.id : null)" class="px-3 py-1.5 rounded-lg border border-slate-300 hover:border-amber-400 hover:bg-amber-50 text-slate-700 hover:text-amber-900 font-semibold text-xs flex items-center gap-1.5 transition cursor-pointer" title="Share this job">
+            <i data-lucide="share-2" class="w-3.5 h-3.5 text-amber-600"></i>
+            <span>Share</span>
+          </button>
+          <button onclick="closeApplyModal()" class="p-2 rounded-lg text-slate-400 hover:bg-slate-100 cursor-pointer"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+      </div>
+
+      <p id="applyModalDesc" class="text-sm text-slate-600 mt-4 bg-slate-50 p-4 rounded-xl border border-slate-200 leading-relaxed"></p>
+
+      <form id="jobApplyForm" class="space-y-4 mt-5">
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Candidate Name *</label>
+            <input type="text" id="applicantName" required placeholder="Your Full Name" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Email Address *</label>
+            <input type="email" id="applicantEmail" required placeholder="your.name@domain.com" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm" />
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Phone / WhatsApp *</label>
+            <input type="tel" id="applicantPhone" required placeholder="+92 3XX XXXXXXX" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Current/Last Salary (PKR)</label>
+            <input type="text" id="applicantSalary" placeholder="e.g., Fresh / PKR 120,000" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Notice Period *</label>
+            <select id="applicantNotice" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm">
+              <option value="Immediate Joiner">Immediate Joiner</option>
+              <option value="15 Days Notice">15 Days Notice</option>
+              <option value="30 Days Notice">30 Days Notice</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Attach CV / Resume (PDF/DOCX) *</label>
+          <input type="file" accept=".pdf,.doc,.docx" required class="w-full text-xs text-slate-600 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-kennis-950 file:text-white hover:file:bg-kennis-800 border border-slate-300 rounded-xl p-1.5" />
+        </div>
+
+        <div class="pt-2 flex flex-col gap-2.5">
+          <button type="submit" id="applySubmitBtn" class="w-full py-3.5 px-5 rounded-xl bg-kennis-950 hover:bg-kennis-800 text-white font-display font-bold text-sm shadow-lg cursor-pointer flex items-center justify-center gap-2">
+            <i data-lucide="send" class="w-4 h-4 text-amber-400"></i> <span id="applySubmitBtnText">Submit Application</span>
+          </button>
+          <div class="flex flex-col sm:flex-row gap-2.5">
+            <a id="emailApplyLink" href="#" class="flex-1 py-2.5 px-3.5 rounded-xl border border-slate-300 hover:border-kennis-800 text-slate-700 hover:text-kennis-950 font-semibold text-xs flex items-center justify-center gap-1.5 transition">
+              <i data-lucide="mail" class="w-4 h-4 text-kennis-700"></i> <span id="emailApplyLinkText">Email Application</span>
+            </a>
+            <a id="whatsappApplyLink" href="https://wa.me/923111771771" target="_blank" rel="noopener noreferrer" class="flex-1 py-2.5 px-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs flex items-center justify-center gap-1.5 cursor-pointer">
+              <i data-lucide="message-circle" class="w-4 h-4"></i> WhatsApp us
+            </a>
+            <button type="button" onclick="openShareJobModal(currentActiveApplyJob ? currentActiveApplyJob.id : null)" class="py-2.5 px-3.5 rounded-xl border border-amber-300/80 bg-amber-50/70 hover:bg-amber-100 text-amber-900 font-semibold text-xs flex items-center justify-center gap-1.5 transition cursor-pointer">
+              <i data-lucide="share-2" class="w-4 h-4 text-amber-700"></i>
+              <span>Share</span>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 3: SHARE JOB POSTING -->
+  <div id="shareJobModal" class="fixed inset-0 z-50 hidden bg-slate-950/75 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 sm:p-7 shadow-2xl max-h-[92vh] overflow-y-auto custom-scrollbar">
+      <!-- Header -->
+      <div class="flex items-start justify-between pb-4 border-b border-slate-200">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-400/30 flex items-center justify-center text-amber-700 shrink-0">
+            <i data-lucide="share-2" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <span class="text-[10px] font-bold uppercase tracking-wider text-amber-700">Share Job Opening</span>
+            <h3 id="shareModalJobTitle" class="font-display text-lg sm:text-xl font-bold text-kennis-950 leading-snug">Job Title</h3>
+            <p id="shareModalJobMeta" class="text-xs text-slate-500">Company • Location</p>
+          </div>
+        </div>
+        <button onclick="closeShareJobModal()" class="p-1.5 rounded-lg text-slate-400 hover:bg-slate-100 cursor-pointer">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Quick Share Channels -->
+      <div class="mt-5 space-y-3">
+        <label class="block text-xs font-bold uppercase tracking-wider text-slate-700">Share Via</label>
+        <div class="grid grid-cols-2 gap-2.5">
+          <!-- WhatsApp -->
+          <a id="shareWhatsAppBtn" href="#" target="_blank" rel="noopener noreferrer" class="p-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-sm transition cursor-pointer">
+            <i data-lucide="message-circle" class="w-4 h-4"></i>
+            <span>WhatsApp</span>
+          </a>
+
+          <!-- LinkedIn -->
+          <a id="shareLinkedInBtn" href="#" target="_blank" rel="noopener noreferrer" class="p-3 rounded-xl bg-[#0A66C2] hover:bg-[#084e96] text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-sm transition cursor-pointer">
+            <i data-lucide="linkedin" class="w-4 h-4"></i>
+            <span>LinkedIn</span>
+          </a>
+
+          <!-- Facebook -->
+          <a id="shareFacebookBtn" href="#" target="_blank" rel="noopener noreferrer" class="p-3 rounded-xl bg-[#1877F2] hover:bg-[#0c63d4] text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-sm transition cursor-pointer">
+            <i data-lucide="facebook" class="w-4 h-4"></i>
+            <span>Facebook</span>
+          </a>
+
+          <!-- Copy Direct Link -->
+          <button id="shareCopyLinkBtn" type="button" onclick="copyCurrentJobLink()" class="p-3 rounded-xl bg-kennis-950 hover:bg-kennis-800 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-sm transition cursor-pointer">
+            <i data-lucide="copy" class="w-4 h-4 text-amber-400"></i>
+            <span>Copy Link</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Per-Job Link Direct Box -->
+      <div class="mt-5">
+        <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Direct Job Link</label>
+        <div class="flex items-center gap-2">
+          <input type="text" id="shareJobUrlInput" readonly class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-xs text-slate-700 font-mono select-all focus:outline-none" />
+          <button type="button" onclick="copyCurrentJobLink()" class="px-4 py-2.5 rounded-xl border border-slate-300 hover:border-kennis-800 text-slate-800 text-xs font-bold transition shrink-0 cursor-pointer">
+            Copy
+          </button>
+        </div>
+      </div>
+
+      <!-- Pre-formatted Group Share Text Box -->
+      <div class="mt-4">
+        <div class="flex items-center justify-between mb-1.5">
+          <label class="text-xs font-bold uppercase tracking-wider text-slate-700">Pre-Filled Share Text (For Job Groups)</label>
+          <button type="button" onclick="copyCurrentJobShareText()" class="text-xs font-bold text-amber-700 hover:text-amber-800 hover:underline flex items-center gap-1 cursor-pointer">
+            <i data-lucide="clipboard-copy" class="w-3.5 h-3.5"></i> Copy Text
+          </button>
+        </div>
+        <textarea id="shareJobTextPreview" rows="5" readonly class="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 font-sans leading-relaxed select-all focus:outline-none custom-scrollbar"></textarea>
+      </div>
+
+      <!-- Modal Close Button -->
+      <div class="mt-5 pt-3 border-t border-slate-100 flex justify-end">
+        <button type="button" onclick="closeShareJobModal()" class="px-5 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50 cursor-pointer">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- APPLICATION JAVASCRIPT -->
+  <script>
+    // Toast Notification helper for iframe safety
+    function showToast(title, message) {
+      const toast = document.getElementById('toastNotification');
+      document.getElementById('toastTitle').textContent = title;
+      document.getElementById('toastMessage').textContent = message;
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      setTimeout(() => {
+        toast.classList.add('translate-y-24', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 5000);
+    }
+
+    // 1. Kennis HCM Interactive Modules Data (From PDF Chapter 9)
+    const hcmModules = [
+      { id: 'people', name: 'People & Org', selected: true },
+      { id: 'attendance', name: 'Attendance & Biometrics', selected: true },
+      { id: 'leave', name: 'Leave & Requests', selected: true },
+      { id: 'payroll', name: 'Payroll & EOBI/Tax', selected: true },
+      { id: 'performance', name: 'Performance & KPIs', selected: false },
+      { id: 'onboarding', name: 'Onboarding & Offboarding', selected: false },
+      { id: 'assets', name: 'Asset Tracking', selected: false },
+      { id: 'recruitment', name: 'Recruitment & ATS', selected: false },
+      { id: 'learning', name: 'Learning & LMS', selected: false },
+    ];
+
+    function renderHcmModules() {
+      const grid = document.getElementById('hcmModuleGrid');
+      grid.innerHTML = '';
+      hcmModules.forEach((mod, index) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.onclick = () => {
+          hcmModules[index].selected = !hcmModules[index].selected;
+          renderHcmModules();
+          updateHcmCalculator();
+        };
+        btn.className = mod.selected
+          ? 'p-3.5 rounded-xl border-2 border-kennis-700 bg-blue-50/80 text-kennis-950 font-semibold text-xs flex items-center gap-2 text-left shadow-sm transition cursor-pointer'
+          : 'p-3.5 rounded-xl border border-slate-200 bg-white text-slate-600 hover:border-slate-300 font-medium text-xs flex items-center gap-2 text-left transition cursor-pointer';
+        btn.innerHTML = `
+          <span class="w-2.5 h-2.5 rounded-full ${mod.selected ? 'bg-kennis-700' : 'bg-slate-300'} shrink-0"></span>
+          <span>${mod.name}</span>
+        `;
+        grid.appendChild(btn);
+      });
+    }
+
+    function updateHcmCalculator() {
+      const count = hcmModules.filter(m => m.selected).length;
+      const hc = document.getElementById('headcountSlider').value;
+      document.getElementById('selectedModuleCount').textContent = count;
+      document.getElementById('headcountLabel').textContent = `${hc} Employees`;
+      document.getElementById('formulaHc').textContent = hc;
+      document.getElementById('formulaMod').textContent = count;
+    }
+
+    document.getElementById('headcountSlider').addEventListener('input', updateHcmCalculator);
+
+    function bookHcmDemo() {
+      const count = hcmModules.filter(m => m.selected).map(m => m.name).join(', ');
+      const hc = document.getElementById('headcountSlider').value;
+      showContactPage();
+      document.getElementById('contactRole').value = 'Employer - Kennis HCM Demo';
+      document.getElementById('contactMessage').value = `We would like to book a 40-minute live demo of Kennis HCM for ${hc} employees. Interested modules: ${count}.`;
+    }
+
+    // 1-Month Job Expiry Logic & Date Helpers
+    function getJobExpiry(postedDateStr) {
+      const d = new Date(postedDateStr);
+      d.setMonth(d.getMonth() + 1);
+      return d;
+    }
+
+    function isJobExpired(postedDateStr) {
+      const expiry = getJobExpiry(postedDateStr);
+      return Date.now() > expiry.getTime();
+    }
+
+    function formatJobDate(dateObj) {
+      return dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    function formatDeadline(dateStr) {
+      if (!dateStr) return 'Open until filled';
+      const parts = dateStr.split('-');
+      if (parts.length === 3) {
+        const d = new Date(parts[0], parts[1] - 1, parts[2]);
+        return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      }
+      const d = new Date(dateStr);
+      return isNaN(d.getTime()) ? dateStr : d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    function getDaysRemaining(postedDateStr) {
+      const expiry = getJobExpiry(postedDateStr);
+      const diffMs = expiry.getTime() - Date.now();
+      return Math.max(0, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
+    }
+
+    // 2. Superior Job Openings Data (Seeded with realistic postedDates, industry sectors, and last dates to apply)
+    let jobListings = [
+      {
+        id: 'KZ-101',
+        title: 'Admin & HR Assistant Manager',
+        company: 'Premier MNC Logistics Group',
+        city: 'Lahore',
+        salary: 'PKR 160,000 – 210,000 / mo',
+        experience: 'Management',
+        industry: 'Corporate HR & People',
+        recipientEmail: 'job@kenniszone.online',
+        verified: true,
+        workMode: 'On-Site • Gulberg, Lahore',
+        postedDate: '2026-10-19T16:00:00.000Z',
+        lastDateToApply: '2026-11-15',
+        posted: 'Posted 5 hours ago',
+        skills: ['HR Operations', 'EOBI & Labor Law', 'HRIS / Kennis HCM', 'Fleet & Facility Admin'],
+        summary: 'Lead end-to-end employee lifecycle, biometric attendance reconciliation, statutory EOBI/Social Security compliance, and branch administration for a 250+ headcount regional office.'
+      },
+      {
+        id: 'KZ-102',
+        title: 'Senior Investment Advisor (Real Estate)',
+        company: 'Apex Sovereign Developments',
+        city: 'Lahore',
+        salary: 'PKR 120,000 – 150,000 + High Commission',
+        experience: 'Mid-Senior',
+        industry: 'Real Estate & Investment',
+        recipientEmail: 'job@kenniszone.online',
+        verified: true,
+        workMode: 'On-Site • DHA Phase 6, Lahore',
+        postedDate: '2026-10-18T10:00:00.000Z',
+        lastDateToApply: '2026-11-10',
+        posted: 'Posted 1 day ago',
+        skills: ['Portfolio Advisory', 'High-Net-Worth Sales', 'CRM Pipeline', 'Client Retention'],
+        summary: 'Manage HNW and overseas Pakistani investor portfolios for commercial high-rise projects. Uncapped commission structure with corporate-provided warm leads.'
+      },
+      {
+        id: 'KZ-103',
+        title: 'HR Officer (Talent & Onboarding)',
+        company: 'NextGen FinTech Solutions',
+        city: 'Karachi',
+        salary: 'PKR 85,000 – 115,000 / mo',
+        experience: 'Fresher / Entry',
+        industry: 'Corporate HR & People',
+        recipientEmail: 'job@kenniszone.online',
+        verified: true,
+        workMode: 'Hybrid • Shahrah-e-Faisal, Karachi',
+        postedDate: '2026-10-17T11:00:00.000Z',
+        lastDateToApply: '2026-11-05',
+        posted: 'Posted 2 days ago',
+        skills: ['Technical Screening', 'Offer Letters', 'Employee Engagement', 'Freshers Welcome'],
+        summary: 'Ideal for sharp BBA/MBA HR graduates or 1-year experienced professionals. Coordinate technical interviews, issue automated appointment letters, and drive onboarding.'
+      },
+      {
+        id: 'KZ-104',
+        title: 'AI Automation & Python Workflow Engineer',
+        company: 'Kennis Enterprise Tech Partner',
+        city: 'Lahore',
+        salary: 'PKR 220,000 – 320,000 / mo',
+        experience: 'Mid-Senior',
+        industry: 'Telecom, AI & IT',
+        recipientEmail: 'job@kenniszone.online',
+        verified: true,
+        workMode: 'Hybrid • Johar Town, Lahore',
+        postedDate: '2026-10-19T09:00:00.000Z',
+        lastDateToApply: '2026-11-18',
+        posted: 'Posted Today',
+        skills: ['Python Scripting', 'LLM APIs', 'Power Automate', 'ERP Integration'],
+        summary: 'Design and deploy custom AI agents, automated document workflows, and API integrations for corporate clients across Pakistan.'
+      },
+      {
+        id: 'KZ-105',
+        title: 'Regional Territory Sales Manager (FMCG)',
+        company: 'Vitality Consumer Brands',
+        city: 'Multan',
+        salary: 'PKR 175,000 – 230,000 + Car & Fuel',
+        experience: 'Management',
+        industry: 'FMCG & Operations',
+        recipientEmail: 'job@kenniszone.online',
+        verified: true,
+        workMode: 'Field & Office • Multan HQ',
+        postedDate: '2026-10-16T14:00:00.000Z',
+        lastDateToApply: '2026-11-12',
+        posted: 'Posted 3 days ago',
+        skills: ['Distributor Management', 'South Punjab Market', 'Trade Marketing', 'Team Leadership'],
+        summary: 'Spearhead primary and secondary sales across Multan, Bahawalpur, and DG Khan networks. Company-maintained vehicle and quarterly performance bonuses included.'
+      },
+      {
+        id: 'KZ-106',
+        title: 'Graduate Trainee — Telecom & BPO Operations',
+        company: 'Global Connect Telecom MNC',
+        city: 'Lahore',
+        salary: 'PKR 65,000 – 85,000 / mo',
+        experience: 'Fresher / Entry',
+        industry: 'Telecom, AI & IT',
+        recipientEmail: 'job@kenniszone.online',
+        verified: true,
+        workMode: 'On-Site • Thokar Niaz Baig, Lahore',
+        postedDate: '2026-10-17T08:00:00.000Z',
+        lastDateToApply: '2026-11-08',
+        posted: 'Posted 2 days ago',
+        skills: ['Fresh Graduates', 'Communication Skills', 'Analytical Mindset', 'Fast-Track Growth'],
+        summary: 'Structured 6-month rotational management trainee program for fresh graduates with direct absorption into Campaign Operations, Quality Assurance, or Client Success.'
+      },
+      {
+        id: 'KZ-100',
+        title: 'Senior Telecom Site Engineer (Past Intake)',
+        company: 'Apex Infrastructure Group',
+        city: 'Lahore',
+        salary: 'PKR 130,000 – 170,000 / mo',
+        experience: 'Mid-Senior',
+        industry: 'Telecom, AI & IT',
+        recipientEmail: 'job@kenniszone.online',
+        verified: true,
+        workMode: 'On-Site • Lahore',
+        postedDate: '2026-09-10T09:00:00.000Z',
+        lastDateToApply: '2026-10-05',
+        posted: 'Posted Sep 10, 2026',
+        skills: ['Tower Audits', 'Vendor Management', 'Fiber SLAs'],
+        summary: 'Led site installations and regional infrastructure commissioning across central Punjab clusters.'
+      }
+    ];
+
+    function renderJobs() {
+      const container = document.getElementById('jobsContainer');
+      const search = document.getElementById('jobSearchInput').value.toLowerCase();
+      const city = document.getElementById('jobCityFilter').value;
+      const industry = document.getElementById('jobIndustryFilter').value;
+      const exp = document.getElementById('jobExpFilter').value;
+      const expiryFilter = document.getElementById('jobExpiryFilter') ? document.getElementById('jobExpiryFilter').value : 'ACTIVE';
+
+      const filtered = jobListings.filter(job => {
+        const expired = isJobExpired(job.postedDate);
+
+        // 1-Month Expiry Rule: if ACTIVE, automatically hide postings older than 1 month
+        if (expiryFilter === 'ACTIVE' && expired) {
+          return false;
+        }
+
+        const matchSearch = job.title.toLowerCase().includes(search) ||
+                            job.company.toLowerCase().includes(search) ||
+                            job.skills.some(s => s.toLowerCase().includes(search));
+        const matchCity = city === 'ALL' || job.city === city;
+        const matchIndustry = industry === 'ALL' || job.industry === industry;
+        const matchExp = exp === 'ALL' || job.experience === exp;
+        return matchSearch && matchCity && matchIndustry && matchExp;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full bg-white p-12 rounded-2xl text-center border border-slate-200">
+            <p class="font-display text-lg font-bold text-kennis-950">No matching roles found for this filter combination.</p>
+            <p class="text-sm text-slate-500 mt-1">Try resetting filters, choosing 'All (Include Expired)', or publish a new opening directly.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered.map(job => {
+        const expired = isJobExpired(job.postedDate);
+        const expiryDate = getJobExpiry(job.postedDate);
+        const daysLeft = getDaysRemaining(job.postedDate);
+        const formattedExpiry = formatJobDate(expiryDate);
+        const formattedDeadline = formatDeadline(job.lastDateToApply);
+
+        return `
+        <div class="bg-white rounded-2xl p-6 border ${expired ? 'border-rose-200 bg-slate-50/70 opacity-80' : 'border-slate-200/90 hover:border-kennis-700'} shadow-sm hover:shadow-xl transition flex flex-col justify-between relative">
+          <div>
+            <!-- Top Meta Row -->
+            <div class="flex items-center justify-between gap-2 text-xs">
+              ${expired 
+                ? `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-rose-100 text-rose-800 font-bold border border-rose-300">
+                    <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i> Expired
+                   </span>`
+                : `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-800 font-bold border border-emerald-200">
+                    ✓ Verified Employer
+                   </span>`
+              }
+              <span class="${expired ? 'text-rose-500 font-medium' : 'text-slate-400 font-medium'}">${job.posted}</span>
+            </div>
+
+            <!-- Title & Company -->
+            <h3 class="font-display text-lg font-extrabold ${expired ? 'text-slate-600 line-through decoration-rose-400' : 'text-kennis-950'} mt-3 leading-snug">${job.title}</h3>
+            
+            <!-- Industry Sector Badge & Work Mode -->
+            <div class="flex flex-wrap items-center gap-2 mt-1.5">
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-sky-50 text-sky-800 font-bold border border-sky-200 text-[11px]">
+                <i data-lucide="layers" class="w-3 h-3 text-sky-600"></i> ${job.industry}
+              </span>
+              <span class="text-xs font-semibold text-slate-600">${job.company}</span>
+              <span class="text-xs text-slate-400">•</span>
+              <span class="text-xs ${expired ? 'text-slate-500' : 'text-kennis-700 font-medium'}">${job.workMode}</span>
+            </div>
+
+            <!-- Transparent PKR Salary Highlight Box -->
+            <div class="mt-4 p-3 rounded-xl ${expired ? 'bg-slate-100 border border-slate-200' : 'bg-amber-50/70 border border-amber-200/80'} flex items-center justify-between">
+              <div>
+                <span class="text-[10px] font-bold uppercase tracking-wider ${expired ? 'text-slate-500' : 'text-amber-800'} block">Verified Compensation</span>
+                <span class="font-display text-sm font-extrabold ${expired ? 'text-slate-600' : 'text-slate-900'}">${job.salary}</span>
+              </div>
+              <span class="px-2.5 py-1 rounded bg-white text-slate-700 text-[11px] font-bold border border-slate-200">${job.city}</span>
+            </div>
+
+            <!-- Date Metas: Last Date to Apply & 1-Month Expiry -->
+            <div class="mt-3.5 space-y-2">
+              <!-- Last Date to Apply Field -->
+              <div class="flex items-center justify-between text-[11px] font-semibold px-3 py-1.5 rounded-lg bg-amber-50 border border-amber-200/80 text-amber-900">
+                <span class="flex items-center gap-1.5">
+                  <i data-lucide="calendar-check" class="w-3.5 h-3.5 text-amber-600"></i>
+                  <span>Last date to apply: <strong class="text-slate-900">${formattedDeadline}</strong></span>
+                </span>
+                <span class="text-[10px] uppercase font-bold text-amber-700 bg-amber-100/80 px-1.5 py-0.5 rounded">Deadline</span>
+              </div>
+
+              <!-- 1-Month Expiry Note -->
+              <div class="flex items-center justify-between text-[11px] font-medium px-3 py-1.5 rounded-lg border ${
+                expired 
+                  ? 'bg-rose-50 border-rose-200 text-rose-800' 
+                  : daysLeft <= 5
+                    ? 'bg-amber-100 border-amber-300 text-amber-900 font-semibold'
+                    : 'bg-slate-50 border-slate-200/80 text-slate-600'
+              }">
+                <span class="flex items-center gap-1.5">
+                  <i data-lucide="${expired ? 'alert-octagon' : 'clock'}" class="w-3.5 h-3.5 ${expired ? 'text-rose-600' : 'text-amber-600'}"></i>
+                  <span>${expired ? 'Expired on' : 'Expires on'} <strong>${formattedExpiry}</strong></span>
+                </span>
+                <span class="text-[10px] uppercase font-bold ${expired ? 'text-rose-600' : 'text-slate-500'}">
+                  ${expired ? 'Listing Closed' : `${daysLeft}d left`}
+                </span>
+              </div>
+            </div>
+
+            <!-- Structured Summary -->
+            <p class="text-xs text-slate-600 mt-3.5 leading-relaxed line-clamp-3">${job.summary}</p>
+
+            <!-- Skill Pills -->
+            <div class="flex flex-wrap gap-1.5 mt-4">
+              ${job.skills.map(skill => `<span class="px-2.5 py-1 rounded-md ${expired ? 'bg-slate-200 text-slate-600' : 'bg-slate-100 text-slate-700'} text-[11px] font-semibold">${skill}</span>`).join('')}
+            </div>
+          </div>
+
+          <!-- Action Footer -->
+          <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between gap-2">
+            <span class="text-[11px] font-semibold text-slate-500">${job.experience}</span>
+            <div class="flex items-center gap-2">
+              <button onclick="openShareJobModal('${job.id}')" class="px-3 py-2 rounded-xl border border-slate-300 hover:border-amber-400 hover:bg-amber-50/60 text-slate-700 hover:text-amber-900 font-display font-semibold text-xs transition flex items-center gap-1.5 cursor-pointer" title="Share this opening">
+                <i data-lucide="share-2" class="w-3.5 h-3.5 text-amber-600"></i>
+                <span>Share</span>
+              </button>
+              ${expired 
+                ? `<button disabled class="px-3.5 py-2 rounded-xl bg-slate-200 text-slate-400 font-display font-bold text-xs flex items-center gap-1.5 cursor-not-allowed">
+                    <i data-lucide="lock" class="w-3.5 h-3.5"></i> Listing Expired
+                   </button>`
+                : `<button onclick="openApplyModal('${job.id}')" class="px-3.5 py-2 rounded-xl bg-kennis-950 hover:bg-amber-500 hover:text-slate-950 text-white font-display font-bold text-xs transition flex items-center gap-1.5 cursor-pointer">
+                    Inspect & Apply →
+                   </button>`
+              }
+            </div>
+          </div>
+        </div>
+        `;
+      }).join('');
+
+      if (window.lucide && typeof lucide.createIcons === 'function') {
+        lucide.createIcons();
+      }
+    }
+
+    ['jobSearchInput', 'jobCityFilter', 'jobIndustryFilter', 'jobExpFilter', 'jobExpiryFilter'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.addEventListener('input', renderJobs);
+        el.addEventListener('change', renderJobs);
+      }
+    });
+
+    // 3. Modals & Interactive Handlers
+    let currentActiveApplyJob = null;
+
+    function openPostJobModal() {
+      // Set minimum date picker to current date
+      const deadlineInput = document.getElementById('newJobDeadline');
+      if (deadlineInput) {
+        const todayStr = new Date().toISOString().split('T')[0];
+        deadlineInput.min = todayStr;
+        if (!deadlineInput.value) {
+          const defaultDate = new Date();
+          defaultDate.setDate(defaultDate.getDate() + 21);
+          deadlineInput.value = defaultDate.toISOString().split('T')[0];
+        }
+      }
+      const recipientInput = document.getElementById('newJobRecipientEmail');
+      const deliveryDisplay = document.getElementById('deliveryEmailDisplay');
+      if (deliveryDisplay && recipientInput) {
+        deliveryDisplay.textContent = recipientInput.value.trim() || 'your entered address';
+      }
+      document.getElementById('postJobModal').classList.remove('hidden');
+    }
+
+    function closePostJobModal() {
+      document.getElementById('postJobModal').classList.add('hidden');
+    }
+
+    // Live display of delivery email as employer types
+    const recipientInputEl = document.getElementById('newJobRecipientEmail');
+    if (recipientInputEl) {
+      recipientInputEl.addEventListener('input', function() {
+        const val = this.value.trim();
+        const display = document.getElementById('deliveryEmailDisplay');
+        if (display) {
+          display.textContent = val || 'your entered address';
+        }
+      });
+    }
+
+    document.getElementById('postJobForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const recipientEmail = document.getElementById('newJobRecipientEmail').value.trim();
+      const title = document.getElementById('newJobTitle').value;
+      const company = document.getElementById('newJobCompany').value;
+      const city = document.getElementById('newJobCity').value;
+      const salary = document.getElementById('newJobSalary').value;
+      const experience = document.getElementById('newJobExp').value;
+      const industry = document.getElementById('newJobIndustry').value;
+      const lastDateToApply = document.getElementById('newJobDeadline').value;
+      const skills = document.getElementById('newJobSkills').value.split(',').map(s => s.trim()).filter(Boolean);
+      const summary = document.getElementById('newJobSummary').value;
+
+      const currentDate = new Date();
+      const newJob = {
+        id: 'KZ-' + Math.floor(200 + Math.random() * 800),
+        title,
+        company,
+        city,
+        salary,
+        experience,
+        industry,
+        recipientEmail: recipientEmail || 'job@kenniszone.online',
+        lastDateToApply: lastDateToApply || '',
+        verified: true,
+        workMode: `On-Site / Hybrid • ${city}`,
+        postedDate: currentDate.toISOString(),
+        posted: 'Just Published',
+        skills: skills.length ? skills : ['Verified Role'],
+        summary
+      };
+
+      jobListings.unshift(newJob);
+      renderJobs();
+      closePostJobModal();
+      this.reset();
+      const deliveryDisplay = document.getElementById('deliveryEmailDisplay');
+      if (deliveryDisplay) {
+        deliveryDisplay.textContent = 'your entered address';
+      }
+      const expiryFormatted = formatJobDate(getJobExpiry(currentDate));
+      const deadlineFormatted = formatDeadline(lastDateToApply);
+      showToast('Opening Published!', `"${title}" published. Applications for this job will be emailed to: ${newJob.recipientEmail}. Last date: ${deadlineFormatted}.`);
+      document.getElementById('jobs').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Job Sharing & Direct URL Helpers
+    let currentActiveShareJob = null;
+
+    function getJobUrl(jobId) {
+      const origin = window.location.origin;
+      const pathname = window.location.pathname;
+      return `${origin}${pathname}?job=${encodeURIComponent(jobId)}`;
+    }
+
+    function getJobShareText(job) {
+      const deadline = formatDeadline(job.lastDateToApply) || 'Open until filled';
+      const jobUrl = getJobUrl(job.id);
+      const location = job.workMode ? `${job.city} (${job.workMode})` : job.city;
+      return `📢 Job Opening: ${job.title}
+🏢 Company: ${job.company}
+📍 Location: ${location}
+💰 Compensation: ${job.salary}
+📅 Last Date to Apply: ${deadline}
+
+Apply online via Kennis Zone verified portal:
+${jobUrl}`;
+    }
+
+    function openShareJobModal(jobId) {
+      const id = jobId || (currentActiveApplyJob ? currentActiveApplyJob.id : null);
+      if (!id) return;
+      const job = jobListings.find(j => j.id === id);
+      if (!job) return;
+      currentActiveShareJob = job;
+
+      const jobUrl = getJobUrl(job.id);
+      const shareText = getJobShareText(job);
+
+      document.getElementById('shareModalJobTitle').textContent = job.title;
+      document.getElementById('shareModalJobMeta').textContent = `${job.company} • ${job.city} • ${job.salary}`;
+      document.getElementById('shareJobUrlInput').value = jobUrl;
+      document.getElementById('shareJobTextPreview').value = shareText;
+
+      // WhatsApp Share Link
+      document.getElementById('shareWhatsAppBtn').href = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
+
+      // LinkedIn Share Link
+      document.getElementById('shareLinkedInBtn').href = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(jobUrl)}`;
+
+      // Facebook Share Link
+      document.getElementById('shareFacebookBtn').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(jobUrl)}&quote=${encodeURIComponent(shareText)}`;
+
+      document.getElementById('shareJobModal').classList.remove('hidden');
+
+      if (window.lucide && typeof lucide.createIcons === 'function') {
+        lucide.createIcons();
+      }
+    }
+
+    function closeShareJobModal() {
+      document.getElementById('shareJobModal').classList.add('hidden');
+    }
+
+    function copyCurrentJobLink() {
+      if (!currentActiveShareJob) return;
+      const jobUrl = getJobUrl(currentActiveShareJob.id);
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(jobUrl).then(() => {
+          showToast('Link Copied!', `Direct link for "${currentActiveShareJob.title}" copied to clipboard.`);
+        }).catch(() => {
+          fallbackCopyText(jobUrl, 'Direct job link');
+        });
+      } else {
+        fallbackCopyText(jobUrl, 'Direct job link');
+      }
+    }
+
+    function copyCurrentJobShareText() {
+      if (!currentActiveShareJob) return;
+      const shareText = getJobShareText(currentActiveShareJob);
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(shareText).then(() => {
+          showToast('Share Text Copied!', 'Job announcement copied! Ready to paste into WhatsApp groups.');
+        }).catch(() => {
+          fallbackCopyText(shareText, 'Job announcement');
+        });
+      } else {
+        fallbackCopyText(shareText, 'Job announcement');
+      }
+    }
+
+    function fallbackCopyText(text, label) {
+      const tempInput = document.createElement('textarea');
+      tempInput.value = text;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+      showToast('Copied!', `${label} copied to clipboard.`);
+    }
+
+    function openApplyModal(jobId) {
+      const job = jobListings.find(j => j.id === jobId);
+      if (!job) return;
+      currentActiveApplyJob = job;
+
+      if (isJobExpired(job.postedDate)) {
+        showToast('Listing Expired', `This opening expired on ${formatJobDate(getJobExpiry(job.postedDate))} and is no longer accepting applications.`);
+        return;
+      }
+
+      const formattedDeadline = formatDeadline(job.lastDateToApply);
+      const targetEmail = job.recipientEmail || 'job@kenniszone.online';
+
+      document.getElementById('applyModalTitle').textContent = job.title;
+      document.getElementById('applyModalMeta').textContent = `${job.company} • ${job.city} • ${job.salary} • ${job.industry} • Last Date: ${formattedDeadline}`;
+      document.getElementById('applyModalDesc').textContent = job.summary;
+      
+      const recipientDisplay = document.getElementById('applyRecipientEmail');
+      if (recipientDisplay) {
+        recipientDisplay.textContent = '';
+      }
+
+      const submitBtnText = document.getElementById('applySubmitBtnText');
+      if (submitBtnText) {
+        submitBtnText.textContent = 'Submit Application';
+      }
+
+      const emailLinkText = document.getElementById('emailApplyLinkText');
+      if (emailLinkText) {
+        emailLinkText.textContent = 'Email Application';
+      }
+
+      const emailSubject = encodeURIComponent(`Application for ${job.title} (${job.id}) - ${job.company}`);
+      const emailBody = encodeURIComponent(`Dear Hiring Team at ${job.company},\n\nI am applying for the following opening:\nPosition: ${job.title} (${job.id})\nCompany: ${job.company}\nLocation: ${job.city}\nSector: ${job.industry}\nLast Date to Apply: ${formattedDeadline}\n\nPlease find my resume and qualifications attached.\n\nBest regards,`);
+      const emailBtn = document.getElementById('emailApplyLink');
+      if (emailBtn) {
+        emailBtn.href = `mailto:${targetEmail}?subject=${emailSubject}&body=${emailBody}`;
+      }
+
+      const waText = encodeURIComponent(`Assalam o Alaikum Kennis Zone, I am applying for the ${job.title} (${job.id}) role at ${job.company} in ${job.city}.`);
+      document.getElementById('whatsappApplyLink').href = `https://wa.me/923111771771?text=${waText}`;
+
+      // Update URL with ?job=<job-id>
+      if (history.replaceState) {
+        const newUrl = `${window.location.pathname}?job=${encodeURIComponent(job.id)}${window.location.hash || ''}`;
+        history.replaceState(null, '', newUrl);
+      }
+
+      document.getElementById('applyModal').classList.remove('hidden');
+
+      if (window.lucide && typeof lucide.createIcons === 'function') {
+        lucide.createIcons();
+      }
+    }
+
+    function closeApplyModal() {
+      document.getElementById('applyModal').classList.add('hidden');
+      if (history.replaceState) {
+        const cleanUrl = `${window.location.pathname}${window.location.hash || ''}`;
+        history.replaceState(null, '', cleanUrl);
+      }
+    }
+
+    // Candidate Central Talent Bank Modal
+    function openTalentBankModal() {
+      currentActiveApplyJob = {
+        id: 'TALENT-BANK',
+        title: 'Submit CV • Central Talent Bank',
+        company: 'Kennis Zone Executive Search & RPO',
+        city: 'Lahore / Karachi / Multan / Nationwide',
+        salary: 'Verified PKR Packages',
+        industry: 'All Industries & Functional Sectors',
+        summary: 'Submit your CV to Kennis Zone\'s central talent repository. Our senior recruitment consultants review and match your qualifications against active enterprise openings across Pakistan.',
+        recipientEmail: 'job@kenniszone.online',
+        lastDateToApply: new Date(Date.now() + 90 * 86400000).toISOString()
+      };
+
+      document.getElementById('applyModalBadge').textContent = 'Candidate Fast-Track • Central Talent Bank';
+      document.getElementById('applyModalTitle').textContent = 'Submit CV to Central Talent Bank';
+      document.getElementById('applyModalMeta').textContent = 'Direct Corporate Placement • Lahore, Karachi, Multan & Nationwide';
+      document.getElementById('applyModalDesc').textContent = currentActiveApplyJob.summary;
+      
+      const recipientDisplay = document.getElementById('applyRecipientEmail');
+      if (recipientDisplay) {
+        recipientDisplay.textContent = '';
+      }
+
+      const submitBtnText = document.getElementById('applySubmitBtnText');
+      if (submitBtnText) {
+        submitBtnText.textContent = 'Submit Application';
+      }
+
+      const emailLinkText = document.getElementById('emailApplyLinkText');
+      if (emailLinkText) {
+        emailLinkText.textContent = 'Email Application';
+      }
+
+      const emailSubject = encodeURIComponent('CV Submission - Central Talent Bank - Kennis Zone');
+      const emailBody = encodeURIComponent('Dear Kennis Zone Talent Acquisition Team,\n\nPlease find attached my CV/resume for consideration in your Central Talent Bank across relevant openings.\n\nBest regards,');
+      const emailBtn = document.getElementById('emailApplyLink');
+      if (emailBtn) {
+        emailBtn.href = `mailto:job@kenniszone.online?subject=${emailSubject}&body=${emailBody}`;
+      }
+
+      const waText = encodeURIComponent('Assalam o Alaikum Kennis Zone, I am submitting my CV to your Central Talent Bank.');
+      document.getElementById('whatsappApplyLink').href = `https://wa.me/923111771771?text=${waText}`;
+
+      document.getElementById('applyModal').classList.remove('hidden');
+
+      if (window.lucide && typeof lucide.createIcons === 'function') {
+        lucide.createIcons();
+      }
+    }
+
+    document.getElementById('jobApplyForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('applicantName').value;
+      const targetEmail = (currentActiveApplyJob && currentActiveApplyJob.recipientEmail) ? currentActiveApplyJob.recipientEmail : 'the employer';
+      
+      const isTalentBank = currentActiveApplyJob && currentActiveApplyJob.id === 'TALENT-BANK';
+      if (isTalentBank) {
+        showToast('CV Received!', `Thank you ${name}! Your CV has been deposited into Kennis Zone's Central Talent Bank. Our recruiting team will contact you for matching roles.`);
+      } else {
+        showToast('Application Sent!', `Thank you ${name}! Your application has been submitted successfully.`);
+      }
+      this.reset();
+      closeApplyModal();
+    });
+
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      document.getElementById('contactSuccess').classList.remove('hidden');
+      showToast('Inquiry Received!', 'Thank you! Your inquiry has been sent to info@kenniszone.online.');
+      this.reset();
+    });
+
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+    });
+
+    // 5 Distinct Pages Navigation Architecture: home, services, about, jobs, contact
+    function navigatePage(pageName, targetSectionId) {
+      const pageIds = ['home', 'services', 'about', 'jobs', 'contact'];
+      let activePage = pageName || 'home';
+
+      // Alias handling for legacy hashes or sub-sections
+      if (!pageIds.includes(activePage)) {
+        if (activePage === 'candidates' || activePage === 'job-seekers') {
+          activePage = 'jobs';
+          targetSectionId = targetSectionId || 'candidates';
+        } else if (['services', 'ai-automation', 'employers', 'why-us', 'testimonials'].includes(activePage)) {
+          targetSectionId = targetSectionId || activePage;
+          activePage = 'services';
+        } else if (activePage === 'kennis-hcm') {
+          activePage = 'home';
+          targetSectionId = targetSectionId || 'kennis-hcm';
+        } else {
+          activePage = 'home';
+        }
+      }
+
+      // Hide all pages, reveal requested page view
+      pageIds.forEach(id => {
+        const el = document.getElementById(id + 'PageView');
+        if (el) {
+          if (id === activePage) {
+            el.classList.remove('hidden');
+          } else {
+            el.classList.add('hidden');
+          }
+        }
+      });
+
+      // Update Desktop Nav Active Indicator
+      document.querySelectorAll('[data-nav-page]').forEach(link => {
+        const p = link.getAttribute('data-nav-page');
+        if (p === activePage) {
+          link.classList.remove('text-slate-200');
+          link.classList.add('text-amber-400', 'font-bold');
+        } else {
+          link.classList.remove('text-amber-400', 'font-bold');
+          link.classList.add('text-slate-200');
+        }
+      });
+
+      // Close mobile drawer
+      const mobileMenu = document.getElementById('mobileMenu');
+      if (mobileMenu) {
+        mobileMenu.classList.add('hidden');
+      }
+
+      // Update URL hash without reload
+      let newHash = '#' + (targetSectionId || activePage);
+      if (window.location.hash !== newHash) {
+        history.pushState(null, '', newHash);
+      }
+
+      // Update Document Title
+      const titles = {
+        'home': "Kennis HCM — Launched 2026 by Kennis Zone | Complete Cloud HR Software",
+        'services': "HR Services & AI Automation • The One-Stop of HR Services | Kennis Zone",
+        'about': "About Kennis Zone • Founded 2017 in Lahore, Pakistan | Leadership & Story",
+        'jobs': "Jobs Portal • Verified Salaries & 100% Free Job Postings | Kennis Zone",
+        'contact': "Contact Us • Kennis Zone | Lahore HQ & Leadership"
+      };
+      document.title = titles[activePage] || "Kennis Zone • The One-Stop of HR Services";
+
+      // Scroll to sub-section or top of the page
+      if (targetSectionId) {
+        setTimeout(() => {
+          const targetEl = document.getElementById(targetSectionId);
+          if (targetEl) {
+            targetEl.scrollIntoView({ behavior: 'smooth' });
+          } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        }, 60);
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      // Refresh icons & testimonial carousel
+      if (window.lucide && typeof lucide.createIcons === 'function') {
+        lucide.createIcons();
+      }
+      if (activePage === 'services') {
+        setTimeout(updateTestimonialsView, 120);
+      }
+    }
+
+    function showHomePage(targetSectionId) {
+      if (!targetSectionId || targetSectionId === 'home' || targetSectionId === 'top') {
+        navigatePage('home');
+      } else if (['jobs', 'candidates', 'job-seekers'].includes(targetSectionId)) {
+        navigatePage('jobs', targetSectionId);
+      } else if (targetSectionId === 'about') {
+        navigatePage('about');
+      } else if (['services', 'ai-automation', 'employers', 'why-us', 'testimonials'].includes(targetSectionId)) {
+        navigatePage('services', targetSectionId);
+      } else if (targetSectionId === 'contact') {
+        navigatePage('contact');
+      } else {
+        navigatePage('home', targetSectionId);
+      }
+    }
+
+    function showContactPage() {
+      navigatePage('contact');
+    }
+
+    // Direct Job URL routing (e.g. ?job=KZ-104 or #jobs?job=KZ-104)
+    function checkUrlForJob() {
+      const urlParams = new URLSearchParams(window.location.search);
+      let jobId = urlParams.get('job');
+      if (!jobId && window.location.hash) {
+        const m = window.location.hash.match(/[?&]job=([^&]+)/);
+        if (m) jobId = decodeURIComponent(m[1]);
+      }
+      if (jobId) {
+        const job = jobListings.find(j => j.id.toLowerCase() === jobId.toLowerCase());
+        if (job) {
+          navigatePage('jobs');
+          setTimeout(() => {
+            openApplyModal(job.id);
+          }, 200);
+        }
+      }
+    }
+
+    function handleRoute() {
+      const hash = window.location.hash.toLowerCase().split('?')[0].replace(/^#/, '');
+      if (!hash || hash === 'top' || hash === 'home') {
+        navigatePage('home');
+      } else if (hash === 'contact') {
+        navigatePage('contact');
+      } else if (hash === 'about') {
+        navigatePage('about');
+      } else if (['services', 'ai-automation', 'employers', 'why-us', 'testimonials'].includes(hash)) {
+        navigatePage('services', hash);
+      } else if (['jobs', 'candidates', 'job-seekers'].includes(hash)) {
+        navigatePage('jobs', hash);
+      } else if (hash === 'kennis-hcm') {
+        navigatePage('home', 'kennis-hcm');
+      } else {
+        navigatePage('home');
+      }
+      checkUrlForJob();
+    }
+
+    // Testimonials Carousel Logic
+    let currentTestimonialIndex = 0;
+
+    function getVisibleTestimonialsCount() {
+      if (window.innerWidth >= 1024) return 3;
+      if (window.innerWidth >= 640) return 2;
+      return 1;
+    }
+
+    function getMaxTestimonialIndex() {
+      const track = document.getElementById('testimonialsTrack');
+      if (!track) return 0;
+      return Math.max(0, track.children.length - getVisibleTestimonialsCount());
+    }
+
+    function updateTestimonialsView() {
+      const track = document.getElementById('testimonialsTrack');
+      if (!track) return;
+      const cards = track.children;
+      if (cards.length === 0) return;
+
+      const maxIdx = getMaxTestimonialIndex();
+      if (currentTestimonialIndex > maxIdx) currentTestimonialIndex = maxIdx;
+      if (currentTestimonialIndex < 0) currentTestimonialIndex = 0;
+
+      let step = cards[0].offsetWidth;
+      if (cards.length > 1) {
+        step = cards[1].offsetLeft - cards[0].offsetLeft;
+      }
+
+      const translateX = -(currentTestimonialIndex * step);
+      track.style.transform = `translateX(${translateX}px)`;
+      renderTestimonialDots(maxIdx);
+    }
+
+    function renderTestimonialDots(maxIdx) {
+      const dotsContainer = document.getElementById('testimonialDots');
+      if (!dotsContainer) return;
+
+      const totalDots = maxIdx + 1;
+      let html = '';
+      for (let i = 0; i < totalDots; i++) {
+        const isActive = i === currentTestimonialIndex;
+        html += `<button onclick="goToTestimonial(${i})" aria-label="Go to testimonial slide ${i + 1}" class="${isActive ? 'w-8 bg-amber-500' : 'w-2.5 bg-slate-300 hover:bg-slate-400'} h-2.5 rounded-full transition-all duration-300 cursor-pointer"></button>`;
+      }
+      dotsContainer.innerHTML = html;
+    }
+
+    function slideTestimonials(delta) {
+      const maxIdx = getMaxTestimonialIndex();
+      if (maxIdx <= 0) return;
+
+      currentTestimonialIndex += delta;
+      if (currentTestimonialIndex > maxIdx) {
+        currentTestimonialIndex = 0;
+      } else if (currentTestimonialIndex < 0) {
+        currentTestimonialIndex = maxIdx;
+      }
+      updateTestimonialsView();
+    }
+
+    function goToTestimonial(index) {
+      const maxIdx = getMaxTestimonialIndex();
+      currentTestimonialIndex = Math.max(0, Math.min(index, maxIdx));
+      updateTestimonialsView();
+    }
+
+    // Touch swipe support for testimonials carousel
+    (function initTestimonialTouch() {
+      const track = document.getElementById('testimonialsTrack');
+      if (!track) return;
+      let startX = 0;
+      track.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+      }, { passive: true });
+      track.addEventListener('touchend', (e) => {
+        const diff = startX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 40) {
+          slideTestimonials(diff > 0 ? 1 : -1);
+        }
+      }, { passive: true });
+    })();
+
+    window.addEventListener('resize', updateTestimonialsView);
+
+    window.addEventListener('hashchange', handleRoute);
+    window.addEventListener('popstate', checkUrlForJob);
+
+    // Initialize Page
+    renderHcmModules();
+    renderJobs();
+    updateTestimonialsView();
+    handleRoute();
+    checkUrlForJob();
+    if (window.lucide && typeof lucide.createIcons === 'function') {
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>
