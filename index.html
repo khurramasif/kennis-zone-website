@@ -1436,10 +1436,22 @@
         </div>
 
         <select id="jobCityFilter" class="px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm font-medium text-slate-700 focus:outline-none focus:border-kennis-700">
-          <option value="ALL">All Locations (Lahore / Karachi / Multan)</option>
+          <option value="ALL">All Locations</option>
           <option value="Lahore">Lahore</option>
           <option value="Karachi">Karachi</option>
+          <option value="Islamabad">Islamabad</option>
+          <option value="Rawalpindi">Rawalpindi</option>
+          <option value="Faisalabad">Faisalabad</option>
           <option value="Multan">Multan</option>
+          <option value="Peshawar">Peshawar</option>
+          <option value="Quetta">Quetta</option>
+          <option value="Sialkot">Sialkot</option>
+          <option value="Gujranwala">Gujranwala</option>
+          <option value="Hyderabad">Hyderabad</option>
+          <option value="Bahawalpur">Bahawalpur</option>
+          <option value="Sargodha">Sargodha</option>
+          <option value="Abbottabad">Abbottabad</option>
+          <option value="Remote (Pakistan)">Remote (Pakistan)</option>
         </select>
 
         <select id="jobIndustryFilter" class="px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm font-medium text-slate-700 focus:outline-none focus:border-kennis-700">
@@ -1941,8 +1953,22 @@
             <select id="newJobCity" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm">
               <option value="Lahore">Lahore</option>
               <option value="Karachi">Karachi</option>
+              <option value="Islamabad">Islamabad</option>
+              <option value="Rawalpindi">Rawalpindi</option>
+              <option value="Faisalabad">Faisalabad</option>
               <option value="Multan">Multan</option>
+              <option value="Peshawar">Peshawar</option>
+              <option value="Quetta">Quetta</option>
+              <option value="Sialkot">Sialkot</option>
+              <option value="Gujranwala">Gujranwala</option>
+              <option value="Hyderabad">Hyderabad</option>
+              <option value="Bahawalpur">Bahawalpur</option>
+              <option value="Sargodha">Sargodha</option>
+              <option value="Abbottabad">Abbottabad</option>
+              <option value="Remote (Pakistan)">Remote (Pakistan)</option>
+              <option value="Other">Other</option>
             </select>
+            <input type="text" id="newJobCityOther" placeholder="Enter city (anywhere in the world)" class="hidden w-full mt-2 px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm" />
           </div>
           <div>
             <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Monthly Salary (PKR) *</label>
@@ -2568,6 +2594,23 @@
       document.getElementById('postJobModal').classList.add('hidden');
     }
 
+    // Toggle Other City input for Post a Job form
+    const newJobCityEl = document.getElementById('newJobCity');
+    const newJobCityOtherEl = document.getElementById('newJobCityOther');
+    if (newJobCityEl && newJobCityOtherEl) {
+      newJobCityEl.addEventListener('change', function() {
+        if (this.value === 'Other') {
+          newJobCityOtherEl.classList.remove('hidden');
+          newJobCityOtherEl.required = true;
+          newJobCityOtherEl.focus();
+        } else {
+          newJobCityOtherEl.classList.add('hidden');
+          newJobCityOtherEl.required = false;
+          newJobCityOtherEl.value = '';
+        }
+      });
+    }
+
     // Live display of delivery email as employer types
     const recipientInputEl = document.getElementById('newJobRecipientEmail');
     if (recipientInputEl) {
@@ -2585,7 +2628,9 @@
       const recipientEmail = document.getElementById('newJobRecipientEmail').value.trim();
       const title = document.getElementById('newJobTitle').value;
       const company = document.getElementById('newJobCompany').value;
-      const city = document.getElementById('newJobCity').value;
+      const selectedCity = document.getElementById('newJobCity').value;
+      const customCity = document.getElementById('newJobCityOther') ? document.getElementById('newJobCityOther').value.trim() : '';
+      const city = selectedCity === 'Other' ? customCity : selectedCity;
       const salary = document.getElementById('newJobSalary').value;
       const experience = document.getElementById('newJobExp').value;
       const industry = document.getElementById('newJobIndustry').value;
@@ -2616,6 +2661,10 @@
       renderJobs();
       closePostJobModal();
       this.reset();
+      if (newJobCityOtherEl) {
+        newJobCityOtherEl.classList.add('hidden');
+        newJobCityOtherEl.required = false;
+      }
       const deliveryDisplay = document.getElementById('deliveryEmailDisplay');
       if (deliveryDisplay) {
         deliveryDisplay.textContent = 'your entered address';
