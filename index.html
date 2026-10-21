@@ -2194,8 +2194,10 @@
     // Toast Notification helper for iframe safety
     function showToast(title, message) {
       const toast = document.getElementById('toastNotification');
-      document.getElementById('toastTitle').textContent = title;
-      document.getElementById('toastMessage').textContent = message;
+      const finalTitle = message !== undefined ? title : 'Notice';
+      const finalMsg = message !== undefined ? message : title;
+      document.getElementById('toastTitle').textContent = finalTitle;
+      document.getElementById('toastMessage').textContent = finalMsg;
       toast.classList.remove('translate-y-24', 'opacity-0');
       toast.classList.add('translate-y-0', 'opacity-100');
       setTimeout(() => {
@@ -2414,6 +2416,41 @@
       }
     ];
 
+    // Connect to Portal Backend
+    const PORTAL_API_URL = 'https://kennis-portal-api.kenniszone.workers.dev';
+
+    async function fetchPortalJobs() {
+      try {
+        const res = await fetch(`${PORTAL_API_URL}/jobs`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.ok && Array.isArray(data.jobs)) {
+            const existingIds = new Set(jobListings.map(j => String(j.id).toLowerCase()));
+            const backendJobs = [];
+            for (const j of data.jobs) {
+              if (j && j.id && !existingIds.has(String(j.id).toLowerCase())) {
+                existingIds.add(String(j.id).toLowerCase());
+                backendJobs.push({
+                  ...j,
+                  verified: j.verified !== undefined ? j.verified : true,
+                  workMode: j.workMode || `On-Site / Hybrid • ${j.city || ''}`,
+                  posted: j.posted || 'Recently Published',
+                  skills: (Array.isArray(j.skills) && j.skills.length) ? j.skills : ['Verified Role']
+                });
+              }
+            }
+            if (backendJobs.length > 0) {
+              jobListings.unshift(...backendJobs);
+            }
+          }
+        }
+      } catch (err) {
+        // Continue with built-in jobs only
+      }
+    }
+
+    const portalJobsPromise = fetchPortalJobs();
+
     function renderJobs() {
       const container = document.getElementById('jobsContainer');
       const search = document.getElementById('jobSearchInput').value.toLowerCase();
@@ -2623,56 +2660,93 @@
       });
     }
 
-    document.getElementById('postJobForm').addEventListener('submit', function(e) {
+    document.getElementById('postJobForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       const recipientEmail = document.getElementById('newJobRecipientEmail').value.trim();
-      const title = document.getElementById('newJobTitle').value;
-      const company = document.getElementById('newJobCompany').value;
+      const title = document.getElementById('newJobTitle').value.trim();
+      const company = document.getElementById('newJobCompany').value.trim();
       const selectedCity = document.getElementById('newJobCity').value;
       const customCity = document.getElementById('newJobCityOther') ? document.getElementById('newJobCityOther').value.trim() : '';
       const city = selectedCity === 'Other' ? customCity : selectedCity;
-      const salary = document.getElementById('newJobSalary').value;
+      const salary = document.getElementById('newJobSalary').value.trim();
       const experience = document.getElementById('newJobExp').value;
       const industry = document.getElementById('newJobIndustry').value;
       const lastDateToApply = document.getElementById('newJobDeadline').value;
       const skills = document.getElementById('newJobSkills').value.split(',').map(s => s.trim()).filter(Boolean);
-      const summary = document.getElementById('newJobSummary').value;
+      const summary = document.getElementById('newJobSummary').value.trim();
+      const workMode = `On-Site / Hybrid • ${city}`;
 
-      const currentDate = new Date();
-      const newJob = {
-        id: 'KZ-' + Math.floor(200 + Math.random() * 800),
+      const payload = {
         title,
         company,
         city,
         salary,
-        experience,
         industry,
-        recipientEmail: recipientEmail || 'job@kenniszone.online',
-        lastDateToApply: lastDateToApply || '',
-        verified: true,
-        workMode: `On-Site / Hybrid • ${city}`,
-        postedDate: currentDate.toISOString(),
-        posted: 'Just Published',
-        skills: skills.length ? skills : ['Verified Role'],
-        summary
+        experience,
+        workMode,
+        summary,
+        recipientEmail,
+        lastDateToApply
       };
 
-      jobListings.unshift(newJob);
-      renderJobs();
-      closePostJobModal();
-      this.reset();
-      if (newJobCityOtherEl) {
-        newJobCityOtherEl.classList.add('hidden');
-        newJobCityOtherEl.required = false;
+      try {
+        const res = await fetch(`${PORTAL_API_URL}/jobs`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json().catch(() => null);
+
+        if (data && data.ok === false && data.duplicate === true) {
+          showToast('Duplicate Posting', data.error || 'This exact job is already posted. Duplicate postings are not allowed.');
+          return;
+        }
+
+        if (!res.ok || !data || !data.ok) {
+          showToast('Publish Error', 'Could not publish — please check your connection and try again');
+          return;
+        }
+
+        const currentDate = new Date();
+        const newJob = {
+          id: data.id || ('KZ-' + Math.floor(200 + Math.random() * 800)),
+          title,
+          company,
+          city,
+          salary,
+          experience,
+          industry,
+          recipientEmail: recipientEmail || 'job@kenniszone.online',
+          lastDateToApply: lastDateToApply || '',
+          verified: true,
+          workMode,
+          postedDate: currentDate.toISOString(),
+          posted: 'Just Published',
+          skills: skills.length ? skills : ['Verified Role'],
+          summary
+        };
+
+        jobListings.unshift(newJob);
+        renderJobs();
+        closePostJobModal();
+        this.reset();
+        if (newJobCityOtherEl) {
+          newJobCityOtherEl.classList.add('hidden');
+          newJobCityOtherEl.required = false;
+        }
+        const deliveryDisplay = document.getElementById('deliveryEmailDisplay');
+        if (deliveryDisplay) {
+          deliveryDisplay.textContent = 'your entered address';
+        }
+        const deadlineFormatted = formatDeadline(lastDateToApply);
+        showToast('Opening Published!', `"${title}" published. Applications for this job will be emailed to: ${newJob.recipientEmail}. Last date: ${deadlineFormatted}.`);
+        document.getElementById('jobs').scrollIntoView({ behavior: 'smooth' });
+      } catch (err) {
+        showToast('Publish Error', 'Could not publish — please check your connection and try again');
       }
-      const deliveryDisplay = document.getElementById('deliveryEmailDisplay');
-      if (deliveryDisplay) {
-        deliveryDisplay.textContent = 'your entered address';
-      }
-      const expiryFormatted = formatJobDate(getJobExpiry(currentDate));
-      const deadlineFormatted = formatDeadline(lastDateToApply);
-      showToast('Opening Published!', `"${title}" published. Applications for this job will be emailed to: ${newJob.recipientEmail}. Last date: ${deadlineFormatted}.`);
-      document.getElementById('jobs').scrollIntoView({ behavior: 'smooth' });
     });
 
     // Job Sharing & Direct URL Helpers
@@ -3028,7 +3102,8 @@ ${jobUrl}`;
     }
 
     // Direct Job URL routing (e.g. ?job=KZ-104 or #jobs?job=KZ-104)
-    function checkUrlForJob() {
+    async function checkUrlForJob() {
+      await portalJobsPromise;
       const urlParams = new URLSearchParams(window.location.search);
       let jobId = urlParams.get('job');
       if (!jobId && window.location.hash) {
@@ -3156,13 +3231,16 @@ ${jobUrl}`;
 
     // Initialize Page
     renderHcmModules();
-    renderJobs();
     updateTestimonialsView();
-    handleRoute();
-    checkUrlForJob();
-    if (window.lucide && typeof lucide.createIcons === 'function') {
-      lucide.createIcons();
-    }
+
+    (async function init() {
+      await portalJobsPromise;
+      renderJobs();
+      handleRoute();
+      if (window.lucide && typeof lucide.createIcons === 'function') {
+        lucide.createIcons();
+      }
+    })();
   </script>
 </body>
 </html>
