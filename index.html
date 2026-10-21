@@ -3014,6 +3014,8 @@ ${jobUrl}`;
         recipientDisplay.textContent = '';
       }
 
+      const submitBtn = document.getElementById('applySubmitBtn');
+      if (submitBtn) submitBtn.disabled = false;
       const submitBtnText = document.getElementById('applySubmitBtnText');
       if (submitBtnText) {
         submitBtnText.textContent = 'Submit Application';
@@ -3079,6 +3081,8 @@ ${jobUrl}`;
         recipientDisplay.textContent = '';
       }
 
+      const submitBtn = document.getElementById('applySubmitBtn');
+      if (submitBtn) submitBtn.disabled = false;
       const submitBtnText = document.getElementById('applySubmitBtnText');
       if (submitBtnText) {
         submitBtnText.textContent = 'Submit Application';
@@ -3106,26 +3110,121 @@ ${jobUrl}`;
       }
     }
 
-    document.getElementById('jobApplyForm').addEventListener('submit', function(e) {
+    document.getElementById('jobApplyForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-      const name = document.getElementById('applicantName').value;
-      const targetEmail = (currentActiveApplyJob && currentActiveApplyJob.recipientEmail) ? currentActiveApplyJob.recipientEmail : 'the employer';
-      
-      const isTalentBank = currentActiveApplyJob && currentActiveApplyJob.id === 'TALENT-BANK';
-      if (isTalentBank) {
-        showToast('CV Received!', `Thank you ${name}! Your CV has been deposited into Kennis Zone's Central Talent Bank. Our recruiting team will contact you for matching roles.`);
-      } else {
-        showToast('Application Sent!', `Thank you ${name}! Your application has been submitted successfully.`);
+      const submitBtn = document.getElementById('applySubmitBtn');
+      const submitBtnText = document.getElementById('applySubmitBtnText');
+
+      const name = document.getElementById('applicantName').value.trim();
+      const email = document.getElementById('applicantEmail').value.trim();
+      const phone = document.getElementById('applicantPhone').value.trim();
+      const salary = document.getElementById('applicantSalary') ? document.getElementById('applicantSalary').value.trim() : '';
+      const notice = document.getElementById('applicantNotice') ? document.getElementById('applicantNotice').value : '';
+
+      const jobId = (currentActiveApplyJob && currentActiveApplyJob.id) ? currentActiveApplyJob.id : 'TALENT-BANK';
+      const jobTitle = (currentActiveApplyJob && currentActiveApplyJob.title) ? currentActiveApplyJob.title : '';
+      const company = (currentActiveApplyJob && currentActiveApplyJob.company) ? currentActiveApplyJob.company : '';
+
+      const noteParts = [];
+      if (salary) noteParts.push(`Current/Last Salary: ${salary}`);
+      if (notice) noteParts.push(`Notice Period: ${notice}`);
+      const coverNote = noteParts.join(' | ');
+
+      const formData = new FormData();
+      formData.append('jobId', jobId);
+      formData.append('jobTitle', jobTitle);
+      formData.append('company', company);
+      formData.append('applicantName', name);
+      formData.append('applicantEmail', email);
+      formData.append('applicantPhone', phone);
+      formData.append('coverNote', coverNote);
+
+      const cvInput = this.querySelector('input[type="file"]');
+      if (cvInput && cvInput.files && cvInput.files[0]) {
+        formData.append('cv', cvInput.files[0]);
       }
-      this.reset();
-      closeApplyModal();
+
+      if (submitBtn) submitBtn.disabled = true;
+      if (submitBtnText) submitBtnText.textContent = 'Sending...';
+
+      try {
+        const res = await fetch('https://kennis-portal-api.kenniszone.workers.dev/apply', {
+          method: 'POST',
+          body: formData
+        });
+
+        const data = await res.json().catch(() => null);
+
+        if (res.ok && data && data.ok === true) {
+          const isTalentBank = jobId === 'TALENT-BANK';
+          if (isTalentBank) {
+            showToast('CV Received!', `Thank you ${name}! Your CV has been deposited into Kennis Zone's Central Talent Bank. Our recruiting team will contact you for matching roles.`);
+          } else {
+            showToast('Application Sent!', `Thank you ${name}! Your application has been submitted successfully.`);
+          }
+          this.reset();
+          closeApplyModal();
+        } else {
+          const errMsg = (data && data.error) ? data.error : 'Failed to submit application. Please try again.';
+          showToast('Application Failed', errMsg);
+        }
+      } catch (err) {
+        showToast('Application Failed', 'Network error — please check your connection and try again.');
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
+        if (submitBtnText) submitBtnText.textContent = 'Submit Application';
+      }
     });
 
-    document.getElementById('contactForm').addEventListener('submit', function(e) {
+    document.getElementById('contactForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-      document.getElementById('contactSuccess').classList.remove('hidden');
-      showToast('Inquiry Received!', 'Thank you! Your inquiry has been sent to info@kenniszone.online.');
-      this.reset();
+      const submitBtn = this.querySelector('button[type="submit"]');
+      const successEl = document.getElementById('contactSuccess');
+      if (successEl) successEl.classList.add('hidden');
+
+      const name = document.getElementById('contactName').value.trim();
+      const email = document.getElementById('contactEmail').value.trim();
+      const phone = document.getElementById('contactPhone') ? document.getElementById('contactPhone').value.trim() : '';
+      const role = document.getElementById('contactRole') ? document.getElementById('contactRole').value : '';
+      const userMsg = document.getElementById('contactMessage').value.trim();
+
+      const messageParts = [userMsg];
+      const meta = [];
+      if (phone) meta.push(`Phone/WhatsApp: ${phone}`);
+      if (role) meta.push(`Inquiry Category: ${role}`);
+      if (meta.length > 0) {
+        messageParts.push(`\n[Details: ${meta.join(' | ')}]`);
+      }
+      const message = messageParts.join('\n');
+
+      if (submitBtn) submitBtn.disabled = true;
+
+      try {
+        const res = await fetch('https://kennis-portal-api.kenniszone.workers.dev/contact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ name, email, message })
+        });
+
+        const data = await res.json().catch(() => null);
+
+        if (res.ok && data && data.ok === true) {
+          if (successEl) successEl.classList.remove('hidden');
+          showToast('Inquiry Received!', 'Thank you! Your inquiry has been sent to info@kenniszone.online.');
+          this.reset();
+        } else {
+          if (successEl) successEl.classList.add('hidden');
+          const errorMsg = (data && data.error) ? data.error : 'Could not send inquiry. Please check your connection and try again.';
+          showToast('Inquiry Failed', errorMsg);
+        }
+      } catch (err) {
+        if (successEl) successEl.classList.add('hidden');
+        showToast('Inquiry Failed', 'Network error — please check your connection and try again.');
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
+      }
     });
 
     // Mobile Menu Toggle
