@@ -1,4 +1,4 @@
-// Kennis Zone job portal backend — Cloudflare Worker (v2)
+// Kennis Zone job portal backend — Cloudflare Worker (v3)
 // Bindings / secrets:
 //   JOBS_KV        (KV namespace)  — posted jobs + application log
 //   RESEND_API_KEY (secret)        — Resend API key
@@ -38,9 +38,10 @@ const SEEDED_JOBS = [
 ];
 
 function corsHeaders(origin) {
-  const ok = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+  // Public portal API by design (anyone may post/apply); abuse is guarded
+  // server-side (recipient locking, honeypot, dedupe), so CORS is permissive.
   return {
-    'Access-Control-Allow-Origin': ok,
+    'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
     'Vary': 'Origin',
@@ -118,10 +119,14 @@ function csvCell(v) {
   return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
 }
 
+function adminKeyOf(env) {
+  return env.ADMIN_KEY || env.Admin_Key || '';
+}
 function adminAuthorized(request, env, url) {
-  if (!env.ADMIN_KEY) return false;
+  const adminKey = adminKeyOf(env);
+  if (!adminKey) return false;
   const key = url.searchParams.get('key') || request.headers.get('x-admin-key') || '';
-  return key.length > 0 && key === env.ADMIN_KEY;
+  return key.length > 0 && key === adminKey;
 }
 
 export default {
@@ -140,7 +145,7 @@ export default {
 
       // ---------- Admin: applications export (owner only) ----------
       if (url.pathname === '/admin/applications.csv' && request.method === 'GET') {
-        if (!env.ADMIN_KEY) return json(origin, { ok: false, error: 'Admin export is not configured.' }, 503);
+        if (!adminKeyOf(env)) return json(origin, { ok: false, error: 'Admin export is not configured.' }, 503);
         if (!adminAuthorized(request, env, url)) return json(origin, { ok: false, error: 'Unauthorized' }, 401);
         const apps = await getApplications(env);
         const header = ['Received At', 'Job ID', 'Job Title', 'Company', 'Sent To', 'Applicant Name', 'Applicant Email', 'Applicant Phone', 'Cover Note', 'CV File'];
@@ -157,7 +162,7 @@ export default {
         });
       }
       if (url.pathname === '/admin/applications/count' && request.method === 'GET') {
-        if (!env.ADMIN_KEY) return json(origin, { ok: false, error: 'Admin export is not configured.' }, 503);
+        if (!adminKeyOf(env)) return json(origin, { ok: false, error: 'Admin export is not configured.' }, 503);
         if (!adminAuthorized(request, env, url)) return json(origin, { ok: false, error: 'Unauthorized' }, 401);
         const apps = await getApplications(env);
         return json(origin, { ok: true, count: apps.length });
