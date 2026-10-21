@@ -1,4 +1,4 @@
-// Kennis Zone job portal backend — Cloudflare Worker (v3)
+// Kennis Zone job portal backend — Cloudflare Worker (v4)
 // Bindings / secrets:
 //   JOBS_KV        (KV namespace)  — posted jobs + application log
 //   RESEND_API_KEY (secret)        — Resend API key
@@ -8,6 +8,8 @@
 //   GET  /jobs                            -> { ok: true, jobs: [...] }  (newest first)
 //   POST /jobs                            -> JSON job posting; auto-publishes; exact
 //                                          duplicates (ALL details matching) rejected
+//   POST /jobs/bump                       -> { id, email } renews a post (owner email
+//                                          must match), max 5 renewals per month
 //   POST /apply                           -> multipart application; emails the poster,
 //                                          BCCs the owner, and logs the application
 //   POST /contact                         -> JSON { name, email, message } -> info@
@@ -221,6 +223,38 @@ export default {
         await env.JOBS_KV.put('jobs:all', JSON.stringify(stored.slice(0, 300)));
 
         return json(origin, { ok: true, id: job.id, job });
+      }
+
+
+      // ---------- Jobs: renew / bring to top (max 5 per month, owner only) ----------
+      if (url.pathname === '/jobs/bump' && request.method === 'POST') {
+        const body = await request.json().catch(() => null);
+        if (!body) return json(origin, { ok: false, error: 'Invalid JSON' }, 400);
+        const id = clean(body.id, 40);
+        const email = clean(body.email, 160);
+        if (!id || !isEmail(email)) {
+          return json(origin, { ok: false, error: 'Job reference and a valid email are required.' }, 422);
+        }
+        const jobs = await getStoredJobs(env);
+        const idx = jobs.findIndex(j => j.id === id);
+        if (idx === -1) {
+          return json(origin, { ok: false, error: 'This post could not be found.' }, 404);
+        }
+        const job = jobs[idx];
+        if (norm(job.recipientEmail) !== norm(email)) {
+          return json(origin, { ok: false, error: 'This email does not match the email used to post this job.' }, 403);
+        }
+        const monthKey = new Date().toISOString().slice(0, 7); // YYYY-MM
+        if (job.bumpMonth !== monthKey) { job.bumpMonth = monthKey; job.bumpCount = 0; }
+        if ((job.bumpCount || 0) >= 5) {
+          return json(origin, { ok: false, error: 'Renewal limit reached — this post has used its 5 renewals for this month.', renewalsLeft: 0 }, 429);
+        }
+        job.bumpCount = (job.bumpCount || 0) + 1;
+        job.postedDate = new Date().toISOString(); // fresh 1-month life
+        jobs.splice(idx, 1);
+        jobs.unshift(job); // back to the top
+        await env.JOBS_KV.put('jobs:all', JSON.stringify(jobs));
+        return json(origin, { ok: true, renewalsLeft: 5 - job.bumpCount, job });
       }
 
       // ---------- Apply ----------
