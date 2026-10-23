@@ -2027,6 +2027,94 @@
           <button type="submit" id="postJobSubmitBtn" class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-display font-bold text-sm shadow-md cursor-pointer">Publish Verified Listing Now</button>
         </div>
       </form>
+
+      <!-- SUCCESS PANEL INSIDE POST A JOB MODAL -->
+      <div id="postJobSuccessPanel" class="hidden mt-6 space-y-6">
+        <div class="text-center space-y-2 py-1">
+          <div class="w-14 h-14 mx-auto rounded-2xl bg-emerald-500/15 border border-emerald-400/30 text-emerald-600 flex items-center justify-center">
+            <i data-lucide="check-circle-2" class="w-8 h-8"></i>
+          </div>
+          <h3 class="font-display text-2xl font-extrabold text-kennis-950">Your job is live!</h3>
+          <p class="text-xs sm:text-sm text-slate-600 max-w-md mx-auto leading-relaxed">
+            Your post is at the top of the Jobs list — share it now to get applications faster.
+          </p>
+        </div>
+
+        <!-- Direct Link Field + Copy Link Button -->
+        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-700">Direct Job Link</label>
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+            <input 
+              type="text" 
+              id="postJobSuccessUrlInput" 
+              readonly 
+              class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-300 text-xs sm:text-sm text-slate-800 font-mono select-all focus:outline-none" 
+            />
+            <button 
+              type="button" 
+              id="postJobSuccessCopyBtn" 
+              onclick="copyPostJobSuccessLink()" 
+              class="px-5 py-2.5 rounded-xl bg-kennis-950 hover:bg-kennis-800 text-white font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 transition shrink-0 cursor-pointer shadow-sm"
+            >
+              <i data-lucide="copy" class="w-4 h-4 text-amber-400"></i>
+              <span>Copy Link</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Social Share Channels -->
+        <div class="space-y-2.5">
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-700">Share Job Opening</label>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+            <!-- WhatsApp -->
+            <a 
+              id="postJobSuccessWhatsAppBtn" 
+              href="#" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="p-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-sm transition cursor-pointer"
+            >
+              <i data-lucide="message-circle" class="w-4 h-4"></i>
+              <span>WhatsApp</span>
+            </a>
+
+            <!-- LinkedIn -->
+            <a 
+              id="postJobSuccessLinkedInBtn" 
+              href="#" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="p-3 rounded-xl bg-[#0A66C2] hover:bg-[#084e96] text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-sm transition cursor-pointer"
+            >
+              <i data-lucide="linkedin" class="w-4 h-4"></i>
+              <span>LinkedIn</span>
+            </a>
+
+            <!-- Facebook -->
+            <a 
+              id="postJobSuccessFacebookBtn" 
+              href="#" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="p-3 rounded-xl bg-[#1877F2] hover:bg-[#0c63d4] text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-sm transition cursor-pointer"
+            >
+              <i data-lucide="facebook" class="w-4 h-4"></i>
+              <span>Facebook</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Modal Footer: Done Button -->
+        <div class="pt-4 border-t border-slate-200 flex justify-end">
+          <button 
+            type="button" 
+            onclick="closePostJobModal()" 
+            class="w-full sm:w-auto px-7 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-display font-bold text-sm shadow-md transition cursor-pointer"
+          >
+            Done
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -2740,6 +2828,10 @@
       if (deliveryDisplay && recipientInput) {
         deliveryDisplay.textContent = recipientInput.value.trim() || 'your entered address';
       }
+      const formEl = document.getElementById('postJobForm');
+      const successPanelEl = document.getElementById('postJobSuccessPanel');
+      if (formEl) formEl.classList.remove('hidden');
+      if (successPanelEl) successPanelEl.classList.add('hidden');
       document.getElementById('postJobModal').classList.remove('hidden');
     }
 
@@ -2747,6 +2839,10 @@
       document.getElementById('postJobModal').classList.add('hidden');
       editingJobId = null;
       resetPostJobFormMode();
+      const formEl = document.getElementById('postJobForm');
+      const successPanelEl = document.getElementById('postJobSuccessPanel');
+      if (formEl) formEl.classList.remove('hidden');
+      if (successPanelEl) successPanelEl.classList.add('hidden');
     }
 
     // Toggle Other City input for Post a Job form
@@ -2776,6 +2872,21 @@
           display.textContent = val || 'your entered address';
         }
       });
+    }
+
+    function copyPostJobSuccessLink() {
+      const input = document.getElementById('postJobSuccessUrlInput');
+      if (!input || !input.value) return;
+      const jobUrl = input.value;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(jobUrl).then(() => {
+          showToast('Link Copied!', 'Job link copied to clipboard.');
+        }).catch(() => {
+          fallbackCopyText(jobUrl, 'Job link');
+        });
+      } else {
+        fallbackCopyText(jobUrl, 'Job link');
+      }
     }
 
     document.getElementById('postJobForm').addEventListener('submit', async function(e) {
@@ -2851,10 +2962,42 @@
           summary
         };
 
+        // Guarantee newly posted job appears at the very top of the jobs list
         jobListings.unshift(newJob);
+        const searchInput = document.getElementById('jobSearchInput');
+        if (searchInput) searchInput.value = '';
+        const cityFilter = document.getElementById('jobCityFilter');
+        if (cityFilter) cityFilter.value = 'ALL';
+        const indFilter = document.getElementById('jobIndustryFilter');
+        if (indFilter) indFilter.value = 'ALL';
+        const expFilter = document.getElementById('jobExpFilter');
+        if (expFilter) expFilter.value = 'ALL';
+        const expiFilter = document.getElementById('jobExpiryFilter');
+        if (expiFilter) expiFilter.value = 'ACTIVE';
         renderJobs();
         renderJobCardBlob(newJob).then(b => { if (b) uploadShareImage(newJob, b); }).catch(() => {});
-        closePostJobModal();
+
+        // Populate success panel with direct job link and share actions
+        const jobUrl = getJobUrl(newJob.id);
+        const shareText = getJobShareText(newJob);
+
+        const successLinkInput = document.getElementById('postJobSuccessUrlInput');
+        if (successLinkInput) successLinkInput.value = jobUrl;
+
+        const waBtn = document.getElementById('postJobSuccessWhatsAppBtn');
+        if (waBtn) waBtn.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
+
+        const liBtn = document.getElementById('postJobSuccessLinkedInBtn');
+        if (liBtn) liBtn.href = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(jobUrl)}`;
+
+        const fbBtn = document.getElementById('postJobSuccessFacebookBtn');
+        if (fbBtn) fbBtn.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(jobUrl)}&quote=${encodeURIComponent(shareText)}`;
+
+        // Switch modal view from form to success panel
+        this.classList.add('hidden');
+        const successPanelEl = document.getElementById('postJobSuccessPanel');
+        if (successPanelEl) successPanelEl.classList.remove('hidden');
+
         this.reset();
         if (newJobCityOtherEl) {
           newJobCityOtherEl.classList.add('hidden');
@@ -2866,7 +3009,11 @@
         }
         const deadlineFormatted = formatDeadline(lastDateToApply);
         showToast('Opening Published!', `"${title}" published. Applications for this job will be emailed to: ${newJob.recipientEmail}. Last date: ${deadlineFormatted}.`);
-        document.getElementById('jobs').scrollIntoView({ behavior: 'smooth' });
+        if (window.lucide && typeof lucide.createIcons === 'function') {
+          lucide.createIcons();
+        }
+        const jobsEl = document.getElementById('jobs');
+        if (jobsEl) jobsEl.scrollIntoView({ behavior: 'smooth' });
       } catch (err) {
         showToast('Publish Error', 'Could not publish — please check your connection and try again');
       }
@@ -3641,6 +3788,8 @@ ${jobUrl}`;
         recipientDisplay.textContent = '';
       }
 
+      const submitBtn = document.getElementById('applySubmitBtn');
+      if (submitBtn) submitBtn.disabled = false;
       const submitBtnText = document.getElementById('applySubmitBtnText');
       if (submitBtnText) {
         submitBtnText.textContent = 'Submit Application';
@@ -3706,6 +3855,8 @@ ${jobUrl}`;
         recipientDisplay.textContent = '';
       }
 
+      const submitBtn = document.getElementById('applySubmitBtn');
+      if (submitBtn) submitBtn.disabled = false;
       const submitBtnText = document.getElementById('applySubmitBtnText');
       if (submitBtnText) {
         submitBtnText.textContent = 'Submit Application';
@@ -3733,26 +3884,121 @@ ${jobUrl}`;
       }
     }
 
-    document.getElementById('jobApplyForm').addEventListener('submit', function(e) {
+    document.getElementById('jobApplyForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-      const name = document.getElementById('applicantName').value;
-      const targetEmail = (currentActiveApplyJob && currentActiveApplyJob.recipientEmail) ? currentActiveApplyJob.recipientEmail : 'the employer';
-      
-      const isTalentBank = currentActiveApplyJob && currentActiveApplyJob.id === 'TALENT-BANK';
-      if (isTalentBank) {
-        showToast('CV Received!', `Thank you ${name}! Your CV has been deposited into Kennis Zone's Central Talent Bank. Our recruiting team will contact you for matching roles.`);
-      } else {
-        showToast('Application Sent!', `Thank you ${name}! Your application has been submitted successfully.`);
+      const submitBtn = document.getElementById('applySubmitBtn');
+      const submitBtnText = document.getElementById('applySubmitBtnText');
+
+      const name = document.getElementById('applicantName').value.trim();
+      const email = document.getElementById('applicantEmail').value.trim();
+      const phone = document.getElementById('applicantPhone').value.trim();
+      const salary = document.getElementById('applicantSalary') ? document.getElementById('applicantSalary').value.trim() : '';
+      const notice = document.getElementById('applicantNotice') ? document.getElementById('applicantNotice').value : '';
+
+      const jobId = (currentActiveApplyJob && currentActiveApplyJob.id) ? currentActiveApplyJob.id : 'TALENT-BANK';
+      const jobTitle = (currentActiveApplyJob && currentActiveApplyJob.title) ? currentActiveApplyJob.title : '';
+      const company = (currentActiveApplyJob && currentActiveApplyJob.company) ? currentActiveApplyJob.company : '';
+
+      const noteParts = [];
+      if (salary) noteParts.push(`Current/Last Salary: ${salary}`);
+      if (notice) noteParts.push(`Notice Period: ${notice}`);
+      const coverNote = noteParts.join(' | ');
+
+      const formData = new FormData();
+      formData.append('jobId', jobId);
+      formData.append('jobTitle', jobTitle);
+      formData.append('company', company);
+      formData.append('applicantName', name);
+      formData.append('applicantEmail', email);
+      formData.append('applicantPhone', phone);
+      formData.append('coverNote', coverNote);
+
+      const cvInput = this.querySelector('input[type="file"]');
+      if (cvInput && cvInput.files && cvInput.files[0]) {
+        formData.append('cv', cvInput.files[0]);
       }
-      this.reset();
-      closeApplyModal();
+
+      if (submitBtn) submitBtn.disabled = true;
+      if (submitBtnText) submitBtnText.textContent = 'Sending...';
+
+      try {
+        const res = await fetch('https://kennis-portal-api.kenniszone.workers.dev/apply', {
+          method: 'POST',
+          body: formData
+        });
+
+        const data = await res.json().catch(() => null);
+
+        if (res.ok && data && data.ok === true) {
+          const isTalentBank = jobId === 'TALENT-BANK';
+          if (isTalentBank) {
+            showToast('CV Received!', `Thank you ${name}! Your CV has been deposited into Kennis Zone's Central Talent Bank. Our recruiting team will contact you for matching roles.`);
+          } else {
+            showToast('Application Sent!', `Thank you ${name}! Your application has been submitted successfully.`);
+          }
+          this.reset();
+          closeApplyModal();
+        } else {
+          const errMsg = (data && data.error) ? data.error : 'Failed to submit application. Please try again.';
+          showToast('Application Failed', errMsg);
+        }
+      } catch (err) {
+        showToast('Application Failed', 'Network error — please check your connection and try again.');
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
+        if (submitBtnText) submitBtnText.textContent = 'Submit Application';
+      }
     });
 
-    document.getElementById('contactForm').addEventListener('submit', function(e) {
+    document.getElementById('contactForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-      document.getElementById('contactSuccess').classList.remove('hidden');
-      showToast('Inquiry Received!', 'Thank you! Your inquiry has been sent to info@kenniszone.online.');
-      this.reset();
+      const submitBtn = this.querySelector('button[type="submit"]');
+      const successEl = document.getElementById('contactSuccess');
+      if (successEl) successEl.classList.add('hidden');
+
+      const name = document.getElementById('contactName').value.trim();
+      const email = document.getElementById('contactEmail').value.trim();
+      const phone = document.getElementById('contactPhone') ? document.getElementById('contactPhone').value.trim() : '';
+      const role = document.getElementById('contactRole') ? document.getElementById('contactRole').value : '';
+      const userMsg = document.getElementById('contactMessage').value.trim();
+
+      const messageParts = [userMsg];
+      const meta = [];
+      if (phone) meta.push(`Phone/WhatsApp: ${phone}`);
+      if (role) meta.push(`Inquiry Category: ${role}`);
+      if (meta.length > 0) {
+        messageParts.push(`\n[Details: ${meta.join(' | ')}]`);
+      }
+      const message = messageParts.join('\n');
+
+      if (submitBtn) submitBtn.disabled = true;
+
+      try {
+        const res = await fetch('https://kennis-portal-api.kenniszone.workers.dev/contact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ name, email, message })
+        });
+
+        const data = await res.json().catch(() => null);
+
+        if (res.ok && data && data.ok === true) {
+          if (successEl) successEl.classList.remove('hidden');
+          showToast('Inquiry Received!', 'Thank you! Your inquiry has been sent to info@kenniszone.online.');
+          this.reset();
+        } else {
+          if (successEl) successEl.classList.add('hidden');
+          const errorMsg = (data && data.error) ? data.error : 'Could not send inquiry. Please check your connection and try again.';
+          showToast('Inquiry Failed', errorMsg);
+        }
+      } catch (err) {
+        if (successEl) successEl.classList.add('hidden');
+        showToast('Inquiry Failed', 'Network error — please check your connection and try again.');
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
+      }
     });
 
     // Mobile Menu Toggle
