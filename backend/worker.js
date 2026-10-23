@@ -1,8 +1,8 @@
-// Kennis Zone job portal backend — Cloudflare Worker (v4)
+// Kennis Zone job portal backend — Cloudflare Worker (v5)
 // Bindings / secrets:
-//   JOBS_KV        (KV namespace)  — posted jobs + application log
+//   JOBS_KV        (KV namespace)  — posted jobs + application log + poster accounts
 //   RESEND_API_KEY (secret)        — Resend API key
-//   ADMIN_KEY      (secret)        — Khurram's private key for the admin Excel export
+//   ADMIN_KEY      (secret)        — Khurram's private key for the admin Excel exports
 // Routes:
 //   GET  /health                          -> { ok: true }
 //   GET  /jobs                            -> { ok: true, jobs: [...] }  (newest first)
@@ -10,11 +10,27 @@
 //                                          duplicates (ALL details matching) rejected
 //   POST /jobs/bump                       -> { id, email } renews a post (owner email
 //                                          must match), max 5 renewals per month
+//   PUT  /jobs/:id                        -> edit a post (poster account session
+//                                          required; account email must own the post)
+//   POST /jobs/:id/share-image            -> stores the job's share-card PNG
+//                                          (poster email header must own the post)
+//   GET  /jobs/:id/share.png              -> the stored share-card PNG
+//   GET  /s/:id                           -> share landing page with Open Graph card
+//                                          tags; redirects to the live job
+//   POST /auth/signup                     -> { name, email, password } creates a poster
+//                                          account (unverified) + emails a 6-digit code
+//   POST /auth/verify                     -> { email, code } verifies the account
+//   POST /auth/resend                     -> { email } re-sends the verification code
+//   POST /auth/login                      -> { email, password } -> session token
+//   GET  /auth/me                         -> current account (Bearer token)
+//   GET  /jobs/mine                       -> the signed-in poster's own posts
 //   POST /apply                           -> multipart application; emails the poster,
 //                                          BCCs the owner, and logs the application
 //   POST /contact                         -> JSON { name, email, message } -> info@
 //   GET  /admin/applications.csv?key=...  -> Excel-ready CSV of ALL applications (admin only)
 //   GET  /admin/applications/count?key=.. -> { ok: true, count }
+//   GET  /admin/posts.csv?key=...        -> Excel-ready CSV of ALL stored posts (admin only)
+//   GET  /admin/logins.csv?key=...       -> Excel-ready CSV of ALL poster accounts (admin only)
 
 const ALLOWED_ORIGINS = [
   'https://www.kenniszone.online',
@@ -44,8 +60,8 @@ function corsHeaders(origin) {
   // server-side (recipient locking, honeypot, dedupe), so CORS is permissive.
   return {
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Poster-Email',
     'Vary': 'Origin',
   };
 }
@@ -88,6 +104,95 @@ async function getApplications(env) {
   const raw = await env.JOBS_KV.get('apps:all');
   if (!raw) return [];
   try { return JSON.parse(raw); } catch { return []; }
+}
+
+// ---------- Poster accounts (v5) ----------
+// Anyone may post a job; editing a post requires a signed-up account whose
+// email matches the email the post receives applications at (recipientEmail).
+async function getUsers(env) {
+  const raw = await env.JOBS_KV.get('users:all');
+  if (!raw) return [];
+  try { return JSON.parse(raw); } catch { return []; }
+}
+
+async function saveUsers(env, users) {
+  await env.JOBS_KV.put('users:all', JSON.stringify(users.slice(0, 2000)));
+}
+
+function findUser(users, email) {
+  return users.find(u => norm(u.email) === norm(email)) || null;
+}
+
+async function hashPassword(password, saltB64) {
+  const enc = new TextEncoder();
+  const keyMaterial = await crypto.subtle.importKey('raw', enc.encode(password), 'PBKDF2', false, ['deriveBits']);
+  const salt = Uint8Array.from(atob(saltB64), c => c.charCodeAt(0));
+  const bits = await crypto.subtle.deriveBits(
+    { name: 'PBKDF2', salt, iterations: 100000, hash: 'SHA-256' },
+    keyMaterial, 256
+  );
+  return arrayBufferToBase64(bits);
+}
+
+async function makePasswordRecord(password) {
+  const saltB64 = arrayBufferToBase64(crypto.getRandomValues(new Uint8Array(16)).buffer);
+  const hash = await hashPassword(password, saltB64);
+  return `pbkdf2$100000$${saltB64}$${hash}`;
+}
+
+async function checkPassword(password, record) {
+  const parts = String(record || '').split('$');
+  if (parts.length !== 4 || parts[0] !== 'pbkdf2') return false;
+  const hash = await hashPassword(password, parts[2]);
+  return hash === parts[3];
+}
+
+async function sha256Hex(text) {
+  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+  return [...new Uint8Array(digest)].map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+function randomToken() {
+  return [...crypto.getRandomValues(new Uint8Array(32))].map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function issueVerifyCode(env, email) {
+  const code = String(Math.floor(100000 + Math.random() * 900000));
+  const record = {
+    h: await sha256Hex(`${code}:${norm(email)}`),
+    exp: Date.now() + 15 * 60 * 1000,
+    tries: 0,
+  };
+  await env.JOBS_KV.put(`verify:${norm(email)}`, JSON.stringify(record), { expirationTtl: 960 });
+  await sendEmail(env, {
+    from: FROM,
+    to: [email],
+    subject: 'Your Kennis Zone verification code',
+    text: [
+      `Your Kennis Zone poster account verification code is: ${code}`,
+      ``,
+      `It expires in 15 minutes. Enter it on the website to verify your account — a verified account lets you edit the job posts made with this email address.`,
+      ``,
+      `If you did not request this code, you can ignore this email.`,
+    ].join('\n'),
+  });
+  return code;
+}
+
+async function accountFromRequest(request, env) {
+  const auth = request.headers.get('Authorization') || '';
+  const m = auth.match(/^Bearer\s+(.+)$/i);
+  if (!m) return null;
+  const email = await env.JOBS_KV.get(`sess:${m[1].trim()}`);
+  if (!email) return null;
+  const users = await getUsers(env);
+  return findUser(users, email);
+}
+
+function escapeHtml(s) {
+  return String(s ?? '').replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+  }[c]));
 }
 
 async function sendEmail(env, payload) {
@@ -168,6 +273,282 @@ export default {
         if (!adminAuthorized(request, env, url)) return json(origin, { ok: false, error: 'Unauthorized' }, 401);
         const apps = await getApplications(env);
         return json(origin, { ok: true, count: apps.length });
+      }
+
+      // ---------- Admin: posts + logins exports (owner only, v5) ----------
+      if (url.pathname === '/admin/posts.csv' && request.method === 'GET') {
+        if (!adminKeyOf(env)) return json(origin, { ok: false, error: 'Admin export is not configured.' }, 503);
+        if (!adminAuthorized(request, env, url)) return json(origin, { ok: false, error: 'Unauthorized' }, 401);
+        const jobs = await getStoredJobs(env);
+        const header = ['Job ID', 'Posted Date', 'Title', 'Company', 'City', 'Salary', 'Industry', 'Experience', 'Work Mode', 'Applications Email', 'Last Date To Apply', 'Renewals Used This Month'];
+        const lines = [header.join(',')];
+        for (const j of jobs) {
+          lines.push([j.id, j.postedDate, j.title, j.company, j.city, j.salary, j.industry, j.experience, j.workMode, j.recipientEmail, j.lastDateToApply, j.bumpCount || 0].map(csvCell).join(','));
+        }
+        return new Response(lines.join('\r\n'), {
+          status: 200,
+          headers: {
+            'Content-Type': 'text/csv; charset=utf-8',
+            'Content-Disposition': 'attachment; filename="kennis-posts.csv"',
+          },
+        });
+      }
+      if (url.pathname === '/admin/logins.csv' && request.method === 'GET') {
+        if (!adminKeyOf(env)) return json(origin, { ok: false, error: 'Admin export is not configured.' }, 503);
+        if (!adminAuthorized(request, env, url)) return json(origin, { ok: false, error: 'Unauthorized' }, 401);
+        const users = await getUsers(env);
+        const header = ['Name', 'Email', 'Signed Up', 'Verified'];
+        const lines = [header.join(',')];
+        for (const u of users) {
+          lines.push([u.name, u.email, u.createdAt, u.verified ? 'Yes' : 'No'].map(csvCell).join(','));
+        }
+        return new Response(lines.join('\r\n'), {
+          status: 200,
+          headers: {
+            'Content-Type': 'text/csv; charset=utf-8',
+            'Content-Disposition': 'attachment; filename="kennis-logins.csv"',
+          },
+        });
+      }
+
+      // ---------- Poster accounts: sign up / verify / login (v5) ----------
+      if (url.pathname === '/auth/signup' && request.method === 'POST') {
+        const body = await request.json().catch(() => null);
+        if (!body) return json(origin, { ok: false, error: 'Invalid JSON' }, 400);
+        if (body.website) return json(origin, { ok: true }); // honeypot
+        const name = clean(body.name, 120);
+        const email = clean(body.email, 160);
+        const password = String(body.password || '');
+        if (!name || !isEmail(email)) {
+          return json(origin, { ok: false, error: 'Your name and a valid email are required.' }, 422);
+        }
+        if (password.length < 8) {
+          return json(origin, { ok: false, error: 'Password must be at least 8 characters.' }, 422);
+        }
+        const users = await getUsers(env);
+        const existing = findUser(users, email);
+        if (existing && existing.verified) {
+          return json(origin, { ok: false, error: 'An account with this email already exists — please sign in instead.' }, 409);
+        }
+        if (existing) {
+          existing.name = name;
+          existing.pass = await makePasswordRecord(password);
+          await saveUsers(env, users);
+        } else {
+          users.push({
+            name,
+            email,
+            pass: await makePasswordRecord(password),
+            verified: false,
+            createdAt: new Date().toISOString(),
+          });
+          await saveUsers(env, users);
+        }
+        try {
+          await issueVerifyCode(env, email);
+        } catch (err) {
+          return json(origin, { ok: false, error: 'Account saved, but the verification email could not be sent. Please try "Resend code".' }, 502);
+        }
+        return json(origin, { ok: true, needsVerify: true, email });
+      }
+
+      if (url.pathname === '/auth/verify' && request.method === 'POST') {
+        const body = await request.json().catch(() => null);
+        if (!body) return json(origin, { ok: false, error: 'Invalid JSON' }, 400);
+        const email = clean(body.email, 160);
+        const code = clean(body.code, 10);
+        if (!isEmail(email) || !code) {
+          return json(origin, { ok: false, error: 'Email and the 6-digit code are required.' }, 422);
+        }
+        const raw = await env.JOBS_KV.get(`verify:${norm(email)}`);
+        if (!raw) return json(origin, { ok: false, error: 'This code has expired — please request a new one.' }, 410);
+        let record;
+        try { record = JSON.parse(raw); } catch { record = null; }
+        if (!record || Date.now() > record.exp) {
+          return json(origin, { ok: false, error: 'This code has expired — please request a new one.' }, 410);
+        }
+        if ((record.tries || 0) >= 5) {
+          return json(origin, { ok: false, error: 'Too many attempts — please request a new code.' }, 429);
+        }
+        const h = await sha256Hex(`${code}:${norm(email)}`);
+        if (h !== record.h) {
+          record.tries = (record.tries || 0) + 1;
+          await env.JOBS_KV.put(`verify:${norm(email)}`, JSON.stringify(record), { expirationTtl: 960 });
+          return json(origin, { ok: false, error: 'That code does not match. Please check and try again.' }, 403);
+        }
+        const users = await getUsers(env);
+        const user = findUser(users, email);
+        if (!user) return json(origin, { ok: false, error: 'Account not found — please sign up first.' }, 404);
+        user.verified = true;
+        await saveUsers(env, users);
+        await env.JOBS_KV.delete(`verify:${norm(email)}`);
+        const token = randomToken();
+        await env.JOBS_KV.put(`sess:${token}`, user.email, { expirationTtl: 2592000 });
+        return json(origin, { ok: true, token, email: user.email, name: user.name });
+      }
+
+      if (url.pathname === '/auth/resend' && request.method === 'POST') {
+        const body = await request.json().catch(() => null);
+        if (!body) return json(origin, { ok: false, error: 'Invalid JSON' }, 400);
+        const email = clean(body.email, 160);
+        if (!isEmail(email)) return json(origin, { ok: false, error: 'A valid email is required.' }, 422);
+        const users = await getUsers(env);
+        const user = findUser(users, email);
+        if (!user) return json(origin, { ok: false, error: 'No account found with this email.' }, 404);
+        if (user.verified) return json(origin, { ok: false, error: 'This account is already verified — please sign in.' }, 409);
+        try {
+          await issueVerifyCode(env, email);
+        } catch (err) {
+          return json(origin, { ok: false, error: 'The verification email could not be sent. Please try again.' }, 502);
+        }
+        return json(origin, { ok: true, needsVerify: true, email });
+      }
+
+      if (url.pathname === '/auth/login' && request.method === 'POST') {
+        const body = await request.json().catch(() => null);
+        if (!body) return json(origin, { ok: false, error: 'Invalid JSON' }, 400);
+        const email = clean(body.email, 160);
+        const password = String(body.password || '');
+        if (!isEmail(email) || !password) {
+          return json(origin, { ok: false, error: 'Email and password are required.' }, 422);
+        }
+        const users = await getUsers(env);
+        const user = findUser(users, email);
+        if (!user || !(await checkPassword(password, user.pass))) {
+          return json(origin, { ok: false, error: 'Email or password is incorrect.' }, 401);
+        }
+        if (!user.verified) {
+          return json(origin, { ok: false, needsVerify: true, error: 'Please verify your email first — enter the 6-digit code we emailed you.' }, 403);
+        }
+        const token = randomToken();
+        await env.JOBS_KV.put(`sess:${token}`, user.email, { expirationTtl: 2592000 });
+        return json(origin, { ok: true, token, email: user.email, name: user.name });
+      }
+
+      if (url.pathname === '/auth/me' && request.method === 'GET') {
+        const account = await accountFromRequest(request, env);
+        if (!account) return json(origin, { ok: false, error: 'Not signed in.' }, 401);
+        return json(origin, { ok: true, email: account.email, name: account.name });
+      }
+
+      // ---------- Jobs: the signed-in poster's own posts (v5) ----------
+      if (url.pathname === '/jobs/mine' && request.method === 'GET') {
+        const account = await accountFromRequest(request, env);
+        if (!account) return json(origin, { ok: false, error: 'Not signed in.' }, 401);
+        const jobs = await getStoredJobs(env);
+        const mine = jobs.filter(j => norm(j.recipientEmail) === norm(account.email));
+        return json(origin, { ok: true, jobs: mine });
+      }
+
+      // ---------- Jobs: edit a post (signed-in owner only, v5) ----------
+      const jobIdMatch = url.pathname.match(/^\/jobs\/(KZ-\d+)$/);
+      if (jobIdMatch && request.method === 'PUT') {
+        const account = await accountFromRequest(request, env);
+        if (!account) return json(origin, { ok: false, error: 'Please sign in to edit this post.' }, 401);
+        const body = await request.json().catch(() => null);
+        if (!body) return json(origin, { ok: false, error: 'Invalid JSON' }, 400);
+        const id = jobIdMatch[1];
+        const jobs = await getStoredJobs(env);
+        const idx = jobs.findIndex(j => j.id === id);
+        if (idx === -1) return json(origin, { ok: false, error: 'This post could not be found.' }, 404);
+        const job = jobs[idx];
+        if (norm(job.recipientEmail) !== norm(account.email)) {
+          return json(origin, { ok: false, error: 'You can only edit posts made with your own account email.' }, 403);
+        }
+        const updated = {
+          ...job,
+          title: clean(body.title, 120) || job.title,
+          company: clean(body.company, 120) || job.company,
+          city: clean(body.city, 80) || job.city,
+          salary: clean(body.salary, 120) || job.salary,
+          industry: clean(body.industry, 120) || job.industry,
+          experience: clean(body.experience, 60) || job.experience,
+          workMode: clean(body.workMode, 60) || job.workMode,
+          summary: clean(body.summary, 4000) || job.summary,
+          lastDateToApply: clean(body.lastDateToApply, 40) || job.lastDateToApply,
+          // recipientEmail never changes — it is the ownership anchor.
+        };
+        const key = jobKey(updated);
+        const dupe = jobs.find(j => j.id !== id && jobKey(j) === key)
+          || SEEDED_JOBS.find(j => jobKey(j) === key);
+        if (dupe) {
+          return json(origin, { ok: false, duplicate: true, error: `These details exactly match another live post (${dupe.id}). Duplicate postings are not allowed.` }, 409);
+        }
+        jobs[idx] = updated;
+        await env.JOBS_KV.put('jobs:all', JSON.stringify(jobs));
+        return json(origin, { ok: true, job: updated });
+      }
+
+      // ---------- Share-card images (v5) ----------
+      const shareImgMatch = url.pathname.match(/^\/jobs\/(KZ-\d+)\/share-image$/);
+      if (shareImgMatch && request.method === 'POST') {
+        const id = shareImgMatch[1];
+        const jobs = await getStoredJobs(env);
+        const job = jobs.find(j => j.id === id);
+        if (!job) return json(origin, { ok: false, error: 'This post could not be found.' }, 404);
+        const posterEmail = clean(request.headers.get('X-Poster-Email'), 160);
+        if (!posterEmail || norm(posterEmail) !== norm(job.recipientEmail)) {
+          return json(origin, { ok: false, error: 'Poster email does not match this post.' }, 403);
+        }
+        const ctype = request.headers.get('Content-Type') || '';
+        if (!ctype.startsWith('image/png')) {
+          return json(origin, { ok: false, error: 'Share image must be a PNG.' }, 415);
+        }
+        const buf = await request.arrayBuffer();
+        if (!buf || buf.byteLength === 0 || buf.byteLength > 3 * 1024 * 1024) {
+          return json(origin, { ok: false, error: 'Share image is empty or too large (max 3 MB).' }, 413);
+        }
+        await env.JOBS_KV.put(`shareimg:${id}`, buf);
+        return json(origin, { ok: true, id });
+      }
+      const sharePngMatch = url.pathname.match(/^\/jobs\/(KZ-\d+)\/share\.png$/);
+      if (sharePngMatch && request.method === 'GET') {
+        const buf = await env.JOBS_KV.get(`shareimg:${sharePngMatch[1]}`, 'arrayBuffer');
+        if (!buf) return json(origin, { ok: false, error: 'No share image for this job yet.' }, 404);
+        return new Response(buf, {
+          status: 200,
+          headers: {
+            'Content-Type': 'image/png',
+            'Cache-Control': 'public, max-age=3600',
+            ...corsHeaders(origin),
+          },
+        });
+      }
+
+      // ---------- Share landing page with Open Graph card tags (v5) ----------
+      const sharePageMatch = url.pathname.match(/^\/s\/(KZ-\d+)$/);
+      if (sharePageMatch && request.method === 'GET') {
+        const id = sharePageMatch[1];
+        const jobs = await getStoredJobs(env);
+        const job = jobs.find(j => j.id === id) || SEEDED_JOBS.find(j => j.id === id);
+        if (!job) return new Response('Job not found', { status: 404, headers: { 'Content-Type': 'text/plain' } });
+        const jobUrl = `https://www.kenniszone.online/?job=${encodeURIComponent(id)}`;
+        const imgUrl = `${url.origin}/jobs/${encodeURIComponent(id)}/share.png`;
+        const title = `${job.title} — ${job.company}`;
+        const desc = `${job.city} • ${job.salary} • Last date to apply: ${job.lastDateToApply || 'Open until filled'}. Apply online via the Kennis Zone verified portal.`;
+        const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>${escapeHtml(title)} | Kennis Zone</title>
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Kennis Zone" />
+<meta property="og:title" content="${escapeHtml(title)}" />
+<meta property="og:description" content="${escapeHtml(desc)}" />
+<meta property="og:image" content="${escapeHtml(imgUrl)}" />
+<meta property="og:url" content="${escapeHtml(jobUrl)}" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta http-equiv="refresh" content="0; url=${escapeHtml(jobUrl)}" />
+</head>
+<body>
+<p>Opening this job on the Kennis Zone portal… <a href="${escapeHtml(jobUrl)}">Tap here if it does not open automatically.</a></p>
+<script>window.location.replace(${JSON.stringify(jobUrl)});</script>
+</body>
+</html>`;
+        return new Response(html, {
+          status: 200,
+          headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'public, max-age=300' },
+        });
       }
 
       // ---------- Jobs: list ----------
