@@ -2333,14 +2333,14 @@
           <div class="flex flex-wrap gap-2 mt-3 justify-center">
             <button type="button" onclick="shareJobCardWhatsApp()" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-sm transition cursor-pointer">
               <i data-lucide="image" class="w-4 h-4"></i>
-              <span>WhatsApp — Image + Text</span>
+              <span>WhatsApp — One Message</span>
             </button>
             <button type="button" onclick="downloadJobCardImage()" class="px-4 py-2.5 rounded-xl border border-slate-300 hover:border-kennis-800 text-slate-800 font-bold text-xs flex items-center justify-center gap-2 transition cursor-pointer">
               <i data-lucide="download" class="w-4 h-4"></i>
               <span>Download Card</span>
             </button>
           </div>
-          <p class="text-[11px] text-slate-400 mt-2.5 text-center leading-relaxed">On mobile, the card image and the announcement text are sent to WhatsApp together. On desktop, the card downloads — attach it in WhatsApp along with the text below.</p>
+          <p class="text-[11px] text-slate-400 mt-2.5 text-center leading-relaxed">Sends ONE WhatsApp message: the announcement text with this job card shown inside it. The card also carries the apply link printed on it, so it works on its own wherever it travels.</p>
         </div>
       </div>
 
@@ -2648,7 +2648,13 @@
             const existingIds = new Set(jobListings.map(j => String(j.id).toLowerCase()));
             const backendJobs = [];
             for (const j of data.jobs) {
-              if (j && j.id && !existingIds.has(String(j.id).toLowerCase())) {
+              // Never display internal portal test posts on the public site.
+              const isTestPost = j && (
+                String(j.id) === 'KZ-1002' ||
+                /please ignore/i.test(String(j.title || '')) ||
+                (/test/i.test(String(j.title || '')) && /test/i.test(String(j.company || '')))
+              );
+              if (j && j.id && !isTestPost && !existingIds.has(String(j.id).toLowerCase())) {
                 existingIds.add(String(j.id).toLowerCase());
                 backendJobs.push({
                   ...j,
@@ -3378,9 +3384,16 @@
       return `${origin}${pathname}?job=${encodeURIComponent(jobId)}`;
     }
 
+    function getJobShareUrl(job) {
+      // Backend jobs have a share landing page whose preview image is the job card,
+      // so WhatsApp shows the card inside the same message bubble as the text.
+      if (isBackendJob(job)) return `${PORTAL_API_URL}/s/${encodeURIComponent(job.id)}`;
+      return getJobUrl(job.id);
+    }
+
     function getJobShareText(job) {
       const deadline = formatDeadline(job.lastDateToApply) || 'Open until filled';
-      const jobUrl = getJobUrl(job.id);
+      const jobUrl = getJobShareUrl(job);
       const location = job.workMode ? `${job.city} (${job.workMode})` : job.city;
       return `📢 Job Opening: ${job.title}
 🏢 Company: ${job.company}
@@ -3465,7 +3478,7 @@ ${jobUrl}`;
             + compH + 24
             + 60 + 14 + 60 + 26
             + (summaryLines.length ? summaryLines.length * 40 + 6 : 0)
-            + 24 + 26 + 54 + 22 + 30 + PAD;
+            + 24 + 26 + 54 + 22 + 64 + 16 + 30 + PAD;
 
           const canvas = document.createElement('canvas');
           canvas.width = W;
@@ -3637,6 +3650,17 @@ ${jobUrl}`;
           ctx.fillText(btnText, W - PAD - btnW + 23, y + 13);
           y += 54 + 22;
 
+          // Apply-link band: printed on the image so the card is complete on its own,
+          // even when it travels without the announcement text.
+          ctx.fillStyle = '#0f2540';
+          cardRoundRect(ctx, PAD, y, INNER, 64, 16);
+          ctx.fill();
+          ctx.font = '700 31px Inter, Arial, sans-serif';
+          ctx.fillStyle = '#ffffff';
+          const linkText = `Apply: kenniszone.online/?job=${job.id}`;
+          ctx.fillText(linkText, (W - ctx.measureText(linkText).width) / 2, y + 16);
+          y += 64 + 16;
+
           // Brand line
           ctx.font = '500 24px Inter, Arial, sans-serif';
           ctx.fillStyle = '#94a3b8';
@@ -3670,7 +3694,7 @@ ${jobUrl}`;
         img.src = URL.createObjectURL(blob);
         img.classList.remove('hidden');
       }
-      if (status) status.textContent = 'Card ready — the image and the announcement text go together.';
+      if (status) status.textContent = 'Card ready — on WhatsApp it appears inside your one message, and the apply link is printed on the card itself.';
       uploadShareImage(job, blob);
     }
 
@@ -3687,27 +3711,21 @@ ${jobUrl}`;
       const job = currentActiveShareJob;
       if (!job) return;
       if (!currentCardBlob || currentCardJobId !== job.id) {
-        await prepareShareCard(job);
+        await prepareShareCard(job); // also stores the card image the share preview uses
       }
       const text = getJobShareText(job);
-      if (currentCardBlob && navigator.canShare) {
-        const file = new File([currentCardBlob], `kennis-job-${job.id}.png`, { type: 'image/png' });
-        if (navigator.canShare({ files: [file] })) {
-          try {
-            await navigator.share({ files: [file], text });
-            return;
-          } catch (err) {
-            if (err && err.name === 'AbortError') return;
-          }
+      // One-message share: send TEXT ONLY, no image file. WhatsApp drops the text when a
+      // file is attached, so image and text landed as two separate messages. Text-only,
+      // WhatsApp renders the job card as the link preview inside the same message.
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: job.title, text });
+          return;
+        } catch (err) {
+          if (err && err.name === 'AbortError') return;
         }
       }
-      // Desktop / unsupported fallback: download the card, copy the text, open WhatsApp.
-      downloadJobCardImage();
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        try { await navigator.clipboard.writeText(text); } catch (e) { /* clipboard unavailable */ }
-      }
       window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
-      showToast('Card Downloaded', 'Attach the downloaded card image in WhatsApp — the announcement text is copied, ready to paste with it.');
     }
 
     function downloadJobCardImage() {
