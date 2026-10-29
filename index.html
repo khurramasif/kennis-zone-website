@@ -2294,80 +2294,35 @@
         </button>
       </div>
 
-      <!-- Quick Share Channels -->
-      <div class="mt-5 space-y-3">
-        <label class="block text-xs font-bold uppercase tracking-wider text-slate-700">Share Via</label>
-        <div class="grid grid-cols-2 gap-2.5">
-          <!-- WhatsApp -->
-          <a id="shareWhatsAppBtn" href="#" target="_blank" rel="noopener noreferrer" class="p-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-sm transition cursor-pointer">
-            <i data-lucide="message-circle" class="w-4 h-4"></i>
-            <span>WhatsApp</span>
-          </a>
-
-          <!-- LinkedIn -->
-          <a id="shareLinkedInBtn" href="#" target="_blank" rel="noopener noreferrer" class="p-3 rounded-xl bg-[#0A66C2] hover:bg-[#084e96] text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-sm transition cursor-pointer">
-            <i data-lucide="linkedin" class="w-4 h-4"></i>
-            <span>LinkedIn</span>
-          </a>
-
-          <!-- Facebook -->
-          <a id="shareFacebookBtn" href="#" target="_blank" rel="noopener noreferrer" class="p-3 rounded-xl bg-[#1877F2] hover:bg-[#0c63d4] text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-sm transition cursor-pointer">
-            <i data-lucide="facebook" class="w-4 h-4"></i>
-            <span>Facebook</span>
-          </a>
-
-          <!-- Copy Direct Link -->
-          <button id="shareCopyLinkBtn" type="button" onclick="copyCurrentJobLink()" class="p-3 rounded-xl bg-kennis-950 hover:bg-kennis-800 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-sm transition cursor-pointer">
-            <i data-lucide="copy" class="w-4 h-4 text-amber-400"></i>
-            <span>Copy Link</span>
-          </button>
-        </div>
-      </div>
-
       <!-- Card Image Share (WhatsApp: image + text together) -->
       <div class="mt-5">
-        <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Job Card Image — Share on WhatsApp</label>
+        <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Job Card Image</label>
         <div class="rounded-xl border border-slate-200 bg-slate-50 p-3.5 flex flex-col items-center">
           <img id="shareCardPreview" alt="Job card preview" class="w-full max-w-[300px] rounded-lg border border-slate-200 shadow-sm hidden" />
           <p id="shareCardStatus" class="text-[11px] text-slate-500">Preparing card image…</p>
-          <div class="flex flex-wrap gap-2 mt-3 justify-center">
-            <button type="button" onclick="shareJobCardWhatsApp()" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-sm transition cursor-pointer">
-              <i data-lucide="image" class="w-4 h-4"></i>
-              <span>WhatsApp — Image + Caption</span>
-            </button>
-            <button type="button" onclick="downloadJobCardImage()" class="px-4 py-2.5 rounded-xl border border-slate-300 hover:border-kennis-800 text-slate-800 font-bold text-xs flex items-center justify-center gap-2 transition cursor-pointer">
-              <i data-lucide="download" class="w-4 h-4"></i>
-              <span>Download Card</span>
-            </button>
-          </div>
-          <p class="text-[11px] text-slate-400 mt-2.5 text-center leading-relaxed">Sends the card photo and the announcement text together in one WhatsApp message — the same way the Dhood Wala app sends a bill. The apply link is also printed on the card itself.</p>
+          <p class="text-[11px] text-slate-400 mt-2.5 text-center leading-relaxed">Every share below carries this card image with it — no text-only sharing.</p>
         </div>
       </div>
 
-      <!-- Per-Job Link Direct Box -->
-      <div class="mt-5">
-        <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Direct Job Link</label>
-        <div class="flex items-center gap-2">
-          <input type="text" id="shareJobUrlInput" readonly class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-xs text-slate-700 font-mono select-all focus:outline-none" />
-          <button type="button" onclick="copyCurrentJobLink()" class="px-4 py-2.5 rounded-xl border border-slate-300 hover:border-kennis-800 text-slate-800 text-xs font-bold transition shrink-0 cursor-pointer">
-            Copy
+      <!-- Share row: icon-only, at the bottom; the card image travels with every share -->
+      <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <button type="button" title="WhatsApp" onclick="shareJobCardWhatsApp()" class="w-11 h-11 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white flex items-center justify-center shadow-sm transition cursor-pointer">
+            <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          </button>
+          <a id="shareLinkedInBtn" title="LinkedIn" href="#" target="_blank" rel="noopener noreferrer" class="w-11 h-11 rounded-full bg-[#0A66C2] hover:bg-[#084e96] text-white flex items-center justify-center shadow-sm transition cursor-pointer">
+            <i data-lucide="linkedin" class="w-5 h-5"></i>
+          </a>
+          <a id="shareFacebookBtn" title="Facebook" href="#" target="_blank" rel="noopener noreferrer" class="w-11 h-11 rounded-full bg-[#1877F2] hover:bg-[#0c63d4] text-white flex items-center justify-center shadow-sm transition cursor-pointer">
+            <i data-lucide="facebook" class="w-5 h-5"></i>
+          </a>
+          <button type="button" title="Copy link" onclick="copyCurrentJobLink()" class="w-11 h-11 rounded-full bg-kennis-950 hover:bg-kennis-800 text-white flex items-center justify-center shadow-sm transition cursor-pointer">
+            <i data-lucide="link" class="w-5 h-5"></i>
+          </button>
+          <button type="button" title="Download card" onclick="downloadJobCardImage()" class="w-11 h-11 rounded-full border border-slate-300 hover:border-kennis-800 text-slate-800 flex items-center justify-center transition cursor-pointer">
+            <i data-lucide="download" class="w-5 h-5"></i>
           </button>
         </div>
-      </div>
-
-      <!-- Pre-formatted Group Share Text Box -->
-      <div class="mt-4">
-        <div class="flex items-center justify-between mb-1.5">
-          <label class="text-xs font-bold uppercase tracking-wider text-slate-700">Pre-Filled Share Text (For Job Groups)</label>
-          <button type="button" onclick="copyCurrentJobShareText()" class="text-xs font-bold text-amber-700 hover:text-amber-800 hover:underline flex items-center gap-1 cursor-pointer">
-            <i data-lucide="clipboard-copy" class="w-3.5 h-3.5"></i> Copy Text
-          </button>
-        </div>
-        <textarea id="shareJobTextPreview" rows="5" readonly class="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 font-sans leading-relaxed select-all focus:outline-none custom-scrollbar"></textarea>
-      </div>
-
-      <!-- Modal Close Button -->
-      <div class="mt-5 pt-3 border-t border-slate-100 flex justify-end">
         <button type="button" onclick="closeShareJobModal()" class="px-5 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50 cursor-pointer">
           Close
         </button>
@@ -3017,8 +2972,9 @@
         renderJobs();
         renderJobCardBlob(newJob).then(b => { if (b) uploadShareImage(newJob, b); }).catch(() => {});
 
-        // Populate success panel with direct job link and share actions
-        const jobUrl = getJobUrl(newJob.id);
+        // Populate success panel with the share link and share actions
+        // (the share link's preview is the job card image, so it travels with every share)
+        const jobUrl = getJobShareUrl(newJob);
         const shareText = getJobShareText(newJob);
 
         const successLinkInput = document.getElementById('postJobSuccessUrlInput');
@@ -3760,22 +3716,15 @@ ${jobUrl}`;
       if (!job) return;
       currentActiveShareJob = job;
 
-      const jobUrl = getJobUrl(job.id);
+      const shareUrl = getJobShareUrl(job);
       const shareText = getJobShareText(job);
 
       document.getElementById('shareModalJobTitle').textContent = job.title;
       document.getElementById('shareModalJobMeta').textContent = `${job.company} • ${job.city} • ${job.salary}`;
-      document.getElementById('shareJobUrlInput').value = jobUrl;
-      document.getElementById('shareJobTextPreview').value = shareText;
 
-      // WhatsApp Share Link
-      document.getElementById('shareWhatsAppBtn').href = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
-
-      // LinkedIn Share Link
-      document.getElementById('shareLinkedInBtn').href = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(jobUrl)}`;
-
-      // Facebook Share Link
-      document.getElementById('shareFacebookBtn').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(jobUrl)}&quote=${encodeURIComponent(shareText)}`;
+      // Every channel shares the share link, whose preview IS the job card image.
+      document.getElementById('shareLinkedInBtn').href = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`;
+      document.getElementById('shareFacebookBtn').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareText)}`;
 
       prepareShareCard(job);
 
@@ -3792,29 +3741,15 @@ ${jobUrl}`;
 
     function copyCurrentJobLink() {
       if (!currentActiveShareJob) return;
-      const jobUrl = getJobUrl(currentActiveShareJob.id);
+      const jobUrl = getJobShareUrl(currentActiveShareJob);
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(jobUrl).then(() => {
-          showToast('Link Copied!', `Direct link for "${currentActiveShareJob.title}" copied to clipboard.`);
+          showToast('Link Copied!', `Share link for "${currentActiveShareJob.title}" copied — the job card image travels with it.`);
         }).catch(() => {
-          fallbackCopyText(jobUrl, 'Direct job link');
+          fallbackCopyText(jobUrl, 'Share link');
         });
       } else {
-        fallbackCopyText(jobUrl, 'Direct job link');
-      }
-    }
-
-    function copyCurrentJobShareText() {
-      if (!currentActiveShareJob) return;
-      const shareText = getJobShareText(currentActiveShareJob);
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(shareText).then(() => {
-          showToast('Share Text Copied!', 'Job announcement copied! Ready to paste into WhatsApp groups.');
-        }).catch(() => {
-          fallbackCopyText(shareText, 'Job announcement');
-        });
-      } else {
-        fallbackCopyText(shareText, 'Job announcement');
+        fallbackCopyText(jobUrl, 'Share link');
       }
     }
 
