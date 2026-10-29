@@ -2333,14 +2333,14 @@
           <div class="flex flex-wrap gap-2 mt-3 justify-center">
             <button type="button" onclick="shareJobCardWhatsApp()" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-sm transition cursor-pointer">
               <i data-lucide="image" class="w-4 h-4"></i>
-              <span>WhatsApp — One Message</span>
+              <span>WhatsApp — Image + Caption</span>
             </button>
             <button type="button" onclick="downloadJobCardImage()" class="px-4 py-2.5 rounded-xl border border-slate-300 hover:border-kennis-800 text-slate-800 font-bold text-xs flex items-center justify-center gap-2 transition cursor-pointer">
               <i data-lucide="download" class="w-4 h-4"></i>
               <span>Download Card</span>
             </button>
           </div>
-          <p class="text-[11px] text-slate-400 mt-2.5 text-center leading-relaxed">Sends ONE WhatsApp message: the announcement text with this job card shown inside it. The card also carries the apply link printed on it, so it works on its own wherever it travels.</p>
+          <p class="text-[11px] text-slate-400 mt-2.5 text-center leading-relaxed">Sends the card as a WhatsApp photo with the announcement as its caption — one single message. The text is copied for you automatically: in WhatsApp, tap the caption box and paste. The apply link is also printed on the card itself.</p>
         </div>
       </div>
 
@@ -3694,7 +3694,7 @@ ${jobUrl}`;
         img.src = URL.createObjectURL(blob);
         img.classList.remove('hidden');
       }
-      if (status) status.textContent = 'Card ready — on WhatsApp it appears inside your one message, and the apply link is printed on the card itself.';
+      if (status) status.textContent = 'Card ready — the apply link is printed on the card itself, so the photo works on its own too.';
       uploadShareImage(job, blob);
     }
 
@@ -3711,21 +3711,32 @@ ${jobUrl}`;
       const job = currentActiveShareJob;
       if (!job) return;
       if (!currentCardBlob || currentCardJobId !== job.id) {
-        await prepareShareCard(job); // also stores the card image the share preview uses
+        await prepareShareCard(job);
       }
       const text = getJobShareText(job);
-      // One-message share: send TEXT ONLY, no image file. WhatsApp drops the text when a
-      // file is attached, so image and text landed as two separate messages. Text-only,
-      // WhatsApp renders the job card as the link preview inside the same message.
-      if (navigator.share) {
-        try {
-          await navigator.share({ title: job.title, text });
-          return;
-        } catch (err) {
-          if (err && err.name === 'AbortError') return;
+      // WhatsApp takes no caption from a website share: text attached to a file posts as
+      // its own separate message, and its link previews attach unreliably. Reliable route:
+      // copy the announcement to the clipboard, share the card IMAGE alone, and the sender
+      // pastes the text into WhatsApp's caption box — one photo message with everything.
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        try { await navigator.clipboard.writeText(text); } catch (e) { /* clipboard unavailable */ }
+      }
+      if (currentCardBlob && navigator.canShare) {
+        const file = new File([currentCardBlob], `kennis-job-${job.id}.png`, { type: 'image/png' });
+        if (navigator.canShare({ files: [file] })) {
+          try {
+            await navigator.share({ files: [file] });
+            showToast('Text Copied', 'In WhatsApp, tap the caption box under the photo, paste, and send — one message, image + text together.');
+            return;
+          } catch (err) {
+            if (err && err.name === 'AbortError') return;
+          }
         }
       }
+      // Desktop / unsupported fallback: download the card, text already copied, open WhatsApp.
+      downloadJobCardImage();
       window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
+      showToast('Card Downloaded', 'Attach the downloaded card image in WhatsApp and paste the copied text as its caption.');
     }
 
     function downloadJobCardImage() {
