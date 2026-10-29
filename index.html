@@ -2340,7 +2340,7 @@
               <span>Download Card</span>
             </button>
           </div>
-          <p class="text-[11px] text-slate-400 mt-2.5 text-center leading-relaxed">Sends the card as a WhatsApp photo with the announcement as its caption — one single message. The text is copied for you automatically: in WhatsApp, tap the caption box and paste. The apply link is also printed on the card itself.</p>
+          <p class="text-[11px] text-slate-400 mt-2.5 text-center leading-relaxed">Sends the card photo and the announcement text together in one WhatsApp message — the same way the Dhood Wala app sends a bill. The apply link is also printed on the card itself.</p>
         </div>
       </div>
 
@@ -3714,19 +3714,18 @@ ${jobUrl}`;
         await prepareShareCard(job);
       }
       const text = getJobShareText(job);
-      // WhatsApp takes no caption from a website share: text attached to a file posts as
-      // its own separate message, and its link previews attach unreliably. Reliable route:
-      // copy the announcement to the clipboard, share the card IMAGE alone, and the sender
-      // pastes the text into WhatsApp's caption box — one photo message with everything.
+      // One share carrying the image AND the text together — the same single-intent
+      // pattern the Dhood Wala app uses to send a bill photo with its summary into
+      // WhatsApp as one message. The text is also copied to the clipboard first as a
+      // silent backup: if a caption ever comes up empty, it is one paste away.
       if (navigator.clipboard && navigator.clipboard.writeText) {
         try { await navigator.clipboard.writeText(text); } catch (e) { /* clipboard unavailable */ }
       }
       if (currentCardBlob && navigator.canShare) {
         const file = new File([currentCardBlob], `kennis-job-${job.id}.png`, { type: 'image/png' });
-        if (navigator.canShare({ files: [file] })) {
+        if (navigator.canShare({ files: [file], text })) {
           try {
-            await navigator.share({ files: [file] });
-            showToast('Text Copied', 'In WhatsApp, tap the caption box under the photo, paste, and send — one message, image + text together.');
+            await navigator.share({ files: [file], text });
             return;
           } catch (err) {
             if (err && err.name === 'AbortError') return;
