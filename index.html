@@ -2300,7 +2300,7 @@
         <div class="rounded-xl border border-slate-200 bg-slate-50 p-3.5 flex flex-col items-center">
           <img id="shareCardPreview" alt="Job card preview" class="w-full max-w-[300px] rounded-lg border border-slate-200 shadow-sm hidden" />
           <p id="shareCardStatus" class="text-[11px] text-slate-500">Preparing card image…</p>
-          <p class="text-[11px] text-slate-400 mt-2.5 text-center leading-relaxed">Every share below carries this card image with it — no text-only sharing.</p>
+          <p class="text-[11px] text-slate-400 mt-2.5 text-center leading-relaxed">On mobile, the card image and text share together in one message. On desktop, WhatsApp opens with the text ready and the card downloads — attach it to the same message.</p>
         </div>
       </div>
 
@@ -3721,14 +3721,16 @@ ${jobUrl}`;
       const text = getJobShareText(job);
       // One share carrying the image AND the text together — the same single-intent
       // pattern the Dhood Wala app uses to send a bill photo with its summary into
-      // WhatsApp as one message. The text is also copied to the clipboard first as a
-      // silent backup: if a caption ever comes up empty, it is one paste away.
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        try { await navigator.clipboard.writeText(text); } catch (e) { /* clipboard unavailable */ }
-      }
+      // WhatsApp as one message.
       if (currentCardBlob && navigator.canShare) {
         const file = new File([currentCardBlob], `kennis-job-${job.id}.png`, { type: 'image/png' });
         if (navigator.canShare({ files: [file], text })) {
+          // Caption backup on the clipboard — deliberately NOT awaited: an await
+          // here burns the click's user activation, and browsers then block the
+          // share sheet / fallback tab below as if it were a popup.
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).catch(() => { /* clipboard unavailable */ });
+          }
           try {
             await navigator.share({ files: [file], text });
             return;
@@ -3737,10 +3739,17 @@ ${jobUrl}`;
           }
         }
       }
-      // Desktop / unsupported fallback: download the card, text already copied, open WhatsApp.
-      downloadJobCardImage();
+      // Desktop / unsupported fallback: open WhatsApp FIRST, synchronously inside
+      // the click — after any await, browsers classify window.open as a popup and
+      // block it, so the WhatsApp tab never opened and the text never arrived
+      // (the card download was all that happened). The caption rides in the URL
+      // itself; the card then downloads for attaching, with the text also copied.
       window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
-      showToast('Card Downloaded', 'Attach the downloaded card image in WhatsApp and paste the copied text as its caption.');
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).catch(() => { /* clipboard unavailable */ });
+      }
+      downloadJobCardImage();
+      showToast('WhatsApp Opened', 'The job text is already in the WhatsApp message — just attach the downloaded card image to the same message.');
     }
 
     function downloadJobCardImage() {
