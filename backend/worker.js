@@ -1,8 +1,10 @@
-// Kennis Zone job portal backend — Cloudflare Worker (v5)
+// Kennis Zone job portal backend — Cloudflare Worker (v6)
 // Bindings / secrets:
 //   JOBS_KV        (KV namespace)  — posted jobs + application log + poster accounts
 //   RESEND_API_KEY (secret)        — Resend API key
 //   ADMIN_KEY      (secret)        — Khurram's private key for the admin Excel exports
+//   BOT_API_KEY    (secret)        — Hermes pipeline key for the /bot/* routes
+//                                    (Authorization: Bearer <key>; bot routes only)
 // Routes:
 //   GET  /health                          -> { ok: true }
 //   GET  /jobs                            -> { ok: true, jobs: [...] }  (newest first)
@@ -31,6 +33,13 @@
 //   GET  /admin/applications/count?key=.. -> { ok: true, count }
 //   GET  /admin/posts.csv?key=...        -> Excel-ready CSV of ALL stored posts (admin only)
 //   GET  /admin/logins.csv?key=...       -> Excel-ready CSV of ALL poster accounts (admin only)
+//   POST /bot/jobs                        -> Hermes: create a job (Bearer BOT_API_KEY);
+//                                          server-side fingerprint dedupe vs live jobs
+//   GET  /bot/jobs                        -> Hermes: list jobs incl. postedDate
+//                                          (?date=YYYY-MM-DD, ?source=bot, limit/offset)
+//   GET  /bot/applications                -> Hermes: all logged applications as JSON
+//                                          (limit/offset)
+//   DELETE /bot/jobs/:id                  -> Hermes: remove a job (test cleanup)
 
 const ALLOWED_ORIGINS = [
   'https://www.kenniszone.online',
@@ -62,7 +71,7 @@ function corsHeaders(origin) {
   // server-side (recipient locking, honeypot, dedupe), so CORS is permissive.
   return {
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, PUT, OPTIONS',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Poster-Email',
     'Vary': 'Origin',
   };
@@ -236,6 +245,52 @@ function adminAuthorized(request, env, url) {
   if (!adminKey) return false;
   const key = url.searchParams.get('key') || request.headers.get('x-admin-key') || '';
   return key.length > 0 && key === adminKey;
+}
+
+// ---------- Bot API (Hermes pipeline, v6) ----------
+// Auth: Authorization: Bearer <BOT_API_KEY> — honoured on /bot/* routes only.
+async function botAuthorized(request, env) {
+  const expected = env.BOT_API_KEY || '';
+  if (!expected) return false;
+  const auth = request.headers.get('Authorization') || '';
+  const m = auth.match(/^Bearer\s+(.+)$/i);
+  if (!m) return false;
+  // Compare digests so the check does not leak the key's length or content.
+  const [givenHash, expectedHash] = await Promise.all([
+    sha256Hex(m[1].trim()),
+    sha256Hex(expected),
+  ]);
+  return givenHash === expectedHash;
+}
+
+// Dedupe fingerprint for bot-posted jobs: normalized company + role + the
+// primary apply contact (email if present, else link, else phone).
+function botFingerprint(company, title, contact) {
+  return [company, title, contact].map(norm).join('|');
+}
+function jobApplyContact(j) {
+  return j.applyEmail || j.recipientEmail || j.applyLink || j.applyPhone || '';
+}
+// A stored job counts as "live" for dedupe while it is within its 1-month
+// life (postedDate + ~31 days). Legacy entries without a postedDate count
+// as live; seeded listings count while their apply-by date has not passed.
+function jobIsLive(j, now = Date.now()) {
+  if (j.postedDate) {
+    const t = Date.parse(j.postedDate);
+    if (!Number.isNaN(t)) return now - t < 31 * 24 * 60 * 60 * 1000;
+  }
+  if (j.lastDateToApply) return j.lastDateToApply >= new Date(now).toISOString().slice(0, 10);
+  return true;
+}
+function findFingerprintDupe(jobs, fingerprint) {
+  const now = Date.now();
+  for (const j of jobs) {
+    if (!jobIsLive(j, now)) continue;
+    const fp = j.fingerprint
+      || botFingerprint(j.company, j.title, jobApplyContact(j));
+    if (fp === fingerprint) return j;
+  }
+  return null;
 }
 
 export default {
@@ -759,6 +814,122 @@ export default {
           text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
         });
         return json(origin, { ok: true, id: data.id || null });
+      }
+
+      // ---------- Bot API: Hermes pipeline (Bearer BOT_API_KEY only) ----------
+      if (url.pathname.startsWith('/bot/')) {
+        if (!env.BOT_API_KEY) {
+          return json(origin, { ok: false, error: 'Bot API is not configured.' }, 503);
+        }
+        if (!(await botAuthorized(request, env))) {
+          return json(origin, { ok: false, error: 'Unauthorized' }, 401);
+        }
+
+        // Hermes: create a job (fingerprint-deduped against live jobs)
+        if (url.pathname === '/bot/jobs' && request.method === 'POST') {
+          const body = await request.json().catch(() => null);
+          if (!body) return json(origin, { ok: false, error: 'Invalid JSON' }, 400);
+
+          const title = clean(body.title || body.role, 120);
+          const company = clean(body.company, 120);
+          const applyEmail = clean(body.applyEmail || body.recipientEmail, 160);
+          const applyLink = clean(body.applyLink || body.applyUrl || body.link, 500);
+          const applyPhone = clean(body.applyPhone || body.phone, 40);
+          if (!title || !company) {
+            return json(origin, { ok: false, error: 'title (or role) and company are required.' }, 422);
+          }
+          if (!applyEmail && !applyLink && !applyPhone) {
+            return json(origin, { ok: false, error: 'At least one apply channel is required: applyEmail, applyLink or applyPhone.' }, 422);
+          }
+          if (applyEmail && !isEmail(applyEmail)) {
+            return json(origin, { ok: false, error: 'applyEmail is not a valid email address.' }, 422);
+          }
+
+          const contact = applyEmail || applyLink || applyPhone;
+          const fingerprint = botFingerprint(company, title, contact);
+
+          const stored = await getStoredJobs(env);
+          const dupe = findFingerprintDupe(stored, fingerprint)
+            || findFingerprintDupe(SEEDED_JOBS, fingerprint);
+          if (dupe) {
+            return json(origin, { ok: true, deduped: true, existing_id: dupe.id });
+          }
+
+          let counter = parseInt((await env.JOBS_KV.get('jobs:counter')) || '1000', 10);
+          if (Number.isNaN(counter) || counter < 1000) counter = 1000;
+          counter += 1;
+          await env.JOBS_KV.put('jobs:counter', String(counter));
+
+          const job = {
+            id: `KZ-${counter}`,
+            title,
+            company,
+            city: clean(body.city || body.location, 80) || 'Pakistan',
+            salary: clean(body.salary, 120),
+            industry: clean(body.industry || body.department, 120),
+            department: clean(body.department || body.industry, 120),
+            experience: clean(body.experience, 60),
+            workMode: clean(body.workMode, 60),
+            summary: clean(body.summary || body.description || body.rawText, 4000),
+            // Portal applications need an inbox: the job's own apply email
+            // when given, else the portal's own inbox (same as built-in jobs).
+            recipientEmail: applyEmail || SELF_INBOX,
+            applyEmail,
+            applyLink,
+            applyPhone,
+            rawText: clean(body.rawText || body.description, 8000),
+            lastDateToApply: clean(body.lastDateToApply || body.deadline, 40),
+            postedDate: new Date().toISOString(),
+            source: 'hermes-whatsapp',
+            sourceFingerprint: clean(body.fingerprint || body.sourceFingerprint, 300),
+            fingerprint,
+          };
+          stored.unshift(job);
+          await env.JOBS_KV.put('jobs:all', JSON.stringify(stored.slice(0, 300)));
+          return json(origin, { ok: true, id: job.id, job });
+        }
+
+        // Hermes: list jobs (incl. bot-posted) with created dates
+        if (url.pathname === '/bot/jobs' && request.method === 'GET') {
+          const all = await getStoredJobs(env);
+          const date = clean(url.searchParams.get('date'), 10);
+          const source = clean(url.searchParams.get('source'), 20);
+          let out = all;
+          if (date) out = out.filter(j => (j.postedDate || '').slice(0, 10) === date);
+          if (source === 'bot') out = out.filter(j => j.source === 'hermes-whatsapp');
+          const total = out.length;
+          const limit = Math.min(Math.max(parseInt(url.searchParams.get('limit') || '500', 10) || 500, 1), 1000);
+          const offset = Math.max(parseInt(url.searchParams.get('offset') || '0', 10) || 0, 0);
+          return json(origin, { ok: true, total, count: Math.min(limit, Math.max(total - offset, 0)), jobs: out.slice(offset, offset + limit) });
+        }
+
+        // Hermes: delete a job (test cleanup)
+        const botJobMatch = url.pathname.match(/^\/bot\/jobs\/(KZ-\d+)$/);
+        if (botJobMatch && request.method === 'DELETE') {
+          const id = botJobMatch[1];
+          const jobs = await getStoredJobs(env);
+          const idx = jobs.findIndex(j => j.id === id);
+          if (idx === -1) return json(origin, { ok: false, error: 'Job not found.' }, 404);
+          jobs.splice(idx, 1);
+          await env.JOBS_KV.put('jobs:all', JSON.stringify(jobs));
+          return json(origin, { ok: true, deleted: id });
+        }
+
+        // Hermes: all logged candidate applications (read-only)
+        if (url.pathname === '/bot/applications' && request.method === 'GET') {
+          const apps = await getApplications(env);
+          const total = apps.length;
+          const limit = Math.min(Math.max(parseInt(url.searchParams.get('limit') || '100', 10) || 100, 1), 2000);
+          const offset = Math.max(parseInt(url.searchParams.get('offset') || '0', 10) || 0, 0);
+          return json(origin, {
+            ok: true,
+            total,
+            count: Math.min(limit, Math.max(total - offset, 0)),
+            applications: apps.slice(offset, offset + limit),
+          });
+        }
+
+        return json(origin, { ok: false, error: 'Not found' }, 404);
       }
 
       return json(origin, { ok: false, error: 'Not found' }, 404);

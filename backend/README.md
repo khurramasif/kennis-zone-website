@@ -49,6 +49,35 @@ Worker code: `worker.js` (this folder). Deployed as a Cloudflare Worker named
   posts) and `GET {API}/admin/logins.csv?key=...` (all poster accounts — name,
   email, sign-up date, verified; never password data).
 
+## v6 additions (2026-11-04) — Hermes bot API (one paste deploys everything incl. v5)
+Authenticated machine routes for the Hermes WhatsApp pipeline. Auth is a
+Worker **secret** named `BOT_API_KEY`, sent as `Authorization: Bearer <key>`;
+it is honoured on `/bot/*` routes only (401 without it, 503 while the secret
+is unset). Deploy = the usual paste of `worker.js` **plus** adding the
+`BOT_API_KEY` secret (Settings → Variables and Secrets) with the same value
+that lives on the Hermes server in `/home/ubuntu/.hermes/bot.env`.
+- `POST {API}/bot/jobs` — create a job in the portal schema. Accepts
+  title (or role), company, location/city, department/industry, salary,
+  workMode, experience, applyEmail / applyLink / applyPhone (at least one
+  required), description/rawText, lastDateToApply/deadline, and a source
+  fingerprint. Server-side dedupe: fingerprint =
+  normalized(company)+normalized(title)+normalized(apply contact); a match
+  against a live job (posted within ~31 days, or a live built-in listing)
+  returns `{ ok: true, deduped: true, existing_id }` and stores nothing.
+  Created jobs get `source: "hermes-whatsapp"`, their computed `fingerprint`,
+  the source fingerprint, and `recipientEmail` = applyEmail (or the portal
+  inbox job@kenniszone.online when the job has no email channel, so portal
+  applications still route).
+- `GET {API}/bot/jobs` — all stored jobs with postedDate; filters
+  `?date=YYYY-MM-DD` (the 14:00 run's "today's posted jobs"), `?source=bot`,
+  and `limit`/`offset`.
+- `GET {API}/bot/applications` — every logged application as JSON, fields as
+  stored (receivedAt, jobId, jobTitle, company, recipientEmail,
+  applicantName, applicantEmail, applicantPhone, coverNote, cvFilename,
+  emailId); `limit`/`offset`. Metadata only — CV files travel by email and
+  are never stored in KV.
+- `DELETE {API}/bot/jobs/:id` — remove a stored job (test cleanup).
+
 ## Resend
 - Domain kenniszone.online must show Verified (DKIM/SPF records added at GoDaddy).
 - Free tier: 100 emails/day, 3,000/month — ample for portal volume.
