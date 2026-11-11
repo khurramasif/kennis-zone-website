@@ -2656,10 +2656,10 @@
                 existingIds.add(String(j.id).toLowerCase());
                 backendJobs.push({
                   ...j,
-                  verified: j.verified !== undefined ? j.verified : true,
+                  verified: j.verified === true,
                   workMode: j.workMode || `On-Site / Hybrid • ${j.city || ''}`,
                   posted: j.posted || 'Recently Published',
-                  skills: (Array.isArray(j.skills) && j.skills.length) ? j.skills : ['Verified Role']
+                  skills: (Array.isArray(j.skills) && j.skills.length) ? j.skills : ['General']
                 });
               }
             }
@@ -2733,7 +2733,7 @@
                     <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i> Expired
                    </span>`
                 : `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-800 font-bold border border-emerald-200">
-                    ✓ Verified Employer
+                    ${job.verified ? '✓ Verified Employer' : 'Community Post'}
                    </span>`
               }
               <span class="${expired ? 'text-rose-500 font-medium' : 'text-slate-400 font-medium'}">${job.posted}</span>
@@ -2755,7 +2755,7 @@
             <!-- Transparent PKR Salary Highlight Box -->
             <div class="mt-4 p-3 rounded-xl ${expired ? 'bg-slate-100 border border-slate-200' : 'bg-amber-50/70 border border-amber-200/80'} flex items-center justify-between">
               <div>
-                <span class="text-[10px] font-bold uppercase tracking-wider ${expired ? 'text-slate-500' : 'text-amber-800'} block">Verified Compensation</span>
+                <span class="text-[10px] font-bold uppercase tracking-wider ${expired ? 'text-slate-500' : 'text-amber-800'} block">${job.verified ? 'Verified Compensation' : 'Compensation'}</span>
                 <span class="font-display text-sm font-extrabold ${expired ? 'text-slate-600' : 'text-slate-900'}">${job.salary}</span>
               </div>
               <span class="px-2.5 py-1 rounded bg-white text-slate-700 text-[11px] font-bold border border-slate-200">${job.city}</span>
@@ -3496,7 +3496,7 @@ ${jobUrl}`;
           let y = PAD;
 
           // Top row: verified pill + posted label
-          const pillText = expired ? '✕ Expired' : '✓ Verified Employer';
+          const pillText = expired ? '✕ Expired' : (job.verified ? '✓ Verified Employer' : 'Community Post');
           ctx.font = '700 27px Inter, Arial, sans-serif';
           const pillW = ctx.measureText(pillText).width + 34;
           ctx.fillStyle = expired ? '#ffe4e6' : '#ecfdf5';
@@ -3556,7 +3556,7 @@ ${jobUrl}`;
           ctx.stroke();
           ctx.font = '700 23px Inter, Arial, sans-serif';
           ctx.fillStyle = '#92400e';
-          ctx.fillText('VERIFIED COMPENSATION', PAD + 28, y + 24);
+          ctx.fillText(job.verified ? 'VERIFIED COMPENSATION' : 'COMPENSATION', PAD + 28, y + 24);
           ctx.font = '800 42px "Plus Jakarta Sans", Arial, sans-serif';
           ctx.fillStyle = '#0f172a';
           salaryLines.forEach((ln, i) => ctx.fillText(ln, PAD + 28, y + 58 + i * 48));
