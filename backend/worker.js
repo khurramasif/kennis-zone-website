@@ -321,6 +321,7 @@ export default {
           status: 200,
           headers: {
             'Content-Type': 'text/csv; charset=utf-8',
+            'Access-Control-Allow-Origin': '*',
             'Content-Disposition': 'attachment; filename="kennis-applications.csv"',
           },
         });
@@ -346,6 +347,7 @@ export default {
           status: 200,
           headers: {
             'Content-Type': 'text/csv; charset=utf-8',
+            'Access-Control-Allow-Origin': '*',
             'Content-Disposition': 'attachment; filename="kennis-posts.csv"',
           },
         });
@@ -363,6 +365,7 @@ export default {
           status: 200,
           headers: {
             'Content-Type': 'text/csv; charset=utf-8',
+            'Access-Control-Allow-Origin': '*',
             'Content-Disposition': 'attachment; filename="kennis-logins.csv"',
           },
         });
