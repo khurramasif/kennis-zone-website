@@ -762,6 +762,11 @@ export default {
           ``,
           coverNote ? `Candidate note:\n${coverNote}` : null,
           attachments.length ? `` : `(No CV file was attached.)`,
+          ``,
+          `--`,
+          `You are receiving this application because this job was posted on Kennis Zone, a free job portal.`,
+          `Hiring for more roles? Post your jobs on Kennis Zone yourself — it is completely free: https://www.kenniszone.online`,
+          `Team Kennis Zone`,
         ].filter(v => v !== null).join('\n');
 
         const data = await sendEmail(env, {

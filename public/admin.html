@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Kennis Zone — Admin Stats</title>
+<style>
+  :root { --navy:#0e2a47; --teal:#0e7c6b; --bg:#f2f5f8; --card:#ffffff; --line:#dde4ea; --muted:#5b6b7a; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; background:var(--bg); color:#1c2b38; }
+  header { background:var(--navy); color:#fff; padding:20px 16px; }
+  header h1 { margin:0; font-size:22px; }
+  header p { margin:4px 0 0; color:#bcd0e4; font-size:14px; }
+  main { max-width:1100px; margin:0 auto; padding:16px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px; margin-bottom:16px; }
+  .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:12px; margin-bottom:16px; }
+  .stat { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; text-align:center; }
+  .stat .num { font-size:30px; font-weight:700; color:var(--navy); }
+  .stat .lbl { font-size:13px; color:var(--muted); margin-top:2px; }
+  label { font-size:14px; font-weight:600; }
+  input[type=password], input[type=search] { width:100%; padding:11px 12px; border:1px solid var(--line); border-radius:8px; font-size:15px; margin-top:6px; }
+  button, .dl { display:inline-block; background:var(--teal); color:#fff; border:none; border-radius:8px; padding:11px 18px; font-size:15px; cursor:pointer; text-decoration:none; }
+  button:hover, .dl:hover { opacity:.92; }
+  .dl { background:var(--navy); font-size:13px; padding:8px 12px; }
+  .err { color:#b3261e; font-size:14px; margin-top:8px; }
+  .note { color:var(--muted); font-size:13px; }
+  h2 { font-size:18px; margin:0 0 4px; color:var(--navy); }
+  .rowhead { display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between; }
+  .tblwrap { overflow-x:auto; margin-top:10px; }
+  table { border-collapse:collapse; width:100%; font-size:14px; }
+  th, td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); white-space:nowrap; }
+  th { background:#eef3f7; color:var(--navy); }
+  td.wrap { white-space:normal; min-width:180px; }
+  .hidden { display:none; }
+  .spin { color:var(--muted); font-size:15px; padding:18px 0; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Kennis Zone — Admin</h1>
+  <p>Who applied, who posted, and your full candidate bank — straight from the portal.</p>
+</header>
+<main>
+
+  <div class="card" id="gate">
+    <label for="key">Admin key</label>
+    <input type="password" id="key" placeholder="Enter your admin key" autocomplete="off">
+    <div style="margin-top:12px"><button id="go">Show my stats</button></div>
+    <div class="err hidden" id="gateErr"></div>
+    <p class="note">This is the private key you set for the portal. It stays in this browser tab only — nothing is saved on the website.</p>
+  </div>
+
+  <div class="spin hidden" id="loading">Loading your portal data…</div>
+
+  <div id="results" class="hidden">
+    <div class="stats">
+      <div class="stat"><div class="num" id="sApps">–</div><div class="lbl">Total applications</div></div>
+      <div class="stat"><div class="num" id="sCand">–</div><div class="lbl">Candidates in the bank</div></div>
+      <div class="stat"><div class="num" id="sWeek">–</div><div class="lbl">Applications, last 7 days</div></div>
+      <div class="stat"><div class="num" id="sJobs">–</div><div class="lbl">Jobs posted on the portal</div></div>
+      <div class="stat"><div class="num" id="sPosters">–</div><div class="lbl">Poster accounts</div></div>
+    </div>
+
+    <div class="card">
+      <div class="rowhead">
+        <div>
+          <h2>Candidate bank — who applied</h2>
+          <div class="note">Every application the portal has ever received. Search a role, a skill or a name — for example “sales executive” — and you have the candidates, with phone and email, instantly.</div>
+        </div>
+        <a class="dl" id="dlApps" href="#">Download Excel (CSV)</a>
+      </div>
+      <input type="search" id="qApps" placeholder="Search candidates, jobs, companies…">
+      <div class="tblwrap"><table id="tApps">
+        <thead><tr><th>Date</th><th>Candidate</th><th>Job applied for</th><th>Company</th><th>Email</th><th>Phone</th><th>CV</th></tr></thead>
+        <tbody></tbody>
+      </table></div>
+      <p class="note" id="nApps"></p>
+    </div>
+
+    <div class="card">
+      <div class="rowhead">
+        <div>
+          <h2>Jobs posted on the portal</h2>
+          <div class="note">Every job stored on the portal, and how many applications each one has received.</div>
+        </div>
+        <a class="dl" id="dlPosts" href="#">Download Excel (CSV)</a>
+      </div>
+      <input type="search" id="qPosts" placeholder="Search jobs or companies…">
+      <div class="tblwrap"><table id="tPosts">
+        <thead><tr><th>Date</th><th>Job</th><th>Company</th><th>City</th><th>Applications</th><th>Applications go to</th></tr></thead>
+        <tbody></tbody>
+      </table></div>
+      <p class="note" id="nPosts"></p>
+    </div>
+
+    <div class="card">
+      <div class="rowhead">
+        <div>
+          <h2>Poster accounts — who posted</h2>
+          <div class="note">People who signed up on the portal to post jobs themselves.</div>
+        </div>
+        <a class="dl" id="dlLogins" href="#">Download Excel (CSV)</a>
+      </div>
+      <div class="tblwrap"><table id="tLogins">
+        <thead><tr><th>Name</th><th>Email</th><th>Signed up</th><th>Verified</th></tr></thead>
+        <tbody></tbody>
+      </table></div>
+      <p class="note" id="nLogins"></p>
+    </div>
+
+    <p class="note">Note: the CV files themselves are not stored on the portal — every application email, with the CV attached, is also copied (BCC) to your khurram@kenniszone.online mailbox. This page gives you the people and their contact details; the CV is in that mailbox.</p>
+  </div>
+
+</main>
+<script>
+var API = "https://kennis-portal-api.kenniszone.workers.dev";
+var KEY = "";
+var DATA = { apps: [], posts: [], logins: [] };
+
+function parseCSV(text) {
+  var rows = [], row = [], cell = "", inQ = false, i, c;
+  for (i = 0; i < text.length; i++) {
+    c = text[i];
+    if (inQ) {
+      if (c === '"') {
+        if (text[i + 1] === '"') { cell += '"'; i++; } else { inQ = false; }
+      } else { cell += c; }
+    } else if (c === '"') { inQ = true; }
+    else if (c === ",") { row.push(cell); cell = ""; }
+    else if (c === "\n") { row.push(cell); cell = ""; rows.push(row); row = []; }
+    else if (c === "\r") { /* skip */ }
+    else { cell += c; }
+  }
+  if (cell !== "" || row.length) { row.push(cell); rows.push(row); }
+  if (!rows.length) return [];
+  var head = rows[0], out = [], r, o, j;
+  for (r = 1; r < rows.length; r++) {
+    if (rows[r].length === 1 && rows[r][0] === "") continue;
+    o = {};
+    for (j = 0; j < head.length; j++) o[head[j]] = rows[r][j] || "";
+    out.push(o);
+  }
+  return out;
+}
+
+function fmtDate(iso) {
+  if (!iso) return "";
+  var d = new Date(iso);
+  if (isNaN(d)) return iso;
+  return d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+}
+function esc(s) {
+  return String(s == null ? "" : s).replace(/[&<>"']/g, function (m) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m];
+  });
+}
+function fetchText(path) {
+  return fetch(API + path + "?key=" + encodeURIComponent(KEY)).then(function (r) {
+    if (r.status === 401) throw new Error("badkey");
+    if (!r.ok) throw new Error("http " + r.status);
+    return r.text();
+  });
+}
+
+function renderApps(filter) {
+  var tb = document.querySelector("#tApps tbody");
+  var f = (filter || "").toLowerCase(), shown = 0, html = "";
+  DATA.apps.forEach(function (a) {
+    var line = (a["Applicant Name"] + " " + a["Job Title"] + " " + a["Company"] + " " + a["Applicant Email"] + " " + a["Applicant Phone"]).toLowerCase();
+    if (f && line.indexOf(f) === -1) return;
+    shown++;
+    html += "<tr><td>" + esc(fmtDate(a["Received At"])) + "</td><td>" + esc(a["Applicant Name"]) +
+      "</td><td class='wrap'>" + esc(a["Job Title"]) + "</td><td>" + esc(a["Company"]) +
+      "</td><td>" + esc(a["Applicant Email"]) + "</td><td>" + esc(a["Applicant Phone"]) +
+      "</td><td>" + esc(a["CV File"]) + "</td></tr>";
+  });
+  tb.innerHTML = html || "<tr><td colspan='7'>No applications match.</td></tr>";
+  document.getElementById("nApps").textContent = shown + " of " + DATA.apps.length + " applications shown.";
+}
+
+function renderPosts(filter) {
+  var counts = {};
+  DATA.apps.forEach(function (a) { counts[a["Job ID"]] = (counts[a["Job ID"]] || 0) + 1; });
+  var tb = document.querySelector("#tPosts tbody");
+  var f = (filter || "").toLowerCase(), shown = 0, html = "";
+  DATA.posts.forEach(function (p) {
+    var line = (p["Title"] + " " + p["Company"] + " " + p["City"]).toLowerCase();
+    if (f && line.indexOf(f) === -1) return;
+    shown++;
+    html += "<tr><td>" + esc(fmtDate(p["Posted Date"])) + "</td><td class='wrap'>" + esc(p["Title"]) +
+      "</td><td>" + esc(p["Company"]) + "</td><td>" + esc(p["City"]) +
+      "</td><td>" + (counts[p["Job ID"]] || 0) + "</td><td>" + esc(p["Applications Email"]) + "</td></tr>";
+  });
+  tb.innerHTML = html || "<tr><td colspan='6'>No jobs match.</td></tr>";
+  document.getElementById("nPosts").textContent = shown + " of " + DATA.posts.length + " jobs shown.";
+}
+
+function renderLogins() {
+  var tb = document.querySelector("#tLogins tbody");
+  var html = "";
+  DATA.logins.forEach(function (u) {
+    html += "<tr><td>" + esc(u["Name"]) + "</td><td>" + esc(u["Email"]) + "</td><td>" +
+      esc(fmtDate(u["Signed Up"])) + "</td><td>" + esc(u["Verified"]) + "</td></tr>";
+  });
+  tb.innerHTML = html || "<tr><td colspan='4'>No poster accounts yet.</td></tr>";
+  document.getElementById("nLogins").textContent = DATA.logins.length + " poster account(s).";
+}
+
+function load() {
+  var err = document.getElementById("gateErr");
+  err.classList.add("hidden");
+  document.getElementById("loading").classList.remove("hidden");
+  Promise.all([
+    fetchText("/admin/applications.csv"),
+    fetchText("/admin/posts.csv"),
+    fetchText("/admin/logins.csv")
+  ]).then(function (res) {
+    DATA.apps = parseCSV(res[0]);
+    DATA.posts = parseCSV(res[1]);
+    DATA.logins = parseCSV(res[2]);
+    DATA.apps.sort(function (x, y) { return String(y["Received At"]).localeCompare(String(x["Received At"])); });
+    var emails = {};
+    var week = 0, cutoff = Date.now() - 7 * 24 * 3600 * 1000;
+    DATA.apps.forEach(function (a) {
+      if (a["Applicant Email"]) emails[a["Applicant Email"].toLowerCase()] = 1;
+      var t = new Date(a["Received At"]).getTime();
+      if (!isNaN(t) && t >= cutoff) week++;
+    });
+    document.getElementById("sApps").textContent = DATA.apps.length;
+    document.getElementById("sCand").textContent = Object.keys(emails).length;
+    document.getElementById("sWeek").textContent = week;
+    document.getElementById("sJobs").textContent = DATA.posts.length;
+    document.getElementById("sPosters").textContent = DATA.logins.length;
+    document.getElementById("dlApps").href = API + "/admin/applications.csv?key=" + encodeURIComponent(KEY);
+    document.getElementById("dlPosts").href = API + "/admin/posts.csv?key=" + encodeURIComponent(KEY);
+    document.getElementById("dlLogins").href = API + "/admin/logins.csv?key=" + encodeURIComponent(KEY);
+    renderApps(""); renderPosts(""); renderLogins();
+    document.getElementById("loading").classList.add("hidden");
+    document.getElementById("gate").classList.add("hidden");
+    document.getElementById("results").classList.remove("hidden");
+    try { sessionStorage.setItem("kz_admin_key", KEY); } catch (e) {}
+  }).catch(function (e) {
+    document.getElementById("loading").classList.add("hidden");
+    err.textContent = (e && e.message === "badkey")
+      ? "That key did not work. Please check it and try again."
+      : "Could not load the data just now. Please try again in a moment.";
+    err.classList.remove("hidden");
+  });
+}
+
+document.getElementById("go").addEventListener("click", function () {
+  KEY = document.getElementById("key").value.trim();
+  if (KEY) load();
+});
+document.getElementById("key").addEventListener("keydown", function (e) {
+  if (e.key === "Enter") document.getElementById("go").click();
+});
+document.getElementById("qApps").addEventListener("input", function (e) { renderApps(e.target.value); });
+document.getElementById("qPosts").addEventListener("input", function (e) { renderPosts(e.target.value); });
+try {
+  var saved = sessionStorage.getItem("kz_admin_key");
+  if (saved) { KEY = saved; document.getElementById("key").value = saved; load(); }
+} catch (e) {}
+</script>
+</body>
+</html>
