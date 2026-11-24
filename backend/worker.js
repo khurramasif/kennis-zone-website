@@ -312,10 +312,29 @@ export default {
         if (!adminKeyOf(env)) return json(origin, { ok: false, error: 'Admin export is not configured.' }, 503);
         if (!adminAuthorized(request, env, url)) return json(origin, { ok: false, error: 'Unauthorized' }, 401);
         const apps = await getApplications(env);
-        const header = ['Received At', 'Job ID', 'Job Title', 'Company', 'Sent To', 'Applicant Name', 'Applicant Email', 'Applicant Phone', 'Cover Note', 'CV File'];
+        // Job city ("place applied for") for rows logged before it was
+        // stored on the application itself: resolve from the stored jobs,
+        // then from the built-in listings baked into the website.
+        const cityByJobId = {};
+        for (const j of await getStoredJobs(env)) {
+          if (j && j.id && j.city) cityByJobId[j.id] = j.city;
+        }
+        const BAKED_JOB_CITY = { 'KZ-100': 'Lahore', 'KZ-101': 'Lahore', 'KZ-102': 'Lahore', 'KZ-103': 'Karachi', 'KZ-104': 'Lahore', 'KZ-105': 'Multan', 'KZ-106': 'Lahore', 'KZ-1001': 'Lahore', 'KZ-1003': 'Karachi', 'KZ-1004': 'Lahore', 'KZ-1005': 'Lahore' };
+        const header = ['Received At', 'Job ID', 'Job Title', 'Company', 'Job City', 'Sent To', 'Applicant Name', 'Applicant Email', 'Applicant Phone', 'Current Location', 'Current/Last Salary', 'Notice Period', 'Cover Note', 'CV File'];
         const lines = [header.join(',')];
         for (const a of apps) {
-          lines.push([a.receivedAt, a.jobId, a.jobTitle, a.company, a.recipientEmail, a.applicantName, a.applicantEmail, a.applicantPhone, a.coverNote, a.cvFilename].map(csvCell).join(','));
+          // Older rows buried salary + notice inside the cover note — split
+          // them into their own columns so the whole report is uniform.
+          let salary = a.currentSalary || '';
+          let notice = a.noticePeriod || '';
+          if ((!salary || !notice) && a.coverNote) {
+            const sm = String(a.coverNote).match(/Current\/Last Salary:\s*([^|]+)/i);
+            const nm = String(a.coverNote).match(/Notice Period:\s*([^|]+)/i);
+            if (!salary && sm) salary = sm[1].trim();
+            if (!notice && nm) notice = nm[1].trim();
+          }
+          const jobCity = a.jobCity || cityByJobId[a.jobId] || BAKED_JOB_CITY[a.jobId] || '';
+          lines.push([a.receivedAt, a.jobId, a.jobTitle, a.company, jobCity, a.recipientEmail, a.applicantName, a.applicantEmail, a.applicantPhone, a.currentLocation || '', salary, notice, a.coverNote, a.cvFilename].map(csvCell).join(','));
         }
         return new Response(lines.join('\r\n'), {
           status: 200,
@@ -708,6 +727,20 @@ export default {
         const applicantEmail = clean(form.get('applicantEmail'), 160);
         const applicantPhone = clean(form.get('applicantPhone'), 40);
         const coverNote = clean(form.get('coverNote'), 3000);
+        // Report fields, kept separate (2026-11-24): salary, notice period,
+        // the candidate's current location, and the city of the job applied
+        // for. Older cached pages merge salary + notice into the cover note,
+        // so split them back out when the separate fields are missing.
+        let currentSalary = clean(form.get('currentSalary'), 120);
+        let noticePeriod = clean(form.get('noticePeriod'), 60);
+        const currentLocation = clean(form.get('currentLocation'), 120);
+        const formJobCity = clean(form.get('jobCity'), 120);
+        if ((!currentSalary || !noticePeriod) && coverNote) {
+          const sm = coverNote.match(/Current\/Last Salary:\s*([^|]+)/i);
+          const nm = coverNote.match(/Notice Period:\s*([^|]+)/i);
+          if (!currentSalary && sm) currentSalary = sm[1].trim();
+          if (!noticePeriod && nm) noticePeriod = nm[1].trim();
+        }
         if (!jobId || !applicantName || !isEmail(applicantEmail)) {
           return json(origin, { ok: false, error: 'Name, a valid email and a job reference are required.' }, 422);
         }
@@ -717,6 +750,7 @@ export default {
         //  - built-in site jobs / talent bank -> job@kenniszone.online
         let jobTitle = clean(form.get('jobTitle'), 160);
         let company = clean(form.get('company'), 160);
+        let jobCity = '';
         let recipient = null;
         if (jobId === 'TALENT-BANK') {
           recipient = SELF_INBOX;
@@ -729,6 +763,7 @@ export default {
             recipient = stored.recipientEmail;
             jobTitle = stored.title;
             company = stored.company;
+            jobCity = clean(stored.city, 120);
           } else if (/^KZ-10[0-6]$/.test(jobId)) {
             recipient = SELF_INBOX; // built-in listings KZ-100..KZ-106 apply to job@
           }
@@ -736,6 +771,7 @@ export default {
         if (!recipient) {
           return json(origin, { ok: false, error: 'This job could not be found.' }, 404);
         }
+        if (!jobCity) jobCity = formJobCity;
 
         const attachments = [];
         let cvFilename = '';
@@ -753,17 +789,29 @@ export default {
           cvFilename = cv.name;
         }
 
+        // The candidate's own note, with the salary/notice segments removed
+        // (they are reported as separate fields now, not buried in the note).
+        const noteText = coverNote
+          .replace(/Current\/Last Salary:\s*[^|]+/gi, '')
+          .replace(/Notice Period:\s*[^|]+/gi, '')
+          .replace(/\s*\|\s*/g, ' ')
+          .trim();
+
         const text = [
           `New application via kenniszone.online`,
           ``,
           `Position: ${jobTitle} (${jobId})`,
           `Company: ${company}`,
+          jobCity ? `Job city: ${jobCity}` : null,
           ``,
           `Candidate: ${applicantName}`,
           `Email: ${applicantEmail}`,
           applicantPhone ? `Phone: ${applicantPhone}` : null,
+          currentLocation ? `Current location: ${currentLocation}` : null,
+          currentSalary ? `Current/Last Salary: ${currentSalary}` : null,
+          noticePeriod ? `Notice Period: ${noticePeriod}` : null,
           ``,
-          coverNote ? `Candidate note:\n${coverNote}` : null,
+          noteText ? `Candidate note:\n${noteText}` : null,
           attachments.length ? `` : `(No CV file was attached.)`,
           ``,
           `--`,
@@ -790,10 +838,14 @@ export default {
           jobId,
           jobTitle,
           company,
+          jobCity,
           recipientEmail: recipient,
           applicantName,
           applicantEmail,
           applicantPhone,
+          currentLocation,
+          currentSalary,
+          noticePeriod,
           coverNote,
           cvFilename,
           emailId: data.id || null,

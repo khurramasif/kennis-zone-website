@@ -72,7 +72,7 @@
       </div>
       <input type="search" id="qApps" placeholder="Search candidates, jobs, companies…">
       <div class="tblwrap"><table id="tApps">
-        <thead><tr><th>Date</th><th>Candidate</th><th>Job applied for</th><th>Company</th><th>Email</th><th>Phone</th><th>CV</th></tr></thead>
+        <thead><tr><th>Date</th><th>Candidate</th><th>Job applied for</th><th>Company</th><th>Job City</th><th>Email</th><th>Phone</th><th>Current Location</th><th>Current/Last Salary</th><th>Notice Period</th><th>CV</th></tr></thead>
         <tbody></tbody>
       </table></div>
       <p class="note" id="nApps"></p>
@@ -167,15 +167,16 @@ function renderApps(filter) {
   var tb = document.querySelector("#tApps tbody");
   var f = (filter || "").toLowerCase(), shown = 0, html = "";
   DATA.apps.forEach(function (a) {
-    var line = (a["Applicant Name"] + " " + a["Job Title"] + " " + a["Company"] + " " + a["Applicant Email"] + " " + a["Applicant Phone"]).toLowerCase();
+    var line = (a["Applicant Name"] + " " + a["Job Title"] + " " + a["Company"] + " " + a["Applicant Email"] + " " + a["Applicant Phone"] + " " + (a["Current Location"] || "") + " " + (a["Job City"] || "")).toLowerCase();
     if (f && line.indexOf(f) === -1) return;
     shown++;
     html += "<tr><td>" + esc(fmtDate(a["Received At"])) + "</td><td>" + esc(a["Applicant Name"]) +
       "</td><td class='wrap'>" + esc(a["Job Title"]) + "</td><td>" + esc(a["Company"]) +
-      "</td><td>" + esc(a["Applicant Email"]) + "</td><td>" + esc(a["Applicant Phone"]) +
-      "</td><td>" + esc(a["CV File"]) + "</td></tr>";
+      "</td><td>" + esc(a["Job City"] || "") + "</td><td>" + esc(a["Applicant Email"]) + "</td><td>" + esc(a["Applicant Phone"]) +
+      "</td><td>" + esc(a["Current Location"] || "") + "</td><td>" + esc(a["Current/Last Salary"] || "") +
+      "</td><td>" + esc(a["Notice Period"] || "") + "</td><td>" + esc(a["CV File"]) + "</td></tr>";
   });
-  tb.innerHTML = html || "<tr><td colspan='7'>No applications match.</td></tr>";
+  tb.innerHTML = html || "<tr><td colspan='11'>No applications match.</td></tr>";
   document.getElementById("nApps").textContent = shown + " of " + DATA.apps.length + " applications shown.";
 }
 

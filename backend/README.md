@@ -19,14 +19,21 @@ Worker code: `worker.js` (this folder). Deployed as a Cloudflare Worker named
 - `GET  {API}/jobs` → merge returned jobs into listings before rendering / link routing.
 - `POST {API}/jobs` (JSON) — Post a Job form fields + recipientEmail; returns the new KZ id.
 - `POST {API}/apply` (multipart FormData) — jobId, jobTitle, company, applicantName,
-  applicantEmail, applicantPhone, coverNote, cv file. Recipient is resolved server-side:
+  applicantEmail, applicantPhone, coverNote, cv file. Since 2026-11-24 also separate
+  report fields: currentSalary, noticePeriod, currentLocation, jobCity (the worker
+  splits salary/notice out of the cover note for older cached pages, resolves the
+  job city server-side from the stored job, and stores all four on the log record).
+  Recipient is resolved server-side:
   stored job → its recipientEmail; KZ-101..106 / TALENT-BANK → job@kenniszone.online.
   Every application BCCs khurram@kenniszone.online.
 - `POST {API}/contact` (JSON {name, email, message}) → emailed to info@kenniszone.online.
 - Jobs auto-publish on POST; a posting whose details ALL match an existing job
   (built-in KZ-100..106 or backend-stored) is rejected with HTTP 409 `duplicate: true`.
 - Every successful application is logged (metadata only). Admin-only export:
-  `GET {API}/admin/applications.csv?key=<ADMIN_KEY>` downloads an Excel-ready CSV;
+  `GET {API}/admin/applications.csv?key=<ADMIN_KEY>` downloads an Excel-ready CSV
+  (columns include Job City, Current Location, Current/Last Salary and Notice Period
+  as separate fields; pre-2026-11-24 rows get salary/notice split out of the cover
+  note and the job city resolved from the stored/built-in job at export time);
   `GET {API}/admin/applications/count?key=<ADMIN_KEY>` returns the total count.
 
 ## v5 additions (2026-10-23) — one paste deploys everything incl. v4 Renew
